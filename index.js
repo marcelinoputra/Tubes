@@ -58,6 +58,11 @@ app.get('/signup', async(req, res) =>{
     res.render('signup');
 });
 
+app.get('/loginNotUser', async(req, res) =>{
+    const conn = await dbConnect();
+    res.render('loginNotUser');
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is ready, listening in port ${PORT}`);
