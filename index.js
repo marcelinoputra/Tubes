@@ -51,7 +51,13 @@ const dbConnect = () => {
 app.get('/login', async(req, res) =>{
     const conn = await dbConnect();
     res.render('login');
-})
+});
+
+app.get('/signup', async(req, res) =>{
+    const conn = await dbConnect();
+    res.render('signup');
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is ready, listening in port ${PORT}`);
