@@ -63,6 +63,16 @@ app.get('/loginNotUser', async(req, res) =>{
     res.render('loginNotUser');
 });
 
+app.get('/loginAdmin', async(req, res) =>{
+    const conn = await dbConnect();
+    res.render('loginAdmin');
+});
+
+app.get('/loginLeader', async(req, res) =>{
+    const conn = await dbConnect();
+    res.render('loginLeader');
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is ready, listening in port ${PORT}`);

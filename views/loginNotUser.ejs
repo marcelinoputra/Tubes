@@ -10,12 +10,20 @@
         <img src="" alt="">
         <h2>Login</h2>
         <h3>Hi, Good to see you again.</h3>
-        <form method ="post" action="/loginNotUser">
-            <button>Admin</button>
-            <button>Leader</button>
-        </form>
+            <button id="adminBtn">Admin</button> 
+            <button id="leaderBtn">Leader</button>
         <br><br>
         <a href="login">Is User?</a>
     </div>
+    <script type="text/javascript">
+        document.getElementById("adminBtn").onclick = function () {
+            location.href = "loginAdmin";
+        };
+
+        document.getElementById("leaderBtn").onclick = function () {
+            location.href = "loginLeader";
+        };
+    </script>
 </body>
 </html>
+
