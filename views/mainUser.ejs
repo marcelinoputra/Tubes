@@ -1,18 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="styleMain.css">
 </head>
+
 <body>
-    <input type="text" id="searchInput" placeholder="Search...">
-    <ul id="searchResults"></ul>
+    <div id="whole-page">
+        <div class="sidebar">
+            <div class="sidebar-logo">MySpotiti</div>
+            <div class="sidebar-home">Home</div>
+            <div class="sidebar-discover">Discover</div>
+            <div class="sidebar-music"></div>
+        </div>
+        <div class="header">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <ul id="searchResults"></ul>
+            <div class="profile-btn">Profile</div>
+        </div>
+        <div class="main-content">
+            <!-- Daftar lagu dan foto album -->
+        </div>
+
+        <div class="bottom-bar">
+            <div class="song-info">
+                <span>Title</span> <br>
+                <span>Artist</span>
+            </div>
+            <div class="playback-controls">
+                <button>Previous</button>
+                <button>Play</button>
+                <button>Pause</button>
+                <button>Next</button>
+            </div>
+            <div class="slider-bar">
+                <div class="slider-bar-progress"></div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
 
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             const searchQuery = searchInput.value.trim().toLowerCase();
 
             // Clear previous search results
@@ -56,4 +91,5 @@
         }
     </script>
 </body>
+
 </html>

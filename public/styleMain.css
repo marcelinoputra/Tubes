@@ -1,0 +1,69 @@
+@font-face {
+    font-family: Poppins;
+    src: url(/assets/Poppins/Poppins-Black.ttf);
+}
+
+* {
+    font-family: 'Poppins';
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+#whole-page {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 20vw auto;
+    grid-template-rows: 30vh auto 8vh;
+    grid-template-areas:
+        "side header"
+        "side main"
+        "bottom bottom"
+    ;
+}
+
+.sidebar {
+    grid-area: side;
+}
+
+.header {
+    grid-area: header;
+}
+
+.main-content {
+    grid-area: main;
+    background-color: #f2d3b3;
+}
+
+.bottom-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #f2b3b3;
+    grid-area: bottom;
+    align-items: center;
+}
+
+.song-info {
+    order: 1;
+}
+
+.playback-controls {
+    order: 2;
+}
+
+.slider-bar {
+    order: 3;
+    width: 50%;
+    height: 5px;
+    background: #ccc;
+    overflow: hidden;
+    border-radius: 3%;
+}
+
+.slider-bar-progress {
+    width: 50%;
+    /* contoh panjang sliding bar saat musik dimainkan */
+    height: 100%;
+    background: #333;
+}
