@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>Document</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <img src="" alt="">
+    <div id="user-container">
+
+        <img src="/images/MySpotitiLogo.png" alt="">
         <h2>Sign up</h2>
         <h3>Can we get to know each other?</h3>
-        <form method ="post" action="/signup">
-            <input type="text" name="username" id="password"><br>
-            <input type="password" name="password" id="password"><br>           
-            <input type="password" name="password" id="conPassword"><br>
-            <button>Sign up</button>
+        <form id ="signupForm" method ="post" action="/signup">
+            <input type="text" name="username" id="userBox"><br>
+            <input type="password" name="password" id="userBox"><br>
+            <input type="password" name="password" id="userBox"><br> //reconfirm pass
+
+            <button id="userButton">Login</button>
         </form>
         <a href="login">Already have account?</a>
     </div>
