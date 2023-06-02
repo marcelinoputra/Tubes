@@ -1,5 +1,5 @@
 import mysql from 'mysql';
-import express, { response } from "express";
+import express from "express";
 import path from "path";
 import bodyParser from "body-parser";
 import crypto from 'crypto';
@@ -47,6 +47,11 @@ const dbConnect = () => {
         })
     })
 }
+
+app.get('/', async(req, res) =>{
+    const conn = await dbConnect();
+    res.render('mainUser');
+});
 
 app.get('/login', async(req, res) =>{
     const conn = await dbConnect();
