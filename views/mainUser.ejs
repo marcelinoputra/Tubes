@@ -1,148 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="styleMain.css">
-</head>
-
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styleMain.css" />
+  </head>
+  <body>
     <div id="whole-page">
-        <div class="sidebar">
-            <img src="/images/MySpotitiLogo.png" alt="">
-            <div class="sidebar-logo">MySpotiti</div>
-            <div class="sidebar-home">Home</div>
-            <div class="sidebar-discover">Discover</div>
-            <div class="sidebar-music"></div>
-        </div>
-        <div class="header">
-            <input type="text" id="searchInput" placeholder="Search...">
-            <ul id="searchResults"></ul>
-            <div class="profile-btn">Profile</div>
-        </div>
-        <div class="main-content">
-            <!-- Daftar lagu dan foto album -->
-        </div>
+      <div class="sidebar">
+        <img src="../Assets/MySpotitiLogo.png" alt="" />
+        <div class="sidebar-logo">MySpotiti</div>
+        <div class="sidebar-home">Home</div>
+        <div class="sidebar-discover">Discover</div>
+        <div class="sidebar-music"></div>
+      </div>
 
-        <div class="bottom-bar">
-            <div class="song-info">
-                <span>Title</span> <br>
-                <span>Artist</span>
-            </div>
-            <div class="playback-controls">
-                <button>Previous</button>
-                <button>Play</button>
-                <button>Pause</button>
-                <button>Next</button>
-            </div>
-            <div class="slider-bar">
-                <div class="slider-bar-progress"></div>
-            </div>
+      <div class="header">
+        <input type="text" id="searchInput" placeholder="Search..." />
+        <ul id="searchResults"></ul>
+        <div class="profile-btn">Profile</div>
+      </div>
+      <div class="main-content">
+        <!-- Daftar lagu dan foto album -->
+      </div>
+
+      <div class="bottom-bar">
+        <div class="song-info">
+          <span>Title</span> <br />
+          <span>Artist</span>
         </div>
+        <div class="playback-controls">
+          <button>Previous</button>
+          <button>Play</button>
+          <button>Pause</button>
+          <button>Next</button>
+        </div>
+        <div class="slider-bar">
+          <div class="slider-bar-progress"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Go Premium pop-up -->
     <button onclick="showPremiumPopup()">Go Premium</button>
     <div id="premiumPopup" class="popup">
-        <h1>Premium plan</h1>
-        <h2>Just like the free plan, but much better</h2>
-        <h3>Fill this form to apply, cancel anytime</h3>
-            <form>
-                <label for="fullName">Full name</label>
-                <input type="text" id="fullName" name="fullName"><br><br>
+      <h1>Premium plan</h1>
+      <h2>Just like the free plan, but much better</h2>
+      <h3>Fill this form to apply, cancel anytime</h3>
+      <img src="../Assets/Premium-banner.jpg" alt="" />
+      <form>
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" name="fullName" /><br /><br />
 
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address"><br><br>
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" /><br /><br />
 
-                <label for="cardNumber">Card number</label>
-                <input type="text" id="fullName" name="fullName"><br><br>
+        <label for="cardNumber">Card number</label>
+        <input type="text" id="fullName" name="fullName" /><br /><br />
 
-                <label for="package">Package</label><br>
-                    <input type="radio" id="1month" name="package" value="1 month">
-                    <label for="1month">1 month</label><br>
+        <label for="package">Package</label><br />
+        <input type="radio" id="1month" name="package" value="1 month" />
+        <label for="1month">1 month</label><br />
 
-                    <input type="radio" id="3months" name="package" value="3 months">
-                    <label for="3months">3 months</label><br>
+        <input type="radio" id="3months" name="package" value="3 months" />
+        <label for="3months">3 months</label><br />
 
-                    <input type="radio" id="6months" name="package" value="6 months">
-                    <label for="6months">6 months</label><br>
+        <input type="radio" id="6months" name="package" value="6 months" />
+        <label for="6months">6 months</label><br />
 
-                    <input type="radio" id="1year" name="package" value="1 year">
-                    <label for="1year">1 year</label><br><br>
-                    
-                <input type="submit" value="Apply Now">
-            </form>
+        <input type="radio" id="1year" name="package" value="1 year" />
+        <label for="1year">1 year</label><br /><br />
+
+        <input id="applyButton" type="submit" value="Apply Now" />
+      </form>
     </div>
 
-
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
+      const searchInput = document.getElementById("searchInput");
+      const searchResults = document.getElementById("searchResults");
 
-        searchInput.addEventListener('input', function () {
-            const searchQuery = searchInput.value.trim().toLowerCase();
+      searchInput.addEventListener("input", function () {
+        const searchQuery = searchInput.value.trim().toLowerCase();
 
-            // Clear previous search results
-            searchResults.innerHTML = '';
+        // Clear previous search results
+        searchResults.innerHTML = "";
 
-            // Perform search and display results
-            if (searchQuery !== '') {
-                const searchData = performSearch(searchQuery);
-                displaySearchResults(searchData);
-            }
-        });
-
-        // Function to perform the search (dummy implementation)
-        function performSearch(query) {
-            // Replace this with your actual search logic
-            const data = [
-                'Result 1',
-                'Result 2',
-                'Result 3'
-            ];
-
-            // Filter the data based on the search query
-            const filteredData = data.filter(item => item.toLowerCase().includes(query));
-
-            return filteredData;
+        // Perform search and display results
+        if (searchQuery !== "") {
+          const searchData = performSearch(searchQuery);
+          displaySearchResults(searchData);
         }
+      });
 
-        // Function to display the search results
-        function displaySearchResults(results) {
-            if (results.length === 0) {
-                const noResultsItem = document.createElement('li');
-                noResultsItem.textContent = 'No results found.';
-                searchResults.appendChild(noResultsItem);
-            } else {
-                results.forEach(result => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = result;
-                    searchResults.appendChild(listItem);
-                });
-            }
+      // Function to perform the search (dummy implementation)
+      function performSearch(query) {
+        // Replace this with your actual search logic
+        const data = ["Result 1", "Result 2", "Result 3"];
+
+        // Filter the data based on the search query
+        const filteredData = data.filter((item) =>
+          item.toLowerCase().includes(query)
+        );
+
+        return filteredData;
+      }
+
+      // Function to display the search results
+      function displaySearchResults(results) {
+        if (results.length === 0) {
+          const noResultsItem = document.createElement("li");
+          noResultsItem.textContent = "No results found.";
+          searchResults.appendChild(noResultsItem);
+        } else {
+          results.forEach((result) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = result;
+            searchResults.appendChild(listItem);
+          });
         }
+      }
 
-        // Function buat popup premium
-        function showPremiumPopup() {
+      // Function buat popup premium
+      function showPremiumPopup() {
         document.getElementById("premiumPopup").style.display = "block";
-        }
+      }
     </script>
-</body>
-    <style>
-        .popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 500px;
-        padding: 20px;
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        z-index: 9999;
-    }
-  </style>
+  </body>
 </html>
