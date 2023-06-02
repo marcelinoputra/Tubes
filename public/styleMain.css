@@ -1,38 +1,43 @@
-@font-face {
-    font-family: Poppins;
-    src: url(/assets/Poppins/Poppins-Black.ttf);
-}
-
-* {
-    font-family: 'Poppins';
-    font-size: 22px;
-    margin: 0;
-    padding: 0;
-}
 
 #whole-page {
     height: 100vh;
     display: grid;
-    grid-template-columns: 20vw auto;
-    grid-template-rows: 30vh auto 8vh;
+    grid-template-columns: 25vh auto;
+    grid-template-rows: 35vh auto 8vh;
     grid-template-areas:
         "side header"
         "side main"
         "bottom bottom"
     ;
 }
-
-img{
-    width: 22px;
-    height: 22px;
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
 }
-
+#applyButton{
+    
+}
 .sidebar {
+    /* image-resolution: 20px; */
     grid-area: side;
+    background-color: #fff;
+    width: 40%;
 }
 
 .header {
+    background-image: url(../Assets/);
     grid-area: header;
+    /* height: 40%; */
 }
 
 .main-content {

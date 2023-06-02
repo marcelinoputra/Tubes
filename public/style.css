@@ -4,7 +4,7 @@
 }
 
 * {
-    font-family: 'Poppins';
+    font-family: Poppins;
     font-size: 10px;
 }
 
@@ -25,9 +25,7 @@ img{
     width: 100px;
     height: 100px;
 }
-.login-container {
-    
-    /* display: grid; */
+#user-container {
     background-color: #FFFCF9;
     position: absolute;
     top: 50%;
@@ -36,8 +34,7 @@ img{
     align-items: center;
     padding: 3%;
     
-    /* row-gap: 5%; */
-    height: 450px;
+    height: auto;
     width: 300px;
 
     border-radius: 3%;
@@ -48,21 +45,21 @@ img{
     color: #D7176C;
     font-size: 12px;
 }
-.login-container > h2 {
+#user-container > h2 {
+    font-weight: 1000;
     font-size: 30px;
 }
-.login-container > h3 {
-
+#user-container > h3 {
     font-size: 20px;
     color: #F5833F;
-
 }
-.userBox{
-    font-size: 13px;
+#userBox{
+    font-size: 15px;
     box-shadow: 2px 2px 10px #888888;
     border-style: none;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #F9F6F1;
+    padding: 3%;
 }
 .tombol{
     padding: 2%;
@@ -70,7 +67,7 @@ img{
     width: 100px;
 /* align-items: center; */
     background-color: #D7176C;
-    border-radius: 5px;
+    border-radius: 10px;
     color: #fff;
     border-style: none;
     font-size: 15px;
