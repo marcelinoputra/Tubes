@@ -39,40 +39,43 @@
             <div class="slider-bar">
                 <div class="slider-bar-progress"></div>
             </div>
+            <div class="premium-button">
+                <button onclick="showPremiumPopup()">Go Premium</button>
+            </div>
         </div>
     </div>
 
     <!-- Go Premium pop-up -->
-    <button onclick="showPremiumPopup()">Go Premium</button>
+    
     <div id="premiumPopup" class="popup">
         <h1>Premium plan</h1>
         <h2>Just like the free plan, but much better</h2>
         <h3>Fill this form to apply, cancel anytime</h3>
-            <form>
-                <label for="fullName">Full name</label>
-                <input type="text" id="fullName" name="fullName"><br><br>
+        <form>
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" name="fullName"><br><br>
 
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address"><br><br>
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address"><br><br>
 
-                <label for="cardNumber">Card number</label>
-                <input type="text" id="fullName" name="fullName"><br><br>
+            <label for="cardNumber">Card number</label>
+            <input type="text" id="fullName" name="fullName"><br><br>
 
-                <label for="package">Package</label><br>
-                    <input type="radio" id="1month" name="package" value="1 month">
-                    <label for="1month">1 month</label><br>
+            <label for="package">Package</label><br>
+            <input type="radio" id="1month" name="package" value="1 month">
+            <label for="1month">1 month</label><br>
 
-                    <input type="radio" id="3months" name="package" value="3 months">
-                    <label for="3months">3 months</label><br>
+            <input type="radio" id="3months" name="package" value="3 months">
+            <label for="3months">3 months</label><br>
 
-                    <input type="radio" id="6months" name="package" value="6 months">
-                    <label for="6months">6 months</label><br>
+            <input type="radio" id="6months" name="package" value="6 months">
+            <label for="6months">6 months</label><br>
 
-                    <input type="radio" id="1year" name="package" value="1 year">
-                    <label for="1year">1 year</label><br><br>
-                    
-                <input type="submit" value="Apply Now">
-            </form>
+            <input type="radio" id="1year" name="package" value="1 year">
+            <label for="1year">1 year</label><br><br>
+
+            <input type="submit" value="Apply Now">
+        </form>
     </div>
 
 
@@ -125,24 +128,9 @@
 
         // Function buat popup premium
         function showPremiumPopup() {
-        document.getElementById("premiumPopup").style.display = "block";
+            document.getElementById("premiumPopup").style.display = "block";
         }
     </script>
 </body>
-    <style>
-        .popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 500px;
-        padding: 20px;
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        z-index: 9999;
-    }
-  </style>
+
 </html>

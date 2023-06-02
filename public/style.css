@@ -25,7 +25,7 @@ img{
     width: 100px;
     height: 100px;
 }
-#user-container {
+.login-container {
     
     /* display: grid; */
     background-color: #FFFCF9;
@@ -44,27 +44,27 @@ img{
     box-shadow: 5px 5px 10px #888888;
     text-align: center;
 }
-#user-container > a {
+.login-container > a {
     color: #D7176C;
     font-size: 12px;
 }
-#user-container > h2 {
+.login-container > h2 {
     font-size: 30px;
 }
-#user-container > h3 {
+.login-container > h3 {
 
     font-size: 20px;
     color: #F5833F;
 
 }
-#userBox{
+.userBox{
     font-size: 13px;
     box-shadow: 2px 2px 10px #888888;
     border-style: none;
     border-radius: 5px;
     background-color: #F9F6F1;
 }
-#userButton{
+.tombol{
     padding: 2%;
     /* height: 40px; */
     width: 100px;
