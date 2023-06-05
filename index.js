@@ -28,6 +28,26 @@ function hashPassword(password) {
     const hashed_pass = crypto.createHash('sha256').update(password).digest('base64');
     return hashed_pass;
 }
+// Fungsi untuk mendapat tanggal hari ini
+function getCurrentDate() {
+    const today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth() + 1; // Menggunakan indeks bulan 0-11, tambahkan 1 untuk mendapatkan bulan yang tepat
+    const year = today.getFullYear();
+
+    // Tambahkan leading zero jika tanggal atau bulan hanya satu digit
+    if (day < 10) {
+        day = '0' + day;
+    }
+
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    const currentDate = `${year}-${month}-${day}`;
+
+    return currentDate;
+}
 
 const pool = mysql.createPool({
     user: 'root',
@@ -77,32 +97,32 @@ const authMember = async (req, res, next) => {
     }
 };
 
-app.get('/', authMember, async(req, res) =>{
+app.get('/', authMember, async (req, res) => {
     const conn = await dbConnect();
     res.render('mainUser');
 });
 
-app.get('/login', async(req, res) =>{
+app.get('/login', async (req, res) => {
     const conn = await dbConnect();
     res.render('login');
 });
 
-app.get('/signup', async(req, res) =>{
+app.get('/signup', async (req, res) => {
     const conn = await dbConnect();
     res.render('signup');
 });
 
-app.get('/loginNotUser', async(req, res) =>{
+app.get('/loginNotUser', async (req, res) => {
     const conn = await dbConnect();
     res.render('loginNotUser');
 });
 
-app.get('/loginAdmin', async(req, res) =>{
+app.get('/loginAdmin', async (req, res) => {
     const conn = await dbConnect();
     res.render('loginAdmin');
 });
 
-app.get('/loginLeader', async(req, res) =>{
+app.get('/loginLeader', async (req, res) => {
     const conn = await dbConnect();
     res.render('loginLeader');
 });
@@ -138,6 +158,42 @@ app.post('/login', async (req, res) => {
         } else {
             // Jika username atau password kosong
             console.log('login gagal, username dan password harus diisi');
+        }
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
+});
+
+app.post('/signup', async (req, res) => {
+    try {
+        const conn = await dbConnect();
+        const username = req.body.username;
+        const password = req.body.password;
+        const rePassword = req.body.reconfirmpassword;
+        const name = req.body.name;
+        const tanggalBergabung = getCurrentDate();
+        const hashedPassword = hashPassword(password);
+        console.log(tanggalBergabung);
+        //cek apakah username dan password kosong
+        const query = `
+            INSERT INTO pengguna (username, password, nama, 
+            jabatan, isActive, tgl_Bergabung, tgl_Keluar) 
+            VALUES (?, ?, ?, "Member",
+            TRUE, ? , NULL)
+        `;
+        if (username && password && name && (password === rePassword)) {
+            conn.query(query, [username, hashedPassword, name, tanggalBergabung], (err, results) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.redirect('/login');
+                }
+            });
+        } else {
+            // Jika username atau password atau nama kosong
+            res.redirect('/signup');
         }
     } catch (err) {
         console.error(err);
