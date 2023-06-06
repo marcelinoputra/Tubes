@@ -97,7 +97,23 @@ const authMember = async (req, res, next) => {
     }
 };
 
-app.get('/', authMember, async (req, res) => {
+const authMember2 = async (req, res, next) => {
+    if (req.session.username) {
+        const conn = await dbConnect();
+        if (req.session.jabatan == "Member") {
+            // Jika pengguna sudah login dan memiliki role admin, lanjutkan ke halaman yang diminta
+            next();
+        } else {
+            // Jika pengguna tidak memiliki role admin, tampilkan halaman forbidden
+            res.status(403).send('forbidden');
+        }
+    } else {
+        // Jika pengguna belum login, redirect ke halaman login
+        res.redirect('/login');
+    }
+};
+
+app.get('/', authMember2, async (req, res) => {
     const conn = await dbConnect();
     res.render('mainUser');
 });
@@ -146,7 +162,7 @@ app.post('/login', async (req, res) => {
                         // Tambahkan session dengan nama pengguna
                         req.session.username = results[0].username;
                         req.session.name = results[0].name;
-                        req.session.userID = results[0].userID;
+                        req.session.jabatan = results[0].jabatan;
                         // Redirect ke halaman utama (tabel users)
                         res.redirect('/');
                     } else {
