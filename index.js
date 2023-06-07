@@ -71,35 +71,6 @@ const dbConnect = () => {
 const authMember = async (req, res, next) => {
     if (req.session.username) {
         const conn = await dbConnect();
-        const query = `
-            SELECT *
-            FROM pengguna
-            WHERE jabatan = "Member"
-        `;
-        conn.query(query, (err, result) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500);
-            } else {
-                if (result.length > 0) {
-                    console.log(result);
-                    // Jika pengguna sudah login dan memiliki role admin, lanjutkan ke halaman yang diminta
-                    next();
-                } else {
-                    // Jika pengguna tidak memiliki role admin, tampilkan halaman forbidden
-                    res.status(403).send('forbidden');
-                }
-            }
-        });
-    } else {
-        // Jika pengguna belum login, redirect ke halaman login
-        res.redirect('/login');
-    }
-};
-
-const authMember2 = async (req, res, next) => {
-    if (req.session.username) {
-        const conn = await dbConnect();
         if (req.session.jabatan == "Member") {
             // Jika pengguna sudah login dan memiliki role admin, lanjutkan ke halaman yang diminta
             next();
@@ -113,7 +84,7 @@ const authMember2 = async (req, res, next) => {
     }
 };
 
-app.get('/', authMember2, async (req, res) => {
+app.get('/', authMember, async (req, res) => {
     const conn = await dbConnect();
     res.render('mainUser');
 });
