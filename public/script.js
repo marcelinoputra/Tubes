@@ -59,3 +59,7 @@ playButton.addEventListener('click', function () {
 pauseButton.addEventListener('click', function () {
     musicPlayer.pause();
 });
+
+document.getElementById("profile-btn").addEventListener("click", function () {
+    document.getElementById("logOutPopup").classList.toggle('hidden');
+})
