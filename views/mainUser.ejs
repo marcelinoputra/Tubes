@@ -34,9 +34,9 @@
           <span>Artist</span>
         </div>
         <div class="playback-controls">
-          <button>Previous</button>
-          <button>Play</button>
-          <button>Pause</button>
+          <button class="button">Previous</button>
+          <button id="playButton" class="button">Play</button>
+          <button id="pauseButton" class="button">Pause</button>
           <button>Next</button>
         </div>
 
@@ -131,6 +131,18 @@
       // function showPremiumPopup() {
         document.getElementById("premiumPopup").classList.toggle('hidden');
       })
+
+      var musicPlayer = document.getElementById('musicPlayer');
+        var playButton = document.getElementById('playButton');
+        var pauseButton = document.getElementById('pauseButton');
+
+        playButton.addEventListener('click', function() {
+            musicPlayer.play();
+        });
+
+        pauseButton.addEventListener('click', function() {
+            musicPlayer.pause();
+        });
     </script> 
   </body>
 </html>
