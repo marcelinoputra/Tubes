@@ -75,3 +75,7 @@ img{
     
 }
 
+.button:hover {
+    background-color:#d377a0;
+    color: #fff;
+  }

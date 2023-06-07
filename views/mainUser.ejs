@@ -22,7 +22,7 @@
           <div class="sidebar-genre">Genre</div>
 
           <div class="sidebar-music">
-            
+
           </div>
         </div>
       </div>
@@ -30,8 +30,13 @@
       <div class="header">
         <input type="text" id="searchInput" placeholder="Search..." />
         <ul id="searchResults"></ul>
-        <button id="profile-btn" class="button">Profile</button>
+        <button id="profile-btn" class="button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <use xlink:href="user-icon-svgrepo-com.svg#icon"></use>
+          </svg>
+          </button>
       </div>
+
       <div class="main-content">
         <!-- Daftar lagu dan foto album -->
       </div>
@@ -42,9 +47,9 @@
           <span>Artist</span>
         </div>
         <div class="playback-controls">
-          <button class="button">Previous</button>
-          <button id="playButton" class="button">Play</button>
-          <button id="pauseButton" class="button">Pause</button>
+          <button id="prevButton" >Previous</button>
+          <button id="playButton" >Play</button>
+          <button id="pauseButton" >Pause</button>
           <button>Next</button>
         </div>
 
@@ -58,41 +63,50 @@
     <!-- Go Premium pop-up -->
 
     <div id="premiumPopup" class="hidden">
-      <h1>Premium plan</h1>
-      <h2>Just like the free plan, but much better</h2>
-      <h3>Fill this form to apply, cancel anytime</h3>
-      <img src="../Assets/Premium-banner.jpg" alt="" />
-      <form>
-        <label for="fullName">Full name</label>
-        <input type="text" id="fullName" name="fullName" /><br /><br />
+      <div id="premiumForm">
+        
 
-        <label for="address">Address</label>
-        <input type="text" id="address" name="address" /><br /><br />
+          <h1 >Premium plan</h1>
+          <h2 >Just like the free plan, but much better</h2>
+          <h3 >Fill this form to apply, cancel anytime</h3>
+        
+        <form>
+          <label class="form-text" for="fullName">Full name</label>
+          <input class="form-box"type="text" id="fullName" name="fullName" /><br /><br />
+  
+          <label class="form-text" for="address">Address</label>
+          <input  class="form-box" type="text" id="address" name="address" /><br /><br />
+  
+          <label class="form-text" for="cardNumber">Card number</label>
+          <input  class="form-box" type="text" id="fullName" name="fullName" /><br /><br />
+  
+          <label class="form-text" for="package">Package</label><br />
+          <div class="form-box">
 
-        <label for="cardNumber">Card number</label>
-        <input type="text" id="fullName" name="fullName" /><br /><br />
-
-        <label for="package">Package</label><br />
-        <input type="radio" id="1month" name="package" value="1 month" />
-        <label for="1month">1 month</label><br />
-
-        <input type="radio" id="3months" name="package" value="3 months" />
-        <label for="3months">3 months</label><br />
-
-        <input type="radio" id="6months" name="package" value="6 months" />
-        <label for="6months">6 months</label><br />
-
-        <input type="radio" id="1year" name="package" value="1 year" />
-        <label for="1year">1 year</label><br /><br />
-
-        <input id="applyButton" type="submit" value="Apply Now" />
-      </form>
+            <input type="radio" id="1month" name="package" value="1 month" />
+            <label for="1month">1 month</label><br />
+            
+            <input type="radio" id="3months" name="package" value="3 months" />
+            <label for="3months">3 months</label><br />
+    
+            <input type="radio" id="6months" name="package" value="6 months" />
+            <label for="6months">6 months</label><br />
+    
+            <input type="radio" id="1year" name="package" value="1 year" />
+            <label for="1year">1 year</label><br /><br />
+          </div>
+  
+          <input class="button" id="applyButton" type="submit" value="Apply Now" />
+          <input class="button" id="cancelButton" value="Cancel" />
+        </form>
+      </div>
+      <img src="../images/Premium-banner.jpg"id="premium-banner" alt="" />
     </div>
 
     <!--buat logout-->
     <div id = logOutPopup class="hidden">
         <h1>Hi there, name</h1> <!--name harusnya nama pengguna-->
-        <input id="logOutButton" type="submit" value="Log out" />
+        <input id="logOutButton" class="button" type="submit" value="Log out" />
     </div>
   </body>
 </html>

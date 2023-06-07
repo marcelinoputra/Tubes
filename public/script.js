@@ -45,8 +45,14 @@ function displaySearchResults(results) {
 document.getElementById("premium-button").addEventListener("click", function () {
     // Function buat popup premium
     // function showPremiumPopup() {
-    document.getElementById("premiumPopup").classList.toggle('hidden');
+    document.getElementById("premiumPopup").style.display="flex";
 })
+document.getElementById("cancelButton").addEventListener("click", function () {
+    // Function buat popup premium
+    // function showPremiumPopup() {
+    document.getElementById("premiumPopup").style.display="none";
+})
+
 
 var musicPlayer = document.getElementById('musicPlayer');
 var playButton = document.getElementById('playButton');
