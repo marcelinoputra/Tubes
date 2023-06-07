@@ -12,8 +12,8 @@ body{
 #whole-page {
     height: 100vh;
     display: grid;
-    grid-template-columns: 25vh auto;
-    grid-template-rows: 35vh auto 8vh;
+    grid-template-columns: 30vh auto;
+    grid-template-rows: 35vh auto 10vh;
     grid-template-areas:
         "side header"
         "side main"
@@ -40,16 +40,21 @@ body{
 height: 80px;
 width: 180px;
 }
-#sidebarText{
+#sidebar-text{
     font-size: 20px;
     color: #D7176C;
     margin: 20%;
 }
+#sidebar-logo{
+    height: 80px;
+    width: 200px;
+}
+
 .sidebar {
     /* image-resolution: 20px; */
     grid-area: side;
     background-color: #fff;
-    width: 40%;
+    width: 100%;
 }
 #searchInput{
     color: #fff;
@@ -63,7 +68,7 @@ width: 180px;
 }
 
 .header {
-    background-image: url(../Assets/);
+    background-image: url(../public/images/);
     grid-area: header;
     /* height: 40%; */
 }
