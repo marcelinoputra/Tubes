@@ -1,4 +1,10 @@
+@font-face {
+    font-family: Poppins;
+    src: url(../Assets/Poppins/Poppins-Regular.ttf) format('ttf');
+}
+
 body{
+    font-family: Poppins;
     height: 100vh;
     width: 100vw;
     margin: 0;
@@ -30,13 +36,30 @@ body{
     z-index: 9999;
 }
 
-#applyButton {}
-
+#sidebar-logo{
+height: 80px;
+width: 180px;
+}
+#sidebarText{
+    font-size: 20px;
+    color: #D7176C;
+    margin: 20%;
+}
 .sidebar {
     /* image-resolution: 20px; */
     grid-area: side;
     background-color: #fff;
     width: 40%;
+}
+#searchInput{
+    color: #fff;
+    border-color: #fff;
+
+    border-radius: 30px;
+    border-style: solidcolor;
+    height: 30px;
+    width: 400px;
+    margin: 2%;
 }
 
 .header {
