@@ -101,10 +101,14 @@
   <div id="logOutPopup" class="hidden">
     <h1>Hi there, <%= name %>
     </h1>
-    <!--name harusnya nama pengguna-->
-    <form action="/logout" method="post">
-      <input id="logOutButton" class="button" type="submit" value="Log out" />
-    </form>
+    <% if(image) { %>
+      <!-- STYLING IMG NYA CENT!! -->
+      <img src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
+      <% } %>
+
+        <form action="/logout" method="post">
+          <input id="logOutButton" class="button" type="submit" value="Log out" />
+        </form>
 
   </div>
 

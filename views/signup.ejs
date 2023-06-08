@@ -12,11 +12,12 @@
         <img src="/images/MySpotitiLogo.png" alt="">
         <h2>Sign up</h2>
         <h3>Can we get to know each other?</h3>
-        <form class="form-container "id ="signUpForm" method ="post" action="/signup">
+        <form class="form-container" id ="signUpForm" method ="post" action="/signup" enctype="multipart/form-data">
             <input type="text" name="name" class="userBox" placeholder="Full Name"><br>
             <input type="text" name="username" class="userBox" placeholder="Username"><br>
             <input type="password" name="password" class="userBox" placeholder="Password"><br>
             <input type="password" name="reconfirmpassword" class="userBox" placeholder="Reconfirm Password"><br>
+            <input type="file" class="userBox" name="profilepic"><br>
             <button class="button">Sign Up</button>
         </form>
         <a href="login">Already have account?</a>

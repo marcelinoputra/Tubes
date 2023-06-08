@@ -4,13 +4,26 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import session from 'express-session';
-
+import multer from 'multer';
+import fs from 'fs';
+import { Sequelize, DataTypes } from 'sequelize';
 
 const PORT = 8050;
 const app = express();
 
 const staticPath = path.resolve('public');
 const assetsPath = path.resolve('assets');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+const upload = multer({ storage: storage });
+
 
 app.use(express.static(staticPath));
 app.use('/assets', express.static(assetsPath));
@@ -25,6 +38,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
+
 
 
 // Fungsi untuk menghasilkan hash password menggunakan algoritma SHA256
@@ -74,24 +88,36 @@ const dbConnect = () => {
 
 const auth = async (req, res, next) => {
     if (req.session.username) {
-        const conn = await dbConnect();
-        if (req.session.jabatan) {
-            // Jika pengguna sudah login dan memiliki role admin, lanjutkan ke halaman yang diminta
-            next();
-        } else {
-            // Jika pengguna tidak memiliki role admin, tampilkan halaman forbidden
-            res.status(403).send('forbidden');
-        }
+        next();
     } else {
         // Jika pengguna belum login, redirect ke halaman login
         res.redirect('/login');
     }
 };
 
-app.get('/', auth,async (req, res) => {
+
+app.get('/', auth, async (req, res) => {
     const conn = await dbConnect();
-    res.render('mainUser', {name: req.session.name});
+    const query = `SELECT profilepic, nama FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            if (results.length > 0) {
+                const image = Buffer.from(results[0].profilepic).toString('base64');
+                res.render('mainUser', {
+                    image: image,
+                    name: results[0].nama  // Tambahkan ini
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        }
+    });
 });
+
+
 
 app.get('/mainAdmin', auth, async (req, res) => {
     const conn = await dbConnect();
@@ -149,13 +175,13 @@ app.post('/login', async (req, res) => {
                         req.session.name = results[0].nama;
                         req.session.jabatan = results[0].jabatan;
                         // Redirect ke halaman utama (tabel users)
-                        if(req.session.jabatan === "Member"){
+                        if (req.session.jabatan === "Member") {
                             res.redirect('/');
-                        }else if(req.session.jabatan === "Admin"){
+                        } else if (req.session.jabatan === "Admin") {
                             res.redirect('/mainAdmin');
-                        }else if(req.session.jabatan === "Pimpinan"){
+                        } else if (req.session.jabatan === "Pimpinan") {
                             res.redirect('/mainPimpinan');
-                        }     
+                        }
                     } else {
                         // Jika akun tidak ditemukan, tetap berada di halaman login
                         res.redirect('/login');
@@ -183,7 +209,7 @@ app.post('/logout', (req, res) => {
     });
 });
 
-app.post('/signup', async (req, res) => {
+app.post('/signup', upload.single('profilepic'), async (req, res) => {
     try {
         const conn = await dbConnect();
         const username = req.body.username;
@@ -192,16 +218,21 @@ app.post('/signup', async (req, res) => {
         const name = req.body.name;
         const tanggalBergabung = getCurrentDate();
         const hashedPassword = hashPassword(password);
-        console.log(tanggalBergabung);
+        console.log(req.file);
+        console.log(req.body.profilepic);
+        let buffer = null;
+        if (req.file) {
+            buffer = fs.readFileSync(req.file.path);
+        }
         //cek apakah username dan password kosong
         const query = `
             INSERT INTO pengguna (username, password, nama, 
-            jabatan, isActive, tgl_Bergabung, tgl_Keluar) 
+            jabatan, isActive, tgl_Bergabung, tgl_Keluar, profilepic) 
             VALUES (?, ?, ?, "Member",
-            TRUE, ? , NULL)
+            TRUE, ? , NULL, ?)
         `;
         if (username && password && name && (password === rePassword)) {
-            conn.query(query, [username, hashedPassword, name, tanggalBergabung], (err, results) => {
+            conn.query(query, [username, hashedPassword, name, tanggalBergabung, buffer], (err, results) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
