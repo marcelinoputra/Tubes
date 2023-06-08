@@ -6,7 +6,6 @@ import crypto from 'crypto';
 import session from 'express-session';
 import multer from 'multer';
 import fs from 'fs';
-import { Sequelize, DataTypes } from 'sequelize';
 
 const PORT = 8050;
 const app = express();
@@ -96,23 +95,32 @@ const auth = async (req, res, next) => {
 };
 
 
-app.get('/', auth, async (req, res) => {
+app.get('/', async (req, res) => {
     const conn = await dbConnect();
-    const query = `SELECT profilepic, nama FROM pengguna WHERE username = ?`;
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
         } else {
-            if (results.length > 0) {
-                const image = Buffer.from(results[0].profilepic).toString('base64');
-                res.render('mainUser', {
-                    image: image,
-                    name: results[0].nama  // Tambahkan ini
-                });
-            } else {
-                res.sendStatus(404);
-            }
+            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    console.log(results2);
+                    res.render('mainUser', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
         }
     });
 });

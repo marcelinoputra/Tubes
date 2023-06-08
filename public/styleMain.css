@@ -130,7 +130,9 @@ body {
 .main-content {
     grid-area: main;
     background-color: #f2d3b3;
+    overflow-x: auto;
 }
+
 
 .bottom-bar {
     display: flex;
@@ -225,8 +227,8 @@ body {
 
 #searchPopup {
     /* display: block; */
-    grid-template-areas:  "search close"
-                "songs songs";
+    grid-template-areas: "search close"
+        "songs songs";
     position: fixed;
     top: 50%;
     left: 50%;
@@ -242,15 +244,19 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
-#searchInput{
+
+#searchInput {
     grid-area: search;
 }
-#searchCloseButton{
+
+#searchCloseButton {
     grid-area: close;
 }
-#searchResults{
+
+#searchResults {
     grid-area: songs;
 }
+
 /* all button */
 .button {
 
@@ -272,4 +278,30 @@ body {
 
 .hidden {
     display: none;
+}
+
+.songs {
+    padding: 20px 40px;
+}
+
+.songs h2 {
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.songs .list {
+    display: flex;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.songs .list .item {
+    margin: 5px;
+    min-width: 140px;
+    width: 170px;
+    padding: 15px;
+    background-color: #181818;
+    border-radius: 6px;
+    cursor: pointer;
 }
