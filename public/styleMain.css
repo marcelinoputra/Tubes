@@ -299,9 +299,14 @@ body {
 .songs .list .item {
     margin: 5px;
     min-width: 140px;
-    width: 170px;
-    padding: 15px;
+    width: 200px;
+    padding: 10px;
     background-color: #181818;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.discoverSongs img {
+    max-width: 100%;
+    max-height: 100%;
 }
