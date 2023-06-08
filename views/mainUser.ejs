@@ -98,16 +98,20 @@
         <input class="button" id="applyButton" type="submit" value="Apply Now" />
         <button type="button" class="button" id="cancelButton">Cancel</button>
       </form>
-      
+
     </div>
     <img src="../images/Premium-banner.jpg" id="premium-banner" alt="" />
   </div>
 
   <!--buat logout-->
   <div id=logOutPopup class="hidden">
-    <h1>Hi there, name</h1> <!--name harusnya nama pengguna-->
+    <h1>Hi there, <%= name %></h1> <!--name harusnya nama pengguna-->
     <input id="logOutButton" class="button" type="submit" value="Log out" />
   </div>
+
+  <audio controls id="musicPlayer" class="hidden">
+    <source src="/assets/Music/LastFridayNight.mp3">
+  </audio>
 </body>
 
 </html>

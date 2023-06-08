@@ -1,15 +1,19 @@
 import mysql from 'mysql';
-import express from "express";
-import path from "path";
-import bodyParser from "body-parser";
+import express from 'express';
+import path from 'path';
+import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import session from 'express-session';
+
 
 const PORT = 8050;
 const app = express();
 
 const staticPath = path.resolve('public');
+const assetsPath = path.resolve('assets');
+
 app.use(express.static(staticPath));
+app.use('/assets', express.static(assetsPath));
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,7 +75,7 @@ const dbConnect = () => {
 const authMember = async (req, res, next) => {
     if (req.session.username) {
         const conn = await dbConnect();
-        if (req.session.jabatan == "Member") {
+        if (req.session.jabatan) {
             // Jika pengguna sudah login dan memiliki role admin, lanjutkan ke halaman yang diminta
             next();
         } else {
@@ -84,9 +88,19 @@ const authMember = async (req, res, next) => {
     }
 };
 
-app.get('/', authMember, async (req, res) => {
+app.get('/', async (req, res) => {
     const conn = await dbConnect();
-    res.render('mainUser');
+    res.render('mainUser', {name: req.session.name});
+});
+
+app.get('/mainAdmin', authMember, async (req, res) => {
+    const conn = await dbConnect();
+    res.send('mainAdmin');
+});
+
+app.get('/mainPimpinan', authMember, async (req, res) => {
+    const conn = await dbConnect();
+    res.send('mainPimpinan');
 });
 
 app.get('/login', async (req, res) => {
@@ -132,10 +146,19 @@ app.post('/login', async (req, res) => {
                         console.log('berhasil');
                         // Tambahkan session dengan nama pengguna
                         req.session.username = results[0].username;
-                        req.session.name = results[0].name;
+                        req.session.name = results[0].nama;
                         req.session.jabatan = results[0].jabatan;
+                        console.log(req.session.username);
+                        console.log(req.session.jabatan);
+                        console.log(req.session.name);
                         // Redirect ke halaman utama (tabel users)
-                        res.redirect('/');
+                        if(req.session.jabatan === "Member"){
+                            res.redirect('/');
+                        }else if(req.session.jabatan === "Admin"){
+                            res.redirect('/mainAdmin');
+                        }else if(req.session.jabatan === "Pimpinan"){
+                            res.redirect('/mainPimpinan');
+                        }     
                     } else {
                         // Jika akun tidak ditemukan, tetap berada di halaman login
                         res.redirect('/login');
