@@ -72,7 +72,7 @@ const dbConnect = () => {
     })
 }
 
-const authMember = async (req, res, next) => {
+const auth = async (req, res, next) => {
     if (req.session.username) {
         const conn = await dbConnect();
         if (req.session.jabatan) {
@@ -88,17 +88,17 @@ const authMember = async (req, res, next) => {
     }
 };
 
-app.get('/', async (req, res) => {
+app.get('/', auth,async (req, res) => {
     const conn = await dbConnect();
     res.render('mainUser', {name: req.session.name});
 });
 
-app.get('/mainAdmin', authMember, async (req, res) => {
+app.get('/mainAdmin', auth, async (req, res) => {
     const conn = await dbConnect();
     res.send('mainAdmin');
 });
 
-app.get('/mainPimpinan', authMember, async (req, res) => {
+app.get('/mainPimpinan', auth, async (req, res) => {
     const conn = await dbConnect();
     res.send('mainPimpinan');
 });
@@ -148,9 +148,6 @@ app.post('/login', async (req, res) => {
                         req.session.username = results[0].username;
                         req.session.name = results[0].nama;
                         req.session.jabatan = results[0].jabatan;
-                        console.log(req.session.username);
-                        console.log(req.session.jabatan);
-                        console.log(req.session.name);
                         // Redirect ke halaman utama (tabel users)
                         if(req.session.jabatan === "Member"){
                             res.redirect('/');
@@ -173,6 +170,17 @@ app.post('/login', async (req, res) => {
         console.error(err);
         res.sendStatus(500);
     }
+});
+
+app.post('/logout', (req, res) => {
+    // Hapus session
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+        }
+        // Redirect ke halaman login setelah logout
+        res.redirect('/login');
+    });
 });
 
 app.post('/signup', async (req, res) => {

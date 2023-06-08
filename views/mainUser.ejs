@@ -1,147 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>MySpotiti</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styleMain.css" />
-    <script src="script.js" defer></script>
-  </head>
 
-  <body>
-    <div id="whole-page">
-      <div class="sidebar">
-        <img
-          src="../images/MySpotitiLogoWithext.png"
-          id="sidebar-logo"
-          alt=""
-        />
-        <div id="sidebar-text">
-          <div class="sidebar-text" id="sidebar-home">Home</div>
-          <div class="sidebar-text" id="sidebar-discover">Discover</div>
-          <div class="sidebar-text" id="sidebar-subgenre">Sub Genre</div>
-          <div class="sidebar-text" id="sidebar-genre">Genre</div>
-        </div>
-        <div class="sidebar-music">
-          song photo goes here
-          <!-- <img src="../public/images/ab67616d0000b273937af329667311f4b2831616.jpg" -->
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>MySpotiti</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+  <link rel="stylesheet" href="styleMain.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div id="whole-page">
+    <div class="sidebar">
+      <img src="../images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
+      <div id="sidebar-text">
+        <div class="sidebar-text" id="sidebar-home">Home</div>
+        <div class="sidebar-text" id="sidebar-discover">Discover</div>
+        <div class="sidebar-text" id="sidebar-subgenre">Sub Genre</div>
+        <div class="sidebar-text" id="sidebar-genre">Genre</div>
       </div>
-
-      <div class="header">
-        <button id="searchButton">Search</button>
-
-        <button id="profile-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
-        </button>
-      </div>
-
-      <div class="main-content">
-        <!-- Daftar lagu dan foto album -->
-      </div>
-
-      <div class="bottom-bar">
-        <div class="song-info">
-          <span>Title</span> <br />
-          <span>Artist</span>
-        </div>
-        <div class="playback-controls">
-          <button class="playback-button" id="prevButton">Previous</button>
-          <button class="playback-button" id="playButton">Play</button>
-          <button class="playback-button" id="pauseButton">Pause</button>
-          <button class="playback-button" id="nextButton">Next</button>
-        </div>
-
-        <div class="slider-bar">
-          <div class="slider-bar-progress"></div>
-        </div>
-
-        <button id="premium-button" class="button">Go Premium</button>
+      <div class="sidebar-music">
+        song photo goes here
+        <!-- <img src="../public/images/ab67616d0000b273937af329667311f4b2831616.jpg" -->
       </div>
     </div>
 
-    <!-- Go Premium pop-up -->
+    <div class="header">
+      <button id="searchButton">Search</button>
 
-    <div id="premiumPopup" class="hidden">
-      <div id="premiumForm">
-        <h1>Premium plan</h1>
-        <h2>Just like the free plan, but much better</h2>
-        <h3>Fill this form to apply, cancel anytime</h3>
-
-        <form method="post" action="/applypremium">
-          <label class="form-text" for="fullName">Full name</label>
-          <input
-            class="form-box"
-            type="text"
-            id="fullName"
-            name="fullName"
-          /><br /><br />
-
-          <label class="form-text" for="address">Address</label>
-          <input
-            class="form-box"
-            type="text"
-            id="address"
-            name="address"
-          /><br /><br />
-
-          <label class="form-text" for="cardNumber">Card number</label>
-          <input
-            class="form-box"
-            type="text"
-            id="fullName"
-            name="fullName"
-          /><br /><br />
-
-          <label class="form-text" for="package">Package</label><br />
-          <div class="form-box">
-            <input type="radio" id="1month" name="package" value="1 month" />
-            <label for="1month">1 month</label><br />
-
-            <input type="radio" id="3months" name="package" value="3 months" />
-            <label for="3months">3 months</label><br />
-
-            <input type="radio" id="6months" name="package" value="6 months" />
-            <label for="6months">6 months</label><br />
-
-            <input type="radio" id="1year" name="package" value="1 year" />
-            <label for="1year">1 year</label><br /><br />
-          </div>
-
-          <input
-            class="button"
-            id="applyButton"
-            type="submit"
-            value="Apply Now"
-          />
-          <button type="button" class="button" id="cancelButton">Cancel</button>
-        </form>
-      </div>
-      <img src="../images/Premium-banner.jpg" id="premium-banner" alt="" />
+      <button id="profile-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
+      </button>
     </div>
 
-    <!--buat logout-->
-    <div id="logOutPopup" class="hidden">
-      <h1>Hi there, <%= name %></h1>
-      <!--name harusnya nama pengguna-->
+    <div class="main-content">
+      <!-- Daftar lagu dan foto album -->
+    </div>
+
+    <div class="bottom-bar">
+      <div class="song-info">
+        <span>Title</span> <br />
+        <span>Artist</span>
+      </div>
+      <div class="playback-controls">
+        <button class="playback-button" id="prevButton">Previous</button>
+        <button class="playback-button" id="playButton">Play</button>
+        <button class="playback-button" id="pauseButton">Pause</button>
+        <button class="playback-button" id="nextButton">Next</button>
+      </div>
+
+      <div class="slider-bar">
+        <div class="slider-bar-progress"></div>
+      </div>
+
+      <button id="premium-button" class="button">Go Premium</button>
+    </div>
+  </div>
+
+  <!-- Go Premium pop-up -->
+
+  <div id="premiumPopup" class="hidden">
+    <div id="premiumForm">
+      <h1>Premium plan</h1>
+      <h2>Just like the free plan, but much better</h2>
+      <h3>Fill this form to apply, cancel anytime</h3>
+
+      <form method="post" action="/applypremium">
+        <label class="form-text" for="fullName">Full name</label>
+        <input class="form-box" type="text" id="fullName" name="fullName" /><br /><br />
+
+        <label class="form-text" for="address">Address</label>
+        <input class="form-box" type="text" id="address" name="address" /><br /><br />
+
+        <label class="form-text" for="cardNumber">Card number</label>
+        <input class="form-box" type="text" id="fullName" name="fullName" /><br /><br />
+
+        <label class="form-text" for="package">Package</label><br />
+        <div class="form-box">
+          <input type="radio" id="1month" name="package" value="1 month" />
+          <label for="1month">1 month</label><br />
+
+          <input type="radio" id="3months" name="package" value="3 months" />
+          <label for="3months">3 months</label><br />
+
+          <input type="radio" id="6months" name="package" value="6 months" />
+          <label for="6months">6 months</label><br />
+
+          <input type="radio" id="1year" name="package" value="1 year" />
+          <label for="1year">1 year</label><br /><br />
+        </div>
+
+        <input class="button" id="applyButton" type="submit" value="Apply Now" />
+        <button type="button" class="button" id="cancelButton">Cancel</button>
+      </form>
+    </div>
+    <img src="../images/Premium-banner.jpg" id="premium-banner" alt="" />
+  </div>
+
+  <!--buat logout-->
+  <div id="logOutPopup" class="hidden">
+    <h1>Hi there, <%= name %>
+    </h1>
+    <!--name harusnya nama pengguna-->
+    <form action="/logout" method="post">
       <input id="logOutButton" class="button" type="submit" value="Log out" />
-    </div>
+    </form>
 
-    <!-- seach popup -->
-    <div id="searchPopup" class="hidden">
-      <input type="text" id="searchInput" placeholder="Search" />
-      <button id="searchCloseButton" class="button">Close</button>
+  </div>
 
-      <ul id="searchResults"></ul>
+  <!-- seach popup -->
+  <div id="searchPopup" class="hidden">
+    <input type="text" id="searchInput" placeholder="Search" />
+    <button id="searchCloseButton" class="button">Close</button>
 
-        <!-- lagu lagunya -->
-    </div>
+    <ul id="searchResults"></ul>
 
-    <audio controls id="musicPlayer" class="hidden">
-      <source src="/assets/Music/LastFridayNight.mp3" />
-    </audio>
-  </body>
+    <!-- lagu lagunya -->
+  </div>
+
+  <audio controls id="musicPlayer" class="hidden">
+    <source src="/assets/Music/LastFridayNight.mp3" />
+  </audio>
+</body>
+
 </html>
