@@ -1,4 +1,4 @@
-
+/* global */
 body {
     color: #D7176C;
     font-family: Poppins;
@@ -10,19 +10,31 @@ svg {
     fill: #fff; 
 }
 .round-button{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     border-radius: 50px;
     border-style: none;
     background-color: #D7176C;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); 
 
 }
-
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
 .round-button:hover {
     transform: scale(1.1); 
 }
-
 #whole-page {
     height: 100vh;
     display: grid;
@@ -34,74 +46,69 @@ svg {
         "bottom bottom"
     ;
 }
-
-.popup {
+.button:hover {
+    background-color: #d377a0;
+}
+.hidden {
     display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
 }
 
-.playback-button {
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: #D7176C;
-    border-radius: 30px;
-    height: 50px;
-    width: 50px;
-    border-style: none;
+/* sidebar */
+.sidebar {
+    grid-area: side;
+    background-color: #fff;
+    width: 100%;
+    position: relative;
 }
-
 #sidebar-text {
     font-size: 20px;
     color: #D7176C;
     margin: 20%;
 }
-
 .sidebar-text:hover {
     color: #F5833F;
     font-weight: bolder;
   transform: scale(1.1); 
 
 }
-
 #sidebar-logo {
     height: 80px;
     width: 200px;
 }
+.sidebar-music {
+    background-color: #F5833F;
+    width: 30vh;
+    height: 30vh;
+    padding-left: 0%;
+    position: absolute;
+    bottom: 0;
 
-.sidebar {
-    /* image-resolution: 20px; */
-    grid-area: side;
-    background-color: #fff;
-    width: 100%;
-    position: relative;
-
-    /* font-weight: bold; */
 }
 
-#searchInput {
-    color: #333;
-    border-color: #fff;
 
-    border-radius: 30px;
-    border-style: solidcolor;
-    height: 30px;
-    width: 400px;
-    margin: 2%;
+/* header */
+.header {
+    background-image: url('/images/header-banner.png');
+    background-size: cover;
+    background-position: center;
+    animation: changeBackground 15s infinite;
 }
 
+@keyframes changeBackground {
+  0% {
+    background-image: url('/images/header-banner.png');
+    /* background-image: url('/images/header-banner.png'); */
+  }
+  50% {
+    /* background-color: rebeccapurple; */
+    background-image: url('/images/header-banner2.png');
+
+  }
+  100% {
+    background-image: url('/images/header-banner3.png');
+
+  }
+}
 #searchButton {
     color: #333;
     border-color: #cccbcb;
@@ -114,21 +121,15 @@ svg {
     width: 400px;
     margin: 2%;
 }
+#searchInput {
+    color: #333;
+    border-color: #fff;
 
-.sidebar-music {
-    background-color: #F5833F;
-    width: 30vh;
-    height: 30vh;
-    padding-left: 0%;
-    position: absolute;
-    bottom: 0;
-
-}
-
-.header {
-    background-image: url("/public/images/Premium-banner.jpg");
-    grid-area: header;
-    display: flex;
+    border-radius: 30px;
+    border-style: solidcolor;
+    height: 30px;
+    width: 400px;
+    margin: 2%;
 }
 #profile-btn{
     margin-top: 2%;
@@ -158,7 +159,6 @@ svg {
 .playback-controls {
     order: 2;
 }
-
 .slider-bar {
     order: 3;
     width: 50%;
@@ -168,7 +168,6 @@ svg {
     border-radius: 15px;
 
 }
-
 .slider-bar-progress {
     width: 50%;
     /* contoh panjang sliding bar saat musik dimainkan */
@@ -180,7 +179,6 @@ svg {
 #premium-button {
     order: 4;
 }
-
 #premiumPopup {
     display: none;
     position: fixed;
@@ -194,17 +192,13 @@ svg {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
-
 #premiumForm {
     padding: 5%;
 }
-
 #premium-banner {
     height: 670px;
     width: 400px;
 }
-
-
 
 /* log out */
 #logOutPopup {
@@ -303,14 +297,8 @@ svg {
 
 }
 
-.button:hover {
-    background-color: #d377a0;
-    color: #fff;
-}
 
-.hidden {
-    display: none;
-}
+
 
 .songs {
     padding: 20px 40px;
