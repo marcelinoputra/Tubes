@@ -1,9 +1,26 @@
+
 body {
     color: #D7176C;
     font-family: Poppins;
     height: 100vh;
     width: 100vw;
     margin: 0;
+}
+svg {
+    fill: #fff; 
+}
+.round-button{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    border-style: none;
+    background-color: #D7176C;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); 
+
+}
+
+.round-button:hover {
+    transform: scale(1.1); 
 }
 
 #whole-page {
@@ -55,6 +72,8 @@ body {
 .sidebar-text:hover {
     color: #F5833F;
     font-weight: bolder;
+  transform: scale(1.1); 
+
 }
 
 #sidebar-logo {
@@ -111,34 +130,23 @@ body {
     grid-area: header;
     display: flex;
 }
-
-#profile-btn {
-    height: 50px;
-    width: 50px;
-    border-radius: 50px;
-    border-style: none;
-    /* color: #fff; */
-    /* background-color: #D7176C; */
+#profile-btn{
     margin-top: 2%;
-    margin-left: 50%;
-    background-image: url("/public/Icon/user-icon-svgrepo-com.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
+    margin-left: 55%;
 }
+
+
 
 .main-content {
     grid-area: main;
-    background-color: #f2d3b3;
+    background-color: #FFF8E4;
     overflow-x: auto;
 }
-
-
 .bottom-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color: #f2b3b3;
+    background-color: #FFE6D8;
     grid-area: bottom;
     align-items: center;
 }
@@ -147,7 +155,6 @@ body {
 .song-info {
     order: 1;
 }
-
 .playback-controls {
     order: 2;
 }
@@ -215,6 +222,31 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
+}
+
+#logOutPopup h1 {
+    color: #F5833F;
+    font-size: 20px;
+}
+
+#photo-profile-container {
+    width: 200px;
+    /* Set the desired width */
+    height: 200px;
+    /* Set the desired height */
+    border-radius: 50%;
+    /* Make the container round */
+    overflow: hidden;
+    /* Hide any overflowing content */
+}
+
+#photo-profile {
+    width: 100%;
+    /* Fill the container width */
+    height: 100%;
+    /* Fill the container height */
+    object-fit: cover;
+    /* Maintain aspect ratio and fill the container */
 }
 
 #logOutButton {
@@ -285,25 +317,48 @@ body {
 }
 
 .songs h2 {
-    color: #fff;
+    color: #D7176C;
     font-size: 22px;
     margin-bottom: 20px;
 }
 
 .songs .list {
     display: flex;
-    font-size: 22px;
-    margin-bottom: 20px;
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#songsTitle {
+    margin-bottom: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 
 .songs .list .item {
-    margin: 5px;
+    margin: 7px;
     min-width: 140px;
     width: 200px;
+    height: 200px;
     padding: 10px;
-    background-color: #181818;
-    border-radius: 6px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
     cursor: pointer;
+    transition: box-shadow 1s ease; 
+}
+
+.songs .list .item:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); 
+  transform: scale(1.2); 
 }
 
 .discoverSongs img {
