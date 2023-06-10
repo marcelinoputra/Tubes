@@ -179,6 +179,7 @@ svg {
 /* premiym */
 #premium-button {
     order: 4;
+    border-radius: 50px;
 }
 #premiumPopup {
     display: none;
