@@ -88,7 +88,8 @@ svg {
 
 /* header */
 .header {
-    background-image: url('/images/header-banner.png');
+    /* background-image: url('/images/header-banner.png'); */
+    background-image: url('/assets/images/header-banner.png');
     background-size: cover;
     background-position: center;
     animation: changeBackground 15s infinite;
@@ -96,16 +97,16 @@ svg {
 
 @keyframes changeBackground {
   0% {
-    background-image: url('/images/header-banner.png');
+    background-image: url('assets/images/header-banner.png');
     /* background-image: url('/images/header-banner.png'); */
   }
   50% {
     /* background-color: rebeccapurple; */
-    background-image: url('/images/header-banner2.png');
+    background-image: url('assets/images/header-banner2.png');
 
   }
   100% {
-    background-image: url('/images/header-banner3.png');
+    background-image: url('assets/images/header-banner3.png');
 
   }
 }
