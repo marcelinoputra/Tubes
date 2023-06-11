@@ -10,6 +10,8 @@ document.getElementById("searchCloseButton").addEventListener("click", () => {
   searchResults.innerHTML = "";
   document.getElementById("searchPopup").style.display = "none";
 });
+
+
 searchInput.addEventListener("input", function () {
   const searchQuery = searchInput.value.trim().toLowerCase();
 
@@ -49,11 +51,21 @@ function displaySearchResults(results) {
       console.log(listItem)
       const title = document.createElement("span");
       title.textContent = result.judul;
+      title.id = "searchResults-songTitle"; // Get the id from the result object
       listItem.appendChild(title);
 
       const artist = document.createElement("span");
       artist.textContent = result.artis;
+      artist.id = "searchResults-songArtist" // Get the id from the result object
       listItem.appendChild(artist);
+
+      //masih salah cel, cover tambahan
+      const cover = document.createElement("img");
+      // Set the initial src attribute to a placeholder or loading image
+      cover.src = "/Assets/images/MySpotitiLogo.png";
+      cover.id = "searchResults-songCover";
+      listItem.appendChild(cover);
+
     
       listItem.addEventListener("click", async () => {
         // Ambil ID dari elemen yang diklik
@@ -67,6 +79,10 @@ function displaySearchResults(results) {
             const audioPath = data.path;
             judul = data.title;
             artis = data.artist;
+            const coverURL = data.coverURL;
+            console.log(coverURL)
+            // Update the src attribute of the cover element
+            cover.src = coverURL;
             // Ubah src audio dengan path yang baru
             document.getElementById("musicPlayer").setAttribute("src", audioPath);
             // Play audio
@@ -77,6 +93,24 @@ function displaySearchResults(results) {
         } catch (error) {
           console.log("Terjadi kesalahan:", error);
         }
+        
+        // masih salah cel , ambil album covernya
+        try {
+          const response = await fetch(`/api/get-cover-url?id=${id}`);
+          const data = await response.json();
+
+          if (response.ok) {
+            const coverURL = data.coverURL;
+            console.log(coverURL)
+            // Update the src attribute of the cover element
+            cover.src = coverURL;
+          } else {
+            console.log("Failed to get cover URL from the server");
+          }
+        } catch (error) {
+          console.log("An error occurred:", error);
+        }
+
       });
 
       searchResults.appendChild(listItem); 
