@@ -76,3 +76,9 @@ pauseButton.addEventListener("click", function () {
 document.getElementById("profile-btn").addEventListener("click", function () {
   document.getElementById("logOutPopup").classList.toggle("hidden");
 });
+
+function myFunction() {
+  document.getElementById("sidebar-home").addEventListener("click", function (){
+    location.href = "homePage";
+  });
+}

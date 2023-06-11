@@ -180,6 +180,11 @@ app.get('/loginLeader', async (req, res) => {
     res.render('loginLeader');
 });
 
+app.get('/homePage', async (req, res) => {
+    const conn = await dbConnect();
+    res.render('homePage');
+});
+
 app.post('/login', async (req, res) => {
     try {
         const conn = await dbConnect();
