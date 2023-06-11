@@ -165,20 +165,6 @@ app.get('/signup', async (req, res) => {
     res.render('signup');
 });
 
-app.get('/loginNotUser', async (req, res) => {
-    const conn = await dbConnect();
-    res.render('loginNotUser');
-});
-
-app.get('/loginAdmin', async (req, res) => {
-    const conn = await dbConnect();
-    res.render('loginAdmin');
-});
-
-app.get('/loginLeader', async (req, res) => {
-    const conn = await dbConnect();
-    res.render('loginLeader');
-});
 
 app.get('/homePage', async (req, res) => {
     const conn = await dbConnect();
@@ -205,22 +191,24 @@ app.get("/api/get-audio-path", async (req, res) => {
     const id = req.query.id;
     // Jalankan query MySQL untuk mengambil audioPath berdasarkan ID
     pool.query(
-      "SELECT pathAudio FROM musik WHERE idMusik = ?",
+      "SELECT * FROM musik WHERE idMusik = ?",
       [id],
       (error, results) => {
         if (error) {
           // Jika terjadi error saat menjalankan query
           res.status(500).json({ error: "Database error" });
-          console.log("1");
         } else if (results.length === 0) {
           // Jika data tidak ditemukan berdasarkan ID
           res.status(404).json({ error: "Path audio not found" });
-          console.log("2");
         } else {
           // Jika data ditemukan, kirim audioPath
           const audioPath = results[0].pathAudio;
-          res.json({ path: audioPath });
-          console.log("3");
+          const title = results[0].judul;
+          const artist = results[0].artis;
+          res.json({
+            title: title,
+            artist: artist, 
+            path: audioPath });
         }
       }
     );

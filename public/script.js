@@ -1,6 +1,8 @@
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 const searchButton = document.getElementById("searchButton");
+let artis = "";
+let judul = "";
 searchButton.addEventListener("click", () => {
   document.getElementById("searchPopup").style.display = "grid";
 });
@@ -63,9 +65,10 @@ function displaySearchResults(results) {
 
           if (response.ok) {
             const audioPath = data.path;
+            judul = data.title;
+            artis = data.artist;
             // Ubah src audio dengan path yang baru
             document.getElementById("musicPlayer").setAttribute("src", audioPath);
-
             // Play audio
             document.getElementById("musicPlayer").play();
           } else {
@@ -130,6 +133,8 @@ playableElements.forEach((element) => {
 
       if (response.ok) {
         const audioPath = data.path;
+        judul = data.title;
+        artis = data.artist;
         // Ubah src audio dengan path yang baru
         document.getElementById("musicPlayer").setAttribute("src", audioPath);
 
@@ -144,5 +149,7 @@ playableElements.forEach((element) => {
   });
 });
 
+document.querySelector('.song-info span:nth-child(1)').textContent = judul;
+document.querySelector('.song-info span:nth-child(2)').textContent = artis;
 
 
