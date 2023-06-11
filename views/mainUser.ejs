@@ -14,7 +14,7 @@
     <div class="sidebar">
       <img src="/assets/images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
       <div id="sidebar-text">
-        <button onclick="myFunction()" class="sidebar-text" id="sidebar-home">Home</button>
+        <div class="sidebar-text" id="sidebar-home">Home</div>
         <div class="sidebar-text" id="sidebar-discover">Discover</div>
         <div class="sidebar-text" id="sidebar-subgenre">Sub Genre</div>
         <div class="sidebar-text" id="sidebar-genre">Genre</div>
@@ -39,7 +39,7 @@
         <h2>Songs You Might Like</h2>
         <div class="list">
           <% for(const row of results) { %>
-            <div class="item">
+            <div class="item playable" id="<%=row.idMusik%>">
               <% if (row.cover) { %>
                 <div  class="discoverSongs" >
                   <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="">
@@ -56,7 +56,7 @@
         <h2>Songs You Might Like</h2>
         <div class="list">
           <% for(const row of results) { %>
-            <div class="item">
+            <div class="item playable" id="<%=row.idMusik%>">
               <% if (row.cover) { %>
                 <div  class="discoverSongs" >
                   <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="">
@@ -151,8 +151,7 @@
   <div id="logOutPopup" class="hidden">
     <div id="photo-profile-container">
       <% if(image) { %>
-        <img id="photo-profile"
-        src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
+        <img id="photo-profile" src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
         <% } %>
     </div>
 
@@ -172,7 +171,6 @@
     <button id="searchCloseButton" class="button">Close</button>
 
     <ul id="searchResults"></ul>
-
     <!-- lagu lagunya -->
   </div>
 

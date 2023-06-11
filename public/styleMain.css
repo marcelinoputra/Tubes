@@ -6,18 +6,21 @@ body {
     width: 100vw;
     margin: 0;
 }
+
 svg {
-    fill: #fff; 
+    fill: #fff;
 }
-.round-button{
+
+.round-button {
     height: 40px;
     width: 40px;
     border-radius: 50px;
     border-style: none;
     background-color: #D7176C;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 
 }
+
 .popup {
     display: none;
     position: fixed;
@@ -32,9 +35,11 @@ svg {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
+
 .round-button:hover {
-    transform: scale(1.1); 
+    transform: scale(1.1);
 }
+
 #whole-page {
     height: 100vh;
     display: grid;
@@ -46,9 +51,11 @@ svg {
         "bottom bottom"
     ;
 }
+
 .button:hover {
     background-color: #d377a0;
 }
+
 .hidden {
     display: none;
 }
@@ -60,21 +67,25 @@ svg {
     width: 100%;
     position: relative;
 }
+
 #sidebar-text {
     font-size: 20px;
     color: #D7176C;
     margin: 20%;
 }
+
 .sidebar-text:hover {
     color: #F5833F;
     font-weight: bolder;
-  transform: scale(1.1); 
+    transform: scale(1.1);
 
 }
+
 #sidebar-logo {
     height: 80px;
     width: 200px;
 }
+
 .sidebar-music {
     background-color: #F5833F;
     width: 30vh;
@@ -96,20 +107,23 @@ svg {
 }
 
 @keyframes changeBackground {
-  0% {
-    background-image: url('assets/images/header-banner.png');
-    /* background-image: url('/images/header-banner.png'); */
-  }
-  50% {
-    /* background-color: rebeccapurple; */
-    background-image: url('assets/images/header-banner2.png');
+    0% {
+        background-image: url('assets/images/header-banner.png');
+        /* background-image: url('/images/header-banner.png'); */
+    }
 
-  }
-  100% {
-    background-image: url('assets/images/header-banner3.png');
+    50% {
+        /* background-color: rebeccapurple; */
+        background-image: url('assets/images/header-banner2.png');
 
-  }
+    }
+
+    100% {
+        background-image: url('assets/images/header-banner3.png');
+
+    }
 }
+
 #searchButton {
     color: #333;
     border-color: #cccbcb;
@@ -122,6 +136,7 @@ svg {
     width: 400px;
     margin: 2%;
 }
+
 #searchInput {
     color: #333;
     border-color: #fff;
@@ -132,7 +147,8 @@ svg {
     width: 400px;
     margin: 2%;
 }
-#profile-btn{
+
+#profile-btn {
     margin-top: 2%;
     margin-left: 55%;
 }
@@ -144,6 +160,7 @@ svg {
     background-color: #FFF8E4;
     overflow-x: auto;
 }
+
 .bottom-bar {
     display: flex;
     flex-direction: row;
@@ -157,9 +174,11 @@ svg {
 .song-info {
     order: 1;
 }
+
 .playback-controls {
     order: 2;
 }
+
 .slider-bar {
     order: 3;
     width: 50%;
@@ -169,6 +188,7 @@ svg {
     border-radius: 15px;
 
 }
+
 .slider-bar-progress {
     width: 50%;
     /* contoh panjang sliding bar saat musik dimainkan */
@@ -181,6 +201,7 @@ svg {
     order: 4;
     border-radius: 50px;
 }
+
 #premiumPopup {
     display: none;
     position: fixed;
@@ -194,9 +215,11 @@ svg {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
+
 #premiumForm {
     padding: 5%;
 }
+
 #premium-banner {
     height: 670px;
     width: 400px;
@@ -341,17 +364,37 @@ svg {
     padding: 10px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: box-shadow 1s ease; 
+    transition: box-shadow 1s ease;
 }
 
 .songs .list .item:hover {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); 
-  transform: scale(1.2); 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    transform: scale(1.2);
 }
 
 .discoverSongs img {
     max-width: 100%;
     max-height: 100%;
+}
+
+/* Tampilan hasil pencarian */
+.search-result {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.search-result:hover {
+    background-color: #e0e0e0;
+}
+
+/* Tampilan pesan "No results found" */
+.no-results {
+    padding: 10px;
+    color: #888;
+    font-style: italic;
 }

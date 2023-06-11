@@ -66,6 +66,7 @@ function getCurrentDate() {
     return currentDate;
 }
 
+
 const pool = mysql.createPool({
     user: 'root',
     password: '',
@@ -113,7 +114,7 @@ const authPimpinan = async (req, res, next) => {
 };
 
 
-app.get('/', authMember, async (req, res) => {
+app.get('/', async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -131,7 +132,6 @@ app.get('/', authMember, async (req, res) => {
                     if (results.length > 0 && results[0].profilepic) {
                         image = Buffer.from(results[0].profilepic).toString('base64');
                     }
-                    console.log(results2);
                     res.render('mainUser', {
                         name: req.session.name,
                         image: image,
@@ -185,6 +185,48 @@ app.get('/homePage', async (req, res) => {
     res.render('homePage');
 });
 
+// Rute untuk handle pencarian lagu
+app.get('/search', (req, res) => {
+    const query = req.query.query;
+    const sql = `SELECT * FROM musik WHERE judul LIKE '%${query}%' OR artis LIKE '%${query}%' LIMIT 5`;
+
+    pool.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+app.get("/api/get-audio-path", async (req, res) => {
+    // Ambil ID lagu dari parameter URL
+    const id = req.query.id;
+    // Jalankan query MySQL untuk mengambil audioPath berdasarkan ID
+    pool.query(
+      "SELECT pathAudio FROM musik WHERE idMusik = ?",
+      [id],
+      (error, results) => {
+        if (error) {
+          // Jika terjadi error saat menjalankan query
+          res.status(500).json({ error: "Database error" });
+          console.log("1");
+        } else if (results.length === 0) {
+          // Jika data tidak ditemukan berdasarkan ID
+          res.status(404).json({ error: "Path audio not found" });
+          console.log("2");
+        } else {
+          // Jika data ditemukan, kirim audioPath
+          const audioPath = results[0].pathAudio;
+          res.json({ path: audioPath });
+          console.log("3");
+        }
+      }
+    );
+  });
+
+
 app.post('/login', async (req, res) => {
     try {
         const conn = await dbConnect();
@@ -228,6 +270,7 @@ app.post('/login', async (req, res) => {
         res.sendStatus(500);
     }
 });
+
 
 app.post('/logout', (req, res) => {
     // Hapus session
