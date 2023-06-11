@@ -85,8 +85,26 @@ const dbConnect = () => {
     })
 }
 
-const auth = async (req, res, next) => {
-    if (req.session.username) {
+const authMember = async (req, res, next) => {
+    if (req.session.jabatan === "Member") {
+        next();
+    } else {
+        // Jika pengguna belum login, redirect ke halaman login
+        res.redirect('/login');
+    }
+};
+
+const authAdmin = async (req, res, next) => {
+    if (req.session.jabatan === "Admin") {
+        next();
+    } else {
+        // Jika pengguna belum login, redirect ke halaman login
+        res.redirect('/login');
+    }
+};
+
+const authPimpinan = async (req, res, next) => {
+    if (req.session.jabatan === "Pimpinan") {
         next();
     } else {
         // Jika pengguna belum login, redirect ke halaman login
@@ -95,7 +113,7 @@ const auth = async (req, res, next) => {
 };
 
 
-app.get('/', auth, async (req, res) => {
+app.get('/', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -127,12 +145,12 @@ app.get('/', auth, async (req, res) => {
 
 
 
-app.get('/mainAdmin', auth, async (req, res) => {
+app.get('/mainAdmin', authAdmin, async (req, res) => {
     const conn = await dbConnect();
-    res.send('mainAdmin');
+    res.render('mainAdmin');
 });
 
-app.get('/mainPimpinan', auth, async (req, res) => {
+app.get('/mainPimpinan', authPimpinan, async (req, res) => {
     const conn = await dbConnect();
     res.send('mainPimpinan');
 });
