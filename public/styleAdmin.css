@@ -1,0 +1,85 @@
+body {
+    color: #D7176C;
+    font-family: Poppins;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+}
+
+#whole-page-Admin {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 30vh auto;
+    grid-template-rows: 35vh auto 10vh;
+    grid-template-areas:
+        "side header"
+        "side main"
+
+    ;
+}
+
+#sidebar-logo {
+    height: 80px;
+    width: 200px;
+}
+
+.sidebarAdmin {
+    grid-area: side;
+    background-color: #fff;
+    width: 100%;
+    position: relative;
+}
+
+.header{
+    height: 60px;
+    background-color:#F5833F;
+}
+
+.main-content {
+    grid-area: main;
+    background-color: #FFF8E4;
+    overflow-x: auto;
+}
+
+#logOutAdminPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 500px;
+    padding: 2%;
+    align-items: center;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+#logOutAdminButton {
+    position: fixed;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.hidden {
+    display: none;
+}
+
+.round-button{
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+    border-style: none;
+    background-color: #D7176C;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); 
+
+}
+
+svg {
+    fill: #fff; 
+}
+
