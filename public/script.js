@@ -21,7 +21,7 @@ searchInput.addEventListener("input", function () {
   // Perform search and display results
   if (searchQuery !== "") {
     performSearch(searchQuery);
-  } else if(!searchInput){
+  } else if (!searchInput) {
     // Clear search results if search bar is empty
     clearSearchResults();
   }
@@ -47,76 +47,56 @@ function displaySearchResults(results) {
       const listItem = document.createElement("li");
       listItem.classList.add("search-result");
       listItem.classList.add("playable");
-      listItem.id = result.idMusik;
-      console.log(listItem)
+      listItem.id = `searchResult-${result.idMusik}`;
+
       const title = document.createElement("span");
       title.textContent = result.judul;
-      title.id = "searchResults-songTitle"; // Get the id from the result object
+      title.id = `searchResult-songTitle-${result.idMusik}`;
       listItem.appendChild(title);
 
       const artist = document.createElement("span");
       artist.textContent = result.artis;
-      artist.id = "searchResults-songArtist" // Get the id from the result object
+      artist.id = `searchResult-songArtist-${result.idMusik}`;
       listItem.appendChild(artist);
 
-      //masih salah cel, cover tambahan
       const cover = document.createElement("img");
-      // Set the initial src attribute to a placeholder or loading image
-      cover.src = "/Assets/images/MySpotitiLogo.png";
-      cover.id = "searchResults-songCover";
+      const coverData = new Uint8Array(result.cover.data);
+      const blob = new Blob([coverData], { type: "image/jpeg" });
+      const coverURL = URL.createObjectURL(blob);
+      cover.src = coverURL;
+      cover.id = `searchResult-songCover-${result.idMusik}`;
+      cover.onerror = function () {
+        console.log(`Failed to load cover for search result ${result.idMusik}`);
+      };
       listItem.appendChild(cover);
 
-    
       listItem.addEventListener("click", async () => {
-        // Ambil ID dari elemen yang diklik
-        const id = listItem.id;
+        const id = listItem.id.split("-")[1];
         try {
-          // Lakukan permintaan ke server untuk mendapatkan path audio berdasarkan ID
           const response = await fetch(`/api/get-audio-path?id=${id}`);
           const data = await response.json();
 
           if (response.ok) {
             const audioPath = data.path;
-            judul = data.title;
-            artis = data.artist;
-            const coverURL = data.cover;
-            console.log(coverURL);
-            // Update the src attribute of the cover element
-            cover.src = coverURL;
-            // Ubah src audio dengan path yang baru
+            const coverElement = document.getElementById(`searchResult-songCover-${id}`);
+            coverElement.src = coverURL;
+
             document.getElementById("musicPlayer").setAttribute("src", audioPath);
-            // Play audio
             document.getElementById("musicPlayer").play();
           } else {
-            console.log("Gagal mendapatkan path audio dari server");
-          }
-        } catch (error) {
-          console.log("Terjadi kesalahan:", error);
-        }
-        
-        // masih salah cel , ambil album covernya
-        try {
-          const response = await fetch(`/api/get-cover-url?id=${id}`);
-          const data = await response.json();
-
-          if (response.ok) {
-            const coverURL = data.coverURL;
-            console.log(coverURL)
-            // Update the src attribute of the cover element
-            cover.src = coverURL;
-          } else {
-            console.log("Failed to get cover URL from the server");
+            console.log("Failed to get audio path from the server");
           }
         } catch (error) {
           console.log("An error occurred:", error);
         }
-
       });
 
-      searchResults.appendChild(listItem); 
+      searchResults.appendChild(listItem);
     });
   }
 }
+
+
 
 
 // Function to clear search results
