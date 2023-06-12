@@ -143,6 +143,90 @@ app.get('/', async (req, res) => {
     });
 });
 
+app.get('/discoverUser', async (req, res) => {
+    const conn = await dbConnect();
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    res.render('discoverUser', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
+        }
+    });
+});
+app.get('/subgenreUser', async (req, res) => {
+    const conn = await dbConnect();
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    res.render('subgenreUser', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
+        }
+    });
+});
+app.get('/genreUser', async (req, res) => {
+    const conn = await dbConnect();
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    res.render('genreUser', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
+        }
+    });
+});
 
 
 app.get('/mainAdmin', authAdmin, async (req, res) => {
@@ -170,6 +254,7 @@ app.get('/homePage', async (req, res) => {
     const conn = await dbConnect();
     res.render('homePage');
 });
+
 
 // Rute untuk handle pencarian lagu
 app.get('/search', (req, res) => {
@@ -205,10 +290,13 @@ app.get("/api/get-audio-path", async (req, res) => {
           const audioPath = results[0].pathAudio;
           const title = results[0].judul;
           const artist = results[0].artis;
+          const cover = results[0].cover
           res.json({
             title: title,
             artist: artist, 
-            path: audioPath });
+            path: audioPath,
+            cover: cover
+             });
         }
       }
     );

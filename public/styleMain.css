@@ -51,6 +51,17 @@ svg {
         "bottom bottom"
     ;
 }
+#whole-page2 {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 30vh auto;
+    grid-template-rows: 13vh auto 10vh;
+    grid-template-areas:
+        "side header"
+        "side main"
+        "bottom bottom"
+    ;
+}
 
 .button:hover {
     background-color: #d377a0;
@@ -78,7 +89,9 @@ svg {
     color: #F5833F;
     font-weight: bolder;
     transform: scale(1.1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
+    
 }
 
 #sidebar-logo {
@@ -123,7 +136,10 @@ svg {
 
     }
 }
-
+/* header small */
+.header-small {
+    background-color: #F5833F;
+}
 #searchButton {
     color: #fff;
     border-color: #fff;
@@ -326,7 +342,8 @@ svg {
     padding: 3%;
     
     align-items: center;
-    background-color: #f2f2f2;
+    
+    background-color    : #f2f2f2;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);

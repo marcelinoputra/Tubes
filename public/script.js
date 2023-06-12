@@ -79,8 +79,8 @@ function displaySearchResults(results) {
             const audioPath = data.path;
             judul = data.title;
             artis = data.artist;
-            const coverURL = data.coverURL;
-            console.log(coverURL)
+            const coverURL = data.cover;
+            console.log(coverURL);
             // Update the src attribute of the cover element
             cover.src = coverURL;
             // Ubah src audio dengan path yang baru
@@ -181,6 +181,30 @@ playableElements.forEach((element) => {
       console.log("Terjadi kesalahan:", error);
     }
   });
+});
+const discoverElement = document.getElementById('sidebar-discover');
+
+discoverElement.addEventListener('click', () => {
+  window.location.href = '/discoverUser'; // Replace with the actual URL of the discoverUser page
+});
+
+
+const sidebarHome = document.getElementById('sidebar-home');
+
+sidebarHome.addEventListener('click', () => {
+  window.location.href = '/'; // Replace with the actual URL of the discoverUser page
+});
+
+const sidebarSubgenre = document.getElementById('sidebar-subgenre');
+
+sidebarSubgenre.addEventListener('click', () => {
+  window.location.href = '/subgenreUser'; // Replace with the actual URL of the discoverUser page
+});
+
+const sidebarGenre = document.getElementById('sidebar-genre');
+
+sidebarGenre.addEventListener('click', () => {
+  window.location.href = '/genreUser'; // Replace with the actual URL of the discoverUser page
 });
 
 document.querySelector('.song-info span:nth-child(1)').textContent = judul;
