@@ -114,7 +114,7 @@ const authPimpinan = async (req, res, next) => {
 };
 
 
-app.get('/', async (req, res) => {
+app.get('/', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
