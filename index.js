@@ -68,6 +68,7 @@ function getCurrentDate() {
 
 
 const pool = mysql.createPool({
+    multipleStatements: true,
     user: 'root',
     password: '',
     database: 'tubes',
@@ -122,8 +123,8 @@ app.get('/',async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
-            conn.query(querySongs, (err, results2) => {
+            const querySongs1 = `SELECT * FROM musik ORDER BY RAND() LIMIT 7`;
+            conn.query(querySongs1, (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
