@@ -185,11 +185,8 @@ app.get('/subgenreUser', async (req, res) => {
             const querySongs =
                 `SELECT subgenre.idSubGenre as id, subgenre.nama as nama, 
             genre.nama as namaG, subgenre.cover FROM subgenre JOIN genre 
-            ON subgenre.idGenre = genre.idGenre ORDER BY RAND() LIMIT 7;
-            SELECT subgenre.idSubGenre as id, subgenre.nama as nama, 
-            genre.nama as namaG, subgenre.cover FROM subgenre JOIN genre 
-            ON subgenre.idGenre = genre.idGenre ORDER BY RAND() LIMIT 7`;
-            conn.query(querySongs, [1, 2], (err, results2) => {
+            ON subgenre.idGenre = genre.idGenre;`
+            conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -201,8 +198,7 @@ app.get('/subgenreUser', async (req, res) => {
                     res.render('subgenreUser', {
                         name: req.session.name,
                         image: image,
-                        hasilQuery: results2[0],
-                        hasilQuery2: results2[1]
+                        hasilQuery: results2,
                     });
                 }
             });
@@ -247,7 +243,19 @@ app.get('/subgenre/:subgenreId', (req, res) => {
     );
 });
 
-
+const countRows = (conn) => {
+    return new Promise((resolve, reject) => {
+        const query = "SELECT COUNT(*) AS totalRows FROM subgenre";
+        conn.query(query, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                const totalRows = result[0].totalRows;
+                resolve(totalRows);
+            }
+        });
+    });
+};
 
 app.get('/genreUser', async (req, res) => {
     const conn = await dbConnect();
