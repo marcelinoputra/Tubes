@@ -12,6 +12,7 @@ document.getElementById("searchCloseButton").addEventListener("click", () => {
 });
 
 
+
 searchInput.addEventListener("input", function () {
   const searchQuery = searchInput.value.trim().toLowerCase();
 
@@ -47,7 +48,7 @@ function displaySearchResults(results) {
       const listItem = document.createElement("li");
       listItem.classList.add("search-result");
       listItem.classList.add("playable");
-      listItem.id = `searchResult-${result.idMusik}`;
+      listItem.id = `${result.idMusik}`;
 
       const title = document.createElement("span");
       title.textContent = result.judul;
@@ -71,27 +72,7 @@ function displaySearchResults(results) {
       listItem.appendChild(cover);
 
       listItem.addEventListener("click", async () => {
-        const id = listItem.id.split("-")[1];
-        try {
-          const response = await fetch(`/api/get-audio-path?id=${id}`);
-          const data = await response.json();
-
-          if (response.ok) {
-            const audioPath = data.path;
-            const coverEl = document.getElementById("sidebar-cover");
-            coverEl.src = coverURL;
-
-            document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
-            document.querySelector(".song-info span:nth-child(2)").textContent = data.artist;
-
-            document.getElementById("musicPlayer").setAttribute("src", audioPath);
-            document.getElementById("musicPlayer").play();
-          } else {
-            console.log("Failed to get audio path from the server");
-          }
-        } catch (error) {
-          console.log("An error occurred:", error);
-        }
+        handleClick(listItem);
       });
 
       searchResults.appendChild(listItem);
@@ -100,7 +81,37 @@ function displaySearchResults(results) {
 }
 
 
+//play music
+async function handleClick(element) {
+  // Ambil ID dari elemen yang diklik
+  const id = element.id;
+  try {
+    // Lakukan permintaan ke server untuk mendapatkan path audio berdasarkan ID
+    const response = await fetch(`/api/get-audio-path?id=${id}`);
+    const data = await response.json();
 
+    if (response.ok) {
+      const audioPath = data.path;
+      const coverData = new Uint8Array(data.cover.data);
+      const blob = new Blob([coverData], { type: "image/jpeg" });
+      const coverURL = URL.createObjectURL(blob);
+      console.log(data.artist);
+      document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
+      const coverEl = document.getElementById("sidebar-cover");
+      coverEl.src = coverURL;
+      console.log(coverEl);
+      // Ubah src audio dengan path yang baru
+      document.getElementById("musicPlayer").setAttribute("src", audioPath);
+
+      // Play audio
+      document.getElementById("musicPlayer").play();
+    } else {
+      console.log("Gagal mendapatkan path audio dari server");
+    }
+  } catch (error) {
+    console.log("Terjadi kesalahan:", error);
+  }
+}
 
 // Function to clear search results
 function clearSearchResults() {
@@ -141,34 +152,7 @@ const playableElements = document.querySelectorAll(".playable");
 // Tambahkan event listener pada setiap elemen
 playableElements.forEach((element) => {
   element.addEventListener("click", async () => {
-    // Ambil ID dari elemen yang diklik
-    const id = element.id;
-    try {
-      // Lakukan permintaan ke server untuk mendapatkan path audio berdasarkan ID
-      const response = await fetch(`/api/get-audio-path?id=${id}`);
-      const data = await response.json();
-
-      if (response.ok) {
-        const audioPath = data.path;
-        const coverData = new Uint8Array(data.cover.data);
-        const blob = new Blob([coverData], { type: "image/jpeg" });
-        const coverURL = URL.createObjectURL(blob);
-        console.log(data.artist)
-        document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
-        const coverEl = document.getElementById("sidebar-cover");
-        coverEl.src = coverURL;
-        console.log(coverEl);
-        // Ubah src audio dengan path yang baru
-        document.getElementById("musicPlayer").setAttribute("src", audioPath);
-
-        // Play audio
-        document.getElementById("musicPlayer").play();
-      } else {
-        console.log("Gagal mendapatkan path audio dari server");
-      }
-    } catch (error) {
-      console.log("Terjadi kesalahan:", error);
-    }
+    handleClick(element);
   });
 });
 const discoverElement = document.getElementById('sidebar-discover');
@@ -195,6 +179,71 @@ const sidebarGenre = document.getElementById('sidebar-genre');
 sidebarGenre.addEventListener('click', () => {
   window.location.href = '/genreUser'; // Replace with the actual URL of the discoverUser page
 });
+
+
+
+// Mengambil elemen-elemen yang diperlukan
+const items = document.querySelectorAll('.subgenre');
+const popupSubgenre = document.getElementById('popupSubgenre');
+const subGenreTitle = document.querySelector('#popupSubgenre h2');
+// Menambahkan event listener untuk setiap item
+items.forEach(item => {
+  item.addEventListener('click', async () => {
+    // Mendapatkan data subgenre dari item yang ditekan
+    const subgenreId = item.id;
+    subGenreTitle.textContent = `Subgenre : ${subgenreId}`;
+    try {
+      // Lakukan permintaan ke server untuk mendapatkan musik berdasarkan IdSubgenre
+      const response = await fetch(`/subgenre/${subgenreId}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        // Mengambil elemen ul di HTML
+        const listContainer = document.getElementById('subgenreResults');
+
+        // Menghapus semua elemen li sebelumnya (jika ada)
+        while (listContainer.firstChild) {
+          listContainer.firstChild.remove();
+        }
+        console.log(data.hasilQuery)
+        // Membuat elemen li baru untuk setiap hasil query
+        data.hasilQuery.forEach(song => {
+          const listItem = document.createElement("li");
+          listItem.classList.add("playable");
+          listItem.id = `${song.id}`;
+
+          const title = document.createElement("span");
+          title.textContent = song.title;
+          listItem.appendChild(title);
+
+          const artist = document.createElement("span");
+          artist.textContent = song.artist;
+          listItem.appendChild(artist);
+
+          const cover = document.createElement("img");
+          const coverData = new Uint8Array(song.cover.data);
+          const blob = new Blob([coverData], { type: "image/jpeg" });
+          const coverURL = URL.createObjectURL(blob);
+          cover.src = coverURL;
+          listItem.appendChild(cover);
+          listItem.addEventListener("click", async () => {
+            handleClick(listItem);
+          });
+          listContainer.appendChild(listItem);
+        });
+      } else {
+        console.log("Gagal mendapatkan path audio dari server");
+      }
+    } catch (error) {
+      console.log("Terjadi kesalahan:", error);
+    }
+  });
+});
+
+
+// Menambahkan event listener untuk menutup popup saat tombol close ditekan
+const popupCloseButton = document.getElementById('popupCloseButton');
+
 
 
 

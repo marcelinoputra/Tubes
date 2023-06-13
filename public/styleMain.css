@@ -248,7 +248,7 @@ svg {
     background: #D7176C;
 }
 
-/* premiym */
+/* premium */
 #premium-button {
     order: 4;
     border-radius: 50px;
@@ -523,7 +523,7 @@ padding: 2%;
     margin: 7px;
     min-width: 140px;
     width: 200px;   
-    height: 220px;
+    height: 250px;
     padding: 10px;
     background-color: #fff;
     border-radius: 10px;
@@ -538,6 +538,11 @@ padding: 2%;
 }
 
 .discoverSongs img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.discoverSubgenre img {
     max-width: 100%;
     max-height: 100%;
 }
