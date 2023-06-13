@@ -6,6 +6,22 @@ body {
     width: 100vw;
     margin: 0;
 }
+.headline{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px;
+
+}
+.hasilQuery{
+    margin: 20px;
+    font-size: 35px;
+    color: #F5833F;  
+}
+.subheadline{
+    margin: 20px;
+    font-size: 15px;
+    color: #F5833F;
+}
 
 svg {
     fill: #fff;
@@ -95,8 +111,8 @@ svg {
 }
 
 #sidebar-logo {
-    height: 80px;
-    width: 200px;
+    height: 100px;
+    width: 250px;
 }
 
 .sidebar-music {
@@ -188,6 +204,10 @@ svg {
 
 /* slider bar */
 .song-info {
+    width: 200px; /* Set a specific width for the element */
+    overflow: hidden; /* Clip the text when it's too long */
+    white-space: nowrap; /* Prevent line breaks */
+    text-overflow: ellipsis; /* Display an ellipsis (...) for clipped text */
     order: 1;
 }
 
@@ -205,11 +225,12 @@ svg {
 
 }
 
-#sidebar-cover{
-    /* ukuran cover edit disini */
-    width: 10px;
-    height: 10px;
-}
+#sidebar-cover {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+  
 
 .slider-bar-progress {
     width: 50%;
@@ -278,6 +299,7 @@ svg {
     max-height: 100%;
     width: auto;
     height: auto;
+    
   }
 
 /* log out */
@@ -510,4 +532,103 @@ padding: 2%;
     max-width: 100%;
     max-height: 100%;
 }
+/* notuser */
+/* header admin/ledaer */
+#whole-page-notuser {
+    background-color: #FFF8E4;
+    
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 30vh auto;
+    grid-template-rows: 13vh auto;
+    grid-template-areas:
+        "side header"
+        "side main"
+    ;
+}
+.adminBox{
+    background-color: #fff;
+    margin-top: 15px;
+    margin-left: 15px;
 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-style: none;
+    border-radius: 15px;
+}
+.adminBox-scroll{
+    background-color: #fff;
+    margin: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-style: none;
+    border-radius: 15px;
+    overflow: auto;
+}
+.notuser-main-content{
+    grid-area: main;
+    display: grid;
+    grid-template-columns: auto 60vh;
+    grid-template-areas: "lefty righty";
+}
+#lefty{
+    grid-area: lefty;
+    display: grid;
+    grid-template-rows: 20vh 25vh auto;
+    grid-template-areas: "row1 "
+    "row2" "row3";
+}
+#row1{
+    grid-area: row1;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-areas: "col1 col2 col3";
+}
+#col1{
+    grid-area: col1;
+
+}
+
+#col2{
+    grid-area: col2;
+}
+
+#col3{
+    grid-area: col3;
+}
+
+#row2{
+    grid-area: row2;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas: "col10 col20 ";
+}
+#col20{
+    background-color: white;
+}
+#row3{
+    grid-area: row3;
+    margin-right: 0px;
+}
+
+#righty{
+    grid-area: righty;
+}
+
+
+.header-notuser{
+    background-color: #D7176C;
+}
+.round-button-notuser {
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+    border-style: none;
+    background-color: #F5833F;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+.sidebar-notuser {
+    grid-area: side;
+    background-color: #fff;
+    width: 100%;
+    position: relative;
+    
+}

@@ -1,3 +1,3 @@
-document.getElementById("profile-admin-btn").addEventListener("click", function () {
-    document.getElementById("logOutAdminPopup").classList.toggle("hidden");
-});
+document.getElementById("profile-btn").addEventListener("click", function () {
+    document.getElementById("logOutPopup").classList.toggle("hidden");
+  });
