@@ -13,6 +13,8 @@ document.getElementById("searchCloseButton").addEventListener("click", () => {
 
 
 
+
+
 searchInput.addEventListener("input", function () {
   const searchQuery = searchInput.value.trim().toLowerCase();
 
@@ -182,14 +184,10 @@ sidebarGenre.addEventListener('click', () => {
 
 
 
-// Mengambil elemen-elemen yang diperlukan
-const openPopupButton = document.getElementById('openPopupButton');
+// Mengambil elemen-elemen yang diperlukans
 const items = document.querySelectorAll('.subgenre');
 const popupSubgenre = document.getElementById('popupSubgenre');
 const subGenreTitle = document.querySelector('#popupSubgenre h2');
-openPopupButton.addEventListener('click', () => {
-  popupSubgenre.classList.remove('hidden');
-});
 // Menambahkan event listener untuk setiap item
 items.forEach(item => {
   item.addEventListener('click', async () => {
@@ -245,9 +243,10 @@ items.forEach(item => {
   });
 });
 
+document.getElementById("popupCloseButton").addEventListener("click", () => {
+  popupSubgenre.classList.toggle("hidden");
+});
 
-// Menambahkan event listener untuk menutup popup saat tombol close ditekan
-const popupCloseButton = document.getElementById('popupCloseButton');
 
 
 
