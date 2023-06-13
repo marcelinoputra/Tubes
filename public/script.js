@@ -200,7 +200,7 @@ items.forEach(item => {
       if (response.ok) {
         // Mengambil elemen ul di HTML
         const listContainer = document.getElementById('subgenreResults');
-
+        document.querySelector('#popupSubgenre h2').textContent = `Subgenre ${data.hasilQuery2}`
         // Menghapus semua elemen li sebelumnya (jika ada)
         while (listContainer.firstChild) {
           listContainer.firstChild.remove();

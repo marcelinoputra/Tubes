@@ -216,8 +216,9 @@ app.get('/subgenre/:subgenreId', (req, res) => {
     // Query database untuk mendapatkan lagu dari subgenre dengan subgenreId yang diberikan
     // Contoh menggunakan SQL
     pool.query(
-        "SELECT * FROM musik WHERE idSubGenre = ?",
-        [subgenreId],
+        `SELECT * FROM musik WHERE idSubGenre = ?;
+        SELECT nama FROM subgenre WHERE idSubGenre = ?`,
+        [subgenreId, subgenreId],
         (error, results) => {
             if (error) {
                 // Jika terjadi error saat menjalankan query
@@ -227,7 +228,7 @@ app.get('/subgenre/:subgenreId', (req, res) => {
                 res.status(404).json({ error: "Path audio not found" });
             } else {
                 // Jika data ditemukan, kirim semua informasi
-                const musicData = results.map((music) => {
+                const musicData = results[0].map((music) => {
                     return {
                         id: music.idMusik,
                         title: music.judul,
@@ -237,7 +238,10 @@ app.get('/subgenre/:subgenreId', (req, res) => {
                         // tambahkan atribut musik lainnya sesuai kebutuhan
                     };
                 });
-                res.json({ hasilQuery:musicData });
+                res.json({
+                    hasilQuery: musicData,
+                    hasilQuery2: results[1][0].nama
+                });
             }
         }
     );
