@@ -80,7 +80,10 @@ function displaySearchResults(results) {
             const audioPath = data.path;
             const coverEl = document.getElementById("sidebar-cover");
             coverEl.src = coverURL;
-            console.log(coverEl);
+
+            document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
+            document.querySelector(".song-info span:nth-child(2)").textContent = data.artist;
+
             document.getElementById("musicPlayer").setAttribute("src", audioPath);
             document.getElementById("musicPlayer").play();
           } else {
@@ -152,7 +155,6 @@ playableElements.forEach((element) => {
         const coverURL = URL.createObjectURL(blob);
         console.log(data.artist)
         document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
-        document.querySelector(".song-info span:nth-child(2)").textContent = data.artist;
         const coverEl = document.getElementById("sidebar-cover");
         coverEl.src = coverURL;
         console.log(coverEl);
