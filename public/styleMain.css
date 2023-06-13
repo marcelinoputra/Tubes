@@ -105,9 +105,18 @@ svg {
     color: #F5833F;
     font-weight: bolder;
     transform: scale(1.1);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-    
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);    
+}
+.sidebar-subtext{
+    font-size: 15px;
+    color: #333;
+    margin-left: 15%;
+}
+.sidebar-subtext:hover {
+    color: #33;
+    font-weight: bolder;
+    transform: scale(1.1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);    
 }
 
 #sidebar-logo {
@@ -116,7 +125,7 @@ svg {
 }
 
 .sidebar-music {
-    background-color: #F5833F;
+    background-color: #e4e3e3;
     width: 30vh;
     height: 30vh;
     padding-left: 0%;
@@ -546,6 +555,7 @@ padding: 2%;
         "side main"
     ;
 }
+
 .adminBox{
     background-color: #fff;
     margin-top: 15px;
@@ -563,7 +573,7 @@ padding: 2%;
     border-radius: 15px;
     overflow: auto;
 }
-.notuser-main-content{
+.admin-main-content{
     grid-area: main;
     display: grid;
     grid-template-columns: auto 60vh;
@@ -632,3 +642,5 @@ padding: 2%;
     position: relative;
     
 }
+
+
