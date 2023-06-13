@@ -183,13 +183,18 @@ sidebarGenre.addEventListener('click', () => {
 
 
 // Mengambil elemen-elemen yang diperlukan
+const openPopupButton = document.getElementById('openPopupButton');
 const items = document.querySelectorAll('.subgenre');
 const popupSubgenre = document.getElementById('popupSubgenre');
 const subGenreTitle = document.querySelector('#popupSubgenre h2');
+openPopupButton.addEventListener('click', () => {
+  popupSubgenre.classList.remove('hidden');
+});
 // Menambahkan event listener untuk setiap item
 items.forEach(item => {
   item.addEventListener('click', async () => {
     // Mendapatkan data subgenre dari item yang ditekan
+    popupSubgenre.classList.toggle("hidden");
     const subgenreId = item.id;
     subGenreTitle.textContent = `Subgenre : ${subgenreId}`;
     try {
