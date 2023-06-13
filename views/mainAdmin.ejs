@@ -2,40 +2,90 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>mainAdmin</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-    <link rel="stylesheet" href="styleAdmin.css" />
-    <script src="scriptAdmin.js" defer></script>
+  <meta charset="UTF-8" />
+  <title>MySpotiti</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+  <link rel="stylesheet" href="styleMain.css" />
+  <script src="scriptAdmin.js" defer></script>
 </head>
 
 <body>
-    <div id="whole-page-Admin">
-        <div class="sidebarAdmin">
-          <img src="/assets/images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
-          <div id="sidebar-text-Admin">
-            <div class="sidebar-text-Admin" id="sidebar-overview">Overview</div>
-            <div class="sidebar-text-Admin" id="sidebar-songs">Songs</div>
-            <div class="sidebar-text-Admin" id="sidebar-subgenre">Sub Genre</div>
-            <div class="sidebar-text-Admin" id="sidebar-genre">Genre</div>
+  <div id="whole-page-notuser">
+    <div class="sidebar-notuser">
+      <img src="/assets/images/MySpotitiLogo.png" id="sidebar-logo-notuser" alt="" />
+      <div id="sidebar-text">
+        
+        <div class="sidebar-text" id="sidebar-home" style="color: #F5833F; font-weight: bold;transform: scale(1.1)">Overview</div>
+        <div class="sidebar-text" id="sidebar-discover">Songs</div>
+        <div class="sidebar-text" id="sidebar-subgenre">Sub Genre</div>
+        <div class="sidebar-text" id="sidebar-genre"     >Genre</div>
+      </div>
+    </div>
+    <div class="header-notuser">
+      
+      <button id="profile-btn" class="round-button-notuser">
+        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512">
+          <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
+      </button>
+    </div>
+    <div class="notuser-main-content">
+
+    
+      <div  id="lefty">
+        <div id="row1">
+          <div   class="adminBox" id="col1">
+            time listened
+          </div>
+          <div   class="adminBox" id="col2">
+            songs uploaded
+          </div>
+          <div   class="adminBox"  id="col3">
+            active user
           </div>
         </div>
+        <div id="row2">
+          <div   class="adminBox" id="col10">
+            top3 genre
+          </div>
+          <div   class="adminBox" id="col20">
+            top3 sub genre
 
-        <div class="header">
-          <button id="profile-admin-btn" class="round-button">
-            <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512">
-              <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
-          </button>
+          </div>
         </div>
-    
-        <div class="main-content">
+        
+        <div class="adminBox-scroll" id="row3">
+          recently played songs
           
         </div>
+      </div>
+      <div class="adminBox-scroll" id="righty">
 
-        <div id="logOutAdminPopup" class="hidden">
-            <form action="/logout" method="post">
-              <input id="logOutAdminButton" class="button" type="submit" value="Log out" />
-            </form>
+            most listend song
         </div>
+      </div>
+
     </div>
+
+
+  </div>
+
+
+  <!--buat logout-->
+  <div id="logOutPopup" class="hidden">
+    <div id="photo-profile-container">
+      <% if(image) { %>
+        <img id="photo-profile" src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
+        <% } %>
+    </div>
+
+   
+    <h1>Hi there, <%= name %> </h1>
+
+
+        <form action="/logout" method="post">
+          <input id="logOutButton" class="button" type="submit" value="Log out" />
+        </form>
+
+  </div>
 </body>
+</html>
