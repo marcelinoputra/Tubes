@@ -304,6 +304,7 @@ svg {
 }
 
 #photo-profile-container {
+    background-image: src('/Assets/images/defaultProfilePicture.png');
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -462,6 +463,18 @@ padding: 2%;
 }
 
 #songsTitle {
+    color: #D7176C;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+#songsArtis {
+    color: #F5833F;
+    
     margin-bottom: auto;
     white-space: nowrap;
     overflow: hidden;
@@ -472,8 +485,8 @@ padding: 2%;
 .songs .list .item {
     margin: 7px;
     min-width: 140px;
-    width: 200px;
-    height: 200px;
+    width: 200px;   
+    height: 220px;
     padding: 10px;
     background-color: #fff;
     border-radius: 10px;
