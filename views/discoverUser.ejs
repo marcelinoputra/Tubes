@@ -38,7 +38,7 @@
       <div class="songs">
         <h2>Songs You Might Like</h2>
         <div class="list">
-          <% for(const row of results) { %>
+          <% for(const row of hasilQuery) { %>
             <div class="item playable" id="<%=row.idMusik%>">
               <% if (row.cover) { %>
                 <div  class="discoverSongs" >
@@ -55,7 +55,7 @@
       <div class="songs">
         <h2>Songs You Might Like</h2>
         <div class="list">
-          <% for(const row of results) { %>
+          <% for(const row of hasilQuery2) { %>
             <div class="item playable" id="<%=row.idMusik%>">
               <% if (row.cover) { %>
                 <div  class="discoverSongs" >

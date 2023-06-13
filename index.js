@@ -115,7 +115,7 @@ const authPimpinan = async (req, res, next) => {
 };
 
 
-app.get('/',async (req, res) => {
+app.get('/', async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -123,8 +123,8 @@ app.get('/',async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs1 = `SELECT * FROM musik ORDER BY RAND() LIMIT 7`;
-            conn.query(querySongs1, (err, results2) => {
+            const querySongs = `SELECT * FROM musik ORDER BY RAND() LIMIT 7; SELECT * FROM musik ORDER BY RAND() LIMIT 7`;
+            conn.query(querySongs, [1, 2], (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -136,7 +136,8 @@ app.get('/',async (req, res) => {
                     res.render('mainUser', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        hasilQuery: results2[0],
+                        hasilQuery2: results2[1]
                     });
                 }
             });
@@ -152,8 +153,8 @@ app.get('/discoverUser', async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
-            conn.query(querySongs, (err, results2) => {
+            const querySongs = `SELECT * FROM musik ORDER BY RAND() LIMIT 7; SELECT * FROM musik ORDER BY RAND() LIMIT 7`;
+            conn.query(querySongs, [1, 2], (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -165,7 +166,8 @@ app.get('/discoverUser', async (req, res) => {
                     res.render('discoverUser', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        hasilQuery: results2[0],
+                        hasilQuery2: results2[1]
                     });
                 }
             });
@@ -277,31 +279,31 @@ app.get("/api/get-audio-path", async (req, res) => {
     const id = req.query.id;
     // Jalankan query MySQL untuk mengambil audioPath berdasarkan ID
     pool.query(
-      "SELECT * FROM musik WHERE idMusik = ?",
-      [id],
-      (error, results) => {
-        if (error) {
-          // Jika terjadi error saat menjalankan query
-          res.status(500).json({ error: "Database error" });
-        } else if (results.length === 0) {
-          // Jika data tidak ditemukan berdasarkan ID
-          res.status(404).json({ error: "Path audio not found" });
-        } else {
-          // Jika data ditemukan, kirim audioPath
-          const audioPath = results[0].pathAudio;
-          const title = results[0].judul;
-          const artist = results[0].artis;
-          const cover = results[0].cover
-          res.json({
-            title: title,
-            artist: artist, 
-            path: audioPath,
-            cover: cover
-             });
+        "SELECT * FROM musik WHERE idMusik = ?",
+        [id],
+        (error, results) => {
+            if (error) {
+                // Jika terjadi error saat menjalankan query
+                res.status(500).json({ error: "Database error" });
+            } else if (results.length === 0) {
+                // Jika data tidak ditemukan berdasarkan ID
+                res.status(404).json({ error: "Path audio not found" });
+            } else {
+                // Jika data ditemukan, kirim audioPath
+                const audioPath = results[0].pathAudio;
+                const title = results[0].judul;
+                const artist = results[0].artis;
+                const cover = results[0].cover
+                res.json({
+                    title: title,
+                    artist: artist,
+                    path: audioPath,
+                    cover: cover
+                });
+            }
         }
-      }
     );
-  });
+});
 
 
 app.post('/login', async (req, res) => {
