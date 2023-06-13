@@ -205,6 +205,12 @@ svg {
 
 }
 
+#sidebar-cover{
+    /* ukuran cover edit disini */
+    width: 10px;
+    height: 10px;
+}
+
 .slider-bar-progress {
     width: 50%;
     /* contoh panjang sliding bar saat musik dimainkan */

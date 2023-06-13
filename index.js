@@ -289,7 +289,7 @@ app.get("/api/get-audio-path", async (req, res) => {
                 // Jika data tidak ditemukan berdasarkan ID
                 res.status(404).json({ error: "Path audio not found" });
             } else {
-                // Jika data ditemukan, kirim audioPath
+                // Jika data ditemukan, kirim semua informasi
                 const audioPath = results[0].pathAudio;
                 const title = results[0].judul;
                 const artist = results[0].artis;

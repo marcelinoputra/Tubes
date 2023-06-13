@@ -78,9 +78,9 @@ function displaySearchResults(results) {
 
           if (response.ok) {
             const audioPath = data.path;
-            const coverElement = document.getElementById(`searchResult-songCover-${id}`);
-            coverElement.src = coverURL;
-
+            const coverEl = document.getElementById("sidebar-cover");
+            coverEl.src = coverURL;
+            console.log(coverEl);
             document.getElementById("musicPlayer").setAttribute("src", audioPath);
             document.getElementById("musicPlayer").play();
           } else {
@@ -147,8 +147,15 @@ playableElements.forEach((element) => {
 
       if (response.ok) {
         const audioPath = data.path;
-        judul = data.title;
-        artis = data.artist;
+        const coverData = new Uint8Array(data.cover.data);
+        const blob = new Blob([coverData], { type: "image/jpeg" });
+        const coverURL = URL.createObjectURL(blob);
+        console.log(data.artist)
+        document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
+        document.querySelector(".song-info span:nth-child(2)").textContent = data.artist;
+        const coverEl = document.getElementById("sidebar-cover");
+        coverEl.src = coverURL;
+        console.log(coverEl);
         // Ubah src audio dengan path yang baru
         document.getElementById("musicPlayer").setAttribute("src", audioPath);
 
@@ -187,7 +194,5 @@ sidebarGenre.addEventListener('click', () => {
   window.location.href = '/genreUser'; // Replace with the actual URL of the discoverUser page
 });
 
-document.querySelector('.song-info span:nth-child(1)').textContent = judul;
-document.querySelector('.song-info span:nth-child(2)').textContent = artis;
 
 
