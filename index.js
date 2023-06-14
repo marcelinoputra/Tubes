@@ -182,7 +182,10 @@ app.get('/subgenreUser', async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            const querySongs =
+                `SELECT subgenre.idSubGenre as id, subgenre.nama as nama, 
+            genre.nama as namaG, subgenre.cover FROM subgenre JOIN genre 
+            ON subgenre.idGenre = genre.idGenre;`
             conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
@@ -195,13 +198,65 @@ app.get('/subgenreUser', async (req, res) => {
                     res.render('subgenreUser', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        hasilQuery: results2,
                     });
                 }
             });
         }
     });
 });
+
+app.get('/subgenre/:subgenreId', (req, res) => {
+    const subgenreId = req.params.subgenreId;
+
+    // Query database untuk mendapatkan lagu dari subgenre dengan subgenreId yang diberikan
+    // Contoh menggunakan SQL
+    pool.query(
+        `SELECT * FROM musik WHERE idSubGenre = ?;
+        SELECT nama FROM subgenre WHERE idSubGenre = ?`,
+        [subgenreId, subgenreId],
+        (error, results) => {
+            if (error) {
+                // Jika terjadi error saat menjalankan query
+                res.status(500).json({ error: "Database error" });
+            } else if (results.length === 0) {
+                // Jika data tidak ditemukan berdasarkan ID
+                res.status(404).json({ error: "Path audio not found" });
+            } else {
+                // Jika data ditemukan, kirim semua informasi
+                const musicData = results[0].map((music) => {
+                    return {
+                        id: music.idMusik,
+                        title: music.judul,
+                        artist: music.artis,
+                        path: music.audioPath,
+                        cover: music.cover
+                        // tambahkan atribut musik lainnya sesuai kebutuhan
+                    };
+                });
+                res.json({
+                    hasilQuery: musicData,
+                    hasilQuery2: results[1][0].nama
+                });
+            }
+        }
+    );
+});
+
+const countRows = (conn) => {
+    return new Promise((resolve, reject) => {
+        const query = "SELECT COUNT(*) AS totalRows FROM subgenre";
+        conn.query(query, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                const totalRows = result[0].totalRows;
+                resolve(totalRows);
+            }
+        });
+    });
+};
+
 app.get('/genreUser', async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
