@@ -115,7 +115,7 @@ const authPimpinan = async (req, res, next) => {
 };
 
 
-app.get('/', async (req, res) => {
+app.get('/', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -145,7 +145,7 @@ app.get('/', async (req, res) => {
     });
 });
 
-app.get('/discoverUser', async (req, res) => {
+app.get('/discoverUser', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -174,7 +174,7 @@ app.get('/discoverUser', async (req, res) => {
         }
     });
 });
-app.get('/subgenreUser', async (req, res) => {
+app.get('/subgenreUser', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -257,7 +257,7 @@ const countRows = (conn) => {
     });
 };
 
-app.get('/genreUser', async (req, res) => {
+app.get('/genreUser', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
     conn.query(query, [req.session.username], (err, results) => {
@@ -265,7 +265,8 @@ app.get('/genreUser', async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            const querySongs =
+                `SELECT * FROM genre;`
             conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
@@ -278,13 +279,54 @@ app.get('/genreUser', async (req, res) => {
                     res.render('genreUser', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        hasilQuery: results2,
                     });
                 }
             });
         }
     });
 });
+
+app.get('/genre/:genreId', (req, res) => {
+    const genreId = req.params.genreId;
+
+    // Query database to retrieve songs from the specified genre
+    pool.query(
+        `SELECT musik.*, musik.cover AS music_cover, genre.cover AS genre_cover FROM musik JOIN subgenre on 
+        musik.idSubGenre = subgenre.idSubGenre JOIN genre ON 
+        subgenre.idGenre = genre.idGenre WHERE genre.idGenre = ?;
+        SELECT nama FROM genre WHERE idGenre = ?`,
+        [genreId, genreId],
+        (error, results) => {
+            if (error) {
+                // If an error occurs while executing the query
+                res.status(500).json({ error: "Database error" });
+            } else if (results.length === 0) {
+                // If no data is found based on the ID
+                res.status(404).json({ error: "Path audio not found" });
+            } else {
+                // If data is found, send all the information
+                const musicData = results[0].map((music) => {
+                    return {
+                        id: music.idMusik,
+                        title: music.judul,
+                        artist: music.artis,
+                        path: music.audioPath,
+                        cover: music.music_cover
+                        // Add other music attributes as needed
+                    };
+                });
+                const genreName = results[1][0].nama;
+                res.json({
+                    hasilQuery: musicData,
+                    hasilQuery2: genreName
+                });
+            }
+        }
+    );
+});
+
+
 
 
 app.get('/mainAdmin', authAdmin, async (req, res) => {
