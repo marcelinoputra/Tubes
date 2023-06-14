@@ -248,6 +248,69 @@ document.getElementById("popupCloseButton").addEventListener("click", () => {
 });
 
 
+// Mengambil elemen-elemen yang diperlukans
+const itemsGenre = document.querySelectorAll('.genre');
+const popupGenre = document.getElementById('popupGenre');
+const genreTitle = document.querySelector('#popupGenre h2');
+// Menambahkan event listener untuk setiap item
+itemsGenre.forEach(item => {
+  item.addEventListener('click', async () => {
+    // Mendapatkan data subgenre dari item yang ditekan
+    const genreId = item.id;
+    popupGenre.classList.toggle("hidden");
+    console.log(genreId)
+    genreTitle.textContent = `Genre : ${genreId}`;
+    try {
+      // Lakukan permintaan ke server untuk mendapatkan musik berdasarkan IdSubgenre
+      const response = await fetch(`/genre/${genreId}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        // Mengambil elemen ul di HTML
+        const listContainer = document.getElementById('genreResults');
+        document.querySelector('#popupGenre h2').textContent = `Genre ${data.hasilQuery2}`
+        // Menghapus semua elemen li sebelumnya (jika ada)
+        while (listContainer.firstChild) {
+          listContainer.firstChild.remove();
+        }
+        console.log(data.hasilQuery)
+        // Membuat elemen li baru untuk setiap hasil query
+        data.hasilQuery.forEach(song => {
+          const listItem = document.createElement("li");
+          listItem.classList.add("playable");
+          listItem.id = `${song.id}`;
+
+          const title = document.createElement("span");
+          title.textContent = song.title;
+          listItem.appendChild(title);
+
+          const artist = document.createElement("span");
+          artist.textContent = song.artist;
+          listItem.appendChild(artist);
+
+          const cover = document.createElement("img");
+          const coverData = new Uint8Array(song.cover.data);
+          const blob = new Blob([coverData], { type: "image/jpeg" });
+          const coverURL = URL.createObjectURL(blob);
+          cover.src = coverURL;
+          listItem.appendChild(cover);
+          listItem.addEventListener("click", async () => {
+            handleClick(listItem);
+          });
+          listContainer.appendChild(listItem);
+        });
+      } else {
+        console.log("Gagal mendapatkan path audio dari server");
+      }
+    } catch (error) {
+      console.log("Terjadi kesalahan:", error);
+    }
+  });
+});
+
+document.getElementById("popupCloseButton").addEventListener("click", () => {
+  popupGenre.classList.toggle("hidden");
+});
 
 
 
