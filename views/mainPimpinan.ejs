@@ -9,7 +9,7 @@
   <script src="scriptPimpinan.js" defer></script>
 </head>
 
-<body>
+<body  onload="getCurrentDate()">
   <div id="whole-page-notuser">
     <div class="sidebar-notuser">
       <img src="/assets/images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
@@ -27,7 +27,6 @@
 
       </div>
     </div>
-
     <div class="header-notuser">
       
       <button id="profile-btn" class="round-button-notuser">
@@ -37,7 +36,27 @@
     </div>
     
     <div class="pimpinan-main-content">    
-      
+      <div  id="pimpinan-main-content-atas">
+        <h1> Monthly Overview</h1>
+        <h1  id="currentDate"></h1>
+        
+      </div>
+      <div class="adminBox" id="pimpinan-main-content-sales">
+        <div class="headline">Monthly Sales</div>
+      </div>
+      <div class="adminBox" id="pimpinan-main-content-topsongs">
+        <div class="headline">Statistics</div>
+        <div class="subheadline">Top Songs</div>
+      </div>
+      <div class="adminBox" id="pimpinan-main-content-topgenre">
+        <div class="headline">Statistics</div>
+        <div class="subheadline">Top Genre</div>
+      </div>
+      <div class="adminBox" id="pimpinan-main-content-user">
+        <div class="headline">User Analytics</div>
+
+      </div>
+
     </div>
 
 
@@ -50,8 +69,6 @@
         <img id="photo-profile" src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
         <% } %>
     </div>
-
-   
     <h1>Hi there, <%= name %> </h1>
 
 

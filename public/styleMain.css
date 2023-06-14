@@ -112,8 +112,9 @@ svg {
     color: #333;
     margin-left: 15%;
 }
+
 .sidebar-subtext:hover {
-    color: #33;
+    color: #333;
     font-weight: bolder;
     transform: scale(1.1);
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);    
@@ -191,7 +192,8 @@ svg {
 
 #profile-btn {
     margin-top: 2%;
-    margin-left: 55%;
+    float: right;
+    margin-right: 2%;
 }
 
 
@@ -302,6 +304,7 @@ svg {
   
   #cancelButton {
     margin-left: auto;
+    
   }
   #premium-banner {
     max-width: 100%;
@@ -549,7 +552,7 @@ padding: 2%;
     height: 100vh;
     display: grid;
     grid-template-columns: 30vh auto;
-    grid-template-rows: 13vh auto;
+    grid-template-rows: 10vh auto;
     grid-template-areas:
         "side header"
         "side main"
@@ -640,7 +643,38 @@ padding: 2%;
     background-color: #fff;
     width: 100%;
     position: relative;
+}
+.pimpinan-main-content{
+    display: grid;
+    grid-template-columns: auto 40vh 40vh;
+    grid-template-rows: 10vh auto auto;
+    grid-template-areas: 
+    "atas atas atas"
+    "sales topsongs topgenre"
+    "user topsongs topgenre";
     
+}
+#pimpinan-main-content-atas{
+    margin-left: 15px;
+    display: flex;
+    grid-area: atas;
+}
+#pimpinan-main-content-sales{
+    grid-area: sales;
+}
+#pimpinan-main-content-topsongs{
+    grid-area: topsongs;
+}
+#pimpinan-main-content-topgenre{
+    grid-area: topgenre;
+}
+#pimpinan-main-content-user{
+    grid-area: user;
+}
+#currentDate{
+    margin-right: 15px;
+    font-size: 30px;
+    margin-left: auto;
 }
 
 
