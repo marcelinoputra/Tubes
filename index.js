@@ -317,7 +317,11 @@ app.get('/genre/:genreId', (req, res) => {
 
 app.get('/mainAdmin', authAdmin, async (req, res) => {
     const conn = await dbConnect();
-    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    const query = 
+    `SELECT profilepic FROM pengguna WHERE username = ?;
+    SELECT COUNT(*) FROM daftarputarmusik;
+    SELECT COUNT(*) FROM musik;
+    SELECT COUNT(*) FROM pengguna`;
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
             console.error(err);
