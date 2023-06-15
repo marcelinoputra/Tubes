@@ -1,16 +1,14 @@
 document.getElementById("profile-btn").addEventListener("click", function () {
     document.getElementById("logOutPopup").classList.toggle("hidden");
   });
-const adminSidebarOverview = document.getElementById('Admin-sidebar-overview');
 
-adminSidebarOverview.addEventListener('click', () => {
-  window.location.href = '/mainAdmin'; 
+document.getElementById('Pimpinan-sidebar-overview').addEventListener('click', () => {
+  window.location.href = '/mainPimpinan'; 
 });
 
-const adminSidebarSongs = document.getElementById('Admin-sidebar-songs');
 
-adminSidebarSongs.addEventListener('click', () => {
-  window.location.href = '/songsAdmin'; 
+document.getElementById('Pimpinan-sidebar-sales').addEventListener('click', () => {
+  window.location.href = '/salesPimpinan'; 
 });
 
 
