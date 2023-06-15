@@ -298,7 +298,6 @@ svg {
 }
 
 #premiumForm {
-    /* display: flex; */
     padding: 5%;
 }
 #premiumHeader{
@@ -621,8 +620,7 @@ h3 {
     background-color: #fff;
     margin-top: 15px;
     margin-left: 15px;
-
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-style: none;
     border-radius: 15px;
 }
@@ -630,7 +628,7 @@ h3 {
 .adminBox-scroll {
     background-color: #fff;
     margin: 15px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-style: none;
     border-radius: 15px;
     overflow: auto;
@@ -711,7 +709,62 @@ h3 {
     width: 100%;
     position: relative;
 }
+.pimpinan-notmain-content {
+    display: grid;
+    grid-template-columns: 40vh auto;
+    grid-template-rows: 20vh auto;
+    grid-template-areas:
+        "atas atas"
+        "lefty righty";
+}
+.pimpinan-notmain-content-atas{
+    grid-area: atas;
+    display: grid;
+    grid-template-areas: "pimpinan-notmain-content-atas-atas"
+               "pimpinan-notmain-content-atas-bawah";
+}
+.pimpinan-notmain-content-atas-atas{
+    margin-left: 15px;
+    margin-right: 15px;
+    grid-area: pimpinan-notmain-content-atas-atas;
+    display: flex;
+}
+.pimpinan-notmain-content-atas-bawah{
+    margin-left: 15px;
+    margin-right: 15px;
+    grid-area: pimpinan-notmain-content-atas-bawah;
+    display: flex;
+}
 
+.pimpinan-notmain-content-left{
+    grid-area: lefty;
+    display: grid;
+    grid-template-areas: "new-user"
+    "total-user"
+    "sales-this-month";
+    grid-template-rows: auto auto auto;
+
+}
+#new-user{
+    grid-area: new-user;
+
+}
+#total-user{
+    grid-area: total-user;
+}
+#sales-this-month{
+    grid-area: sales-this-month;
+}
+.pimpinan-notmain-content-right{
+    grid-area: righty;
+    background-color: #fff;
+    margin-top: 15px;
+    margin-left: 15px;
+
+    padding: 1%;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
 .pimpinan-main-content {
     display: grid;
     grid-template-columns: auto 40vh 40vh;
@@ -826,7 +879,6 @@ h3 {
     display: grid;
     margin: 20px;
     grid-template-areas:
-
         "admintable-header-leftTop admintable-header-rightTop"
         "admintable-header-leftBtm admintable-header-rightBtm";
 }
@@ -866,6 +918,8 @@ h3 {
     font-size: 20px;
     align-items: center;
     gap: 7px;
+    margin-left: auto;
+
 
 }
 
@@ -881,7 +935,7 @@ h3 {
 .admintable-result {
     grid-area: result;
     background-color: #fff;
-    margin: 1%;
+    margin: 15px;
     padding: 1%;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
