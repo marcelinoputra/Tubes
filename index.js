@@ -317,36 +317,61 @@ app.get('/genre/:genreId', (req, res) => {
 
 app.get('/mainAdmin', authAdmin, async (req, res) => {
     const conn = await dbConnect();
-    const query = 
-    `SELECT profilepic FROM pengguna WHERE username = ?;
-    SELECT COUNT(*) FROM daftarputarmusik;
-    SELECT COUNT(*) FROM musik;
-    SELECT COUNT(*) FROM pengguna`;
+    const query = `
+        SELECT profilepic FROM pengguna WHERE username = ?;
+        SELECT COUNT(*) AS nTimes FROM daftarputarmusik;
+        SELECT COUNT(*) AS nSongs FROM musik;
+        SELECT COUNT(*) AS nUsers FROM pengguna;
+        SELECT subgenre.nama, subgenre.cover, COUNT(subgenre.idSubGenre) AS countSubgenre
+        FROM daftarputarmusik JOIN musik
+        ON daftarputarmusik.idMusik = musik.idMusik JOIN subgenre
+        ON musik.idSubGenre = subgenre.idSubGenre
+        GROUP BY subgenre.idSubGenre
+        ORDER BY COUNT(subgenre.idSubGenre) DESC
+        LIMIT 3;
+        SELECT genre.nama, genre.cover, COUNT(genre.idGenre) AS countGenre
+        FROM daftarputarmusik JOIN musik
+        ON daftarputarmusik.idMusik = musik.idMusik JOIN subgenre
+        ON musik.idSubGenre = subgenre.idSubGenre JOIN genre
+        ON subgenre.idGenre = genre.idGenre
+        GROUP BY genre.idGenre
+        ORDER BY COUNT(genre.idGenre) DESC
+        LIMIT 3`;
+        
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
-            conn.query(querySongs, (err, results2) => {
-                if (err) {
-                    console.error(err);
-                    res.sendStatus(500);
-                } else {
-                    let image = null;
-                    if (results.length > 0 && results[0].profilepic) {
-                        image = Buffer.from(results[0].profilepic).toString('base64');
-                    }
-                    res.render('mainAdmin', {
-                        name: req.session.name,
-                        image: image,
-                        results: results2
-                    });
-                }
+            let image = null;
+            if (results.length > 0 && results[0].profilepic) {
+                image = Buffer.from(results[0].profilepic).toString('base64');
+            }
+            
+            const nTimes = results[1][0].nTimes.toString();
+            const nSongs = results[2][0].nSongs.toString();
+            const nUsers = results[3][0].nUsers.toString();
+            
+            console.log(results[0]);
+            console.log(nTimes);
+            console.log(nSongs);
+            console.log(nUsers);
+            console.log(results[4]);
+            console.log(results[5]);
+            
+            res.render('mainAdmin', {
+                name: req.session.name,
+                image: image,
+                nTimes: nTimes,
+                nSongs: nSongs,
+                nUsers: nUsers,
+                top3Genre: results[5],
+                top3Subgenre: results[4]
             });
         }
     });
 });
+
 app.get('/songsAdmin', authAdmin, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;

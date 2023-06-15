@@ -34,18 +34,18 @@
         <div id="row1">
           <div   class="adminBox" id="col1">
             <h1 class="headline">Time Listened</h1>
-            <h2 class="hasilQuery">n Times</h2>
+            <h2 class="hasilQuery"><%= nTimes %> Times</h2>
             <!-- hasil query -->
           </div>
           <div   class="adminBox" id="col2">
             <h1 class="headline">Songs Uploaded</h1>
-            <h2 class="hasilQuery">n Songs</h2>
+            <h2 class="hasilQuery"><%= nSongs %> Songs</h2>
 
 
           </div>
           <div   class="adminBox"  id="col3">
             <h1 class="headline">Active User</h1>
-            <h2 class="hasilQuery">n Users</h2>
+            <h2 class="hasilQuery"><%= nUsers %> Users</h2>
 
 
           </div>
@@ -53,10 +53,19 @@
         <div id="row2">
           <div   class="adminBox" id="col10">
             <h1 class="headline">Top 3 Genre</h1>
+            <% for(const row of top3Genre){ %>
+              <div>
+                <%= row.nama %>
+              </div>
+            <% } %>
           </div>
           <div   class="adminBox" id="col20">
             <h1 class="headline">Top 3 Sub Genre</h1>
-
+            <% for(const row of top3Subgenre){ %>
+              <div>
+                <%= row.nama %>
+              </div>
+            <% } %>
           </div>
         </div>
         
