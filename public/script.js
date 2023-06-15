@@ -243,10 +243,6 @@ items.forEach(item => {
   });
 });
 
-document.getElementById("popupCloseButton").addEventListener("click", () => {
-  popupSubgenre.classList.toggle("hidden");
-});
-
 
 // Mengambil elemen-elemen yang diperlukans
 const itemsGenre = document.querySelectorAll('.genre');
@@ -256,15 +252,14 @@ const genreTitle = document.querySelector('#popupGenre h2');
 itemsGenre.forEach(item => {
   item.addEventListener('click', async () => {
     // Mendapatkan data subgenre dari item yang ditekan
-    const genreId = item.id;
     popupGenre.classList.toggle("hidden");
-    console.log(genreId)
+    const genreId = item.id;
     genreTitle.textContent = `Genre : ${genreId}`;
     try {
       // Lakukan permintaan ke server untuk mendapatkan musik berdasarkan IdSubgenre
       const response = await fetch(`/genre/${genreId}`);
       const data = await response.json();
-
+      console.log(data)
       if (response.ok) {
         // Mengambil elemen ul di HTML
         const listContainer = document.getElementById('genreResults');
@@ -308,9 +303,6 @@ itemsGenre.forEach(item => {
   });
 });
 
-document.getElementById("popupCloseButton").addEventListener("click", () => {
-  popupGenre.classList.toggle("hidden");
-});
 
 
 

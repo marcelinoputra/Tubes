@@ -243,20 +243,6 @@ app.get('/subgenre/:subgenreId', (req, res) => {
     );
 });
 
-const countRows = (conn) => {
-    return new Promise((resolve, reject) => {
-        const query = "SELECT COUNT(*) AS totalRows FROM subgenre";
-        conn.query(query, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                const totalRows = result[0].totalRows;
-                resolve(totalRows);
-            }
-        });
-    });
-};
-
 app.get('/genreUser', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;

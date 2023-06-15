@@ -765,6 +765,19 @@ h3 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+#popupGenre {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 #go-button {
     background-color: #F5833F;
     color: white;
@@ -788,6 +801,13 @@ h3 {
 }
 
 #subgenreResults li img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-top: 10px;
+}
+
+#genreResults li img {
     width: 100px;
     height: 100px;
     object-fit: cover;
