@@ -17,6 +17,18 @@ adminSidebarSongs.addEventListener("click", () => {
   window.location.href = "/songsAdmin";
 });
 
+const adminSidebarSubGenre = document.getElementById("Admin-sidebar-subgenre");
+
+adminSidebarSubGenre.addEventListener("click", () => {
+  window.location.href = "/subgenreAdmin";
+});
+
+const adminSidebarGenre = document.getElementById("sidebar-genre");
+
+adminSidebarGenre.addEventListener("click", () => {
+  window.location.href = "/genreAdmin";
+});
+
 document.getElementById("cancelButton").addEventListener("click", function () {
   document.getElementById("addDataPopUp").classList.add("hidden");
 });

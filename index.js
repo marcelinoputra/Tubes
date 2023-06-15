@@ -401,6 +401,64 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
     });
 });
 
+app.get('/subgenreAdmin', async (req, res) => {
+    const conn = await dbConnect();
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    res.render('subgenreAdmin', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
+        }
+    });
+});
+
+app.get('/genreAdmin', async (req, res) => {
+    const conn = await dbConnect();
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    res.render('genreAdmin', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
+        }
+    });
+});
+
 app.get('/mainPimpinan', authPimpinan, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
@@ -429,6 +487,7 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
         }
     });
 });
+
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
