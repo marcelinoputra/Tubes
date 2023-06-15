@@ -6,18 +6,36 @@ body {
     width: 100vw;
     margin: 0;
 }
-.headline{
+
+.headline {
     font-size: 20px;
     font-weight: bold;
     margin: 20px;
 
 }
-.hasilQuery{
+
+.hasilQuery {
     margin: 20px;
     font-size: 35px;
-    color: #F5833F;  
+    color: #F5833F;
 }
-.subheadline{
+.userBox{
+    display: flex;
+    font-size: 15px;
+    box-shadow: 2px 2px 10px #888888;
+    border-style: none;
+    border-radius: 10px;
+    background-color: #F9F6F1;
+    padding: 2%;
+    padding-left: 5%;
+    margin: 1px;
+    width: 250px;
+    text-align: left;
+    height: 27px;
+    column-gap: 5%;
+    color:#747373
+}
+.subheadline {
     margin: 20px;
     font-size: 15px;
     color: #F5833F;
@@ -67,6 +85,7 @@ svg {
         "bottom bottom"
     ;
 }
+
 #whole-page2 {
     height: 100vh;
     display: grid;
@@ -105,9 +124,10 @@ svg {
     color: #F5833F;
     font-weight: bolder;
     transform: scale(1.1);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);    
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-.sidebar-subtext{
+
+.sidebar-subtext {
     font-size: 15px;
     color: #333;
     margin-left: 15%;
@@ -117,7 +137,7 @@ svg {
     color: #333;
     font-weight: bolder;
     transform: scale(1.1);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);    
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 #sidebar-logo {
@@ -162,10 +182,12 @@ svg {
 
     }
 }
+
 /* header small */
 .header-small {
     background-color: #F5833F;
 }
+
 #searchButton {
     color: #fff;
     border-color: #fff;
@@ -215,10 +237,14 @@ svg {
 
 /* slider bar */
 .song-info {
-    width: 200px; /* Set a specific width for the element */
-    overflow: hidden; /* Clip the text when it's too long */
-    white-space: nowrap; /* Prevent line breaks */
-    text-overflow: ellipsis; /* Display an ellipsis (...) for clipped text */
+    width: 200px;
+    /* Set a specific width for the element */
+    overflow: hidden;
+    /* Clip the text when it's too long */
+    white-space: nowrap;
+    /* Prevent line breaks */
+    text-overflow: ellipsis;
+    /* Display an ellipsis (...) for clipped text */
     order: 1;
 }
 
@@ -237,11 +263,11 @@ svg {
 }
 
 #sidebar-cover {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-  }
-  
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
 .slider-bar-progress {
     width: 50%;
@@ -257,7 +283,7 @@ svg {
 }
 
 #premiumPopup {
-    
+
     position: fixed;
     top: 50%;
     left: 50%;
@@ -272,52 +298,62 @@ svg {
 }
 
 #premiumForm {
- 
+    /* display: flex; */
     padding: 5%;
 }
-
-#premiumHeader > h1{
+#premiumHeader{
+    display: flex;
+}
+#premiumHeader>h1 {
     font-weight: bold;
 }
-#premiumHeader > h2{
+
+h2 {
     font-size: 19px;
     color: #F5833F;
 }
-#premiumHeader > h3{
+
+h3 {
     font-size: 13px;
 }
+
 #premiumtheForm {
     display: grid;
     grid-gap: 10px;
     grid-template-areas:
-      "label input";
-  }
-.form-box{
+        "label input";
+}
+
+.form-box {
     border-radius: 5px;
     border-style: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-  
 
-  
- 
-  
-  #cancelButton {
+
+
+
+
+#cancelButton {
     margin-left: auto;
-    
-  }
-  #premium-banner {
+}
+#cancelButton-in-update-popup {
+    margin-left: auto;
+}
+
+
+#premium-banner {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
-    
-  }
+
+}
 
 /* log out */
 #logOutPopup {
-  flex-direction: column;
-  align-items: center;
+    flex-direction: column;
+    align-items: center;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -338,9 +374,9 @@ svg {
     color: #F5833F;
     font-size: 18px;
     overflow: hidden;
-  text-overflow: ellipsis;
-  padding-top: 10%;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-top: 10%;
+    white-space: nowrap;
 }
 
 #photo-profile-container {
@@ -381,10 +417,10 @@ svg {
     width: 750px;
     height: 300px;
     padding: 3%;
-    
+
     align-items: center;
-    
-    background-color    : #f2f2f2;
+
+    background-color: #f2f2f2;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -393,60 +429,69 @@ svg {
 }
 
 #searchInput {
-    
+
     position: fixed;
     grid-area: search;
 }
 
 #searchCloseButton {
-    
+
     justify-self: end;
     grid-area: close;
 }
 
 #searchResults {
-    
-    display: inline-flex; /* Display the list items in a single line */
-    padding: 0; /* Remove any default padding */
-    margin: 0; /* Remove any default margin */
+
+    display: inline-flex;
+    /* Display the list items in a single line */
+    padding: 0;
+    /* Remove any default padding */
+    margin: 0;
+    /* Remove any default margin */
 }
+
 #searchResults-container {
     grid-area: songs;
 
-    overflow-x: auto; /* Enable horizontal scrolling */
-    white-space: nowrap; /* Prevent line breaks */
-  }
-/* Tampilan hasil pencarian */
-.search-result {
-  display: flex;
-  flex-direction: column;
-  margin: 7px;
-  min-width: 140px;
-  width: 150px;
-  height: 200px;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: box-shadow 1s ease;
-padding: 2%;
-  /* Text trimming */
-  overflow: hidden;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    white-space: nowrap;
+    /* Prevent line breaks */
 }
 
-#searchResults-songTitle{
+/* Tampilan hasil pencarian */
+.search-result {
+    display: flex;
+    flex-direction: column;
+    margin: 7px;
+    min-width: 140px;
+    width: 150px;
+    height: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: box-shadow 1s ease;
+    padding: 2%;
+    /* Text trimming */
+    overflow: hidden;
+}
+
+#searchResults-songTitle {
     font-size: 18px;
     font-weight: bold;
 }
-#searchResults-songArtist{
+
+#searchResults-songArtist {
     color: #F5833F;
 }
+
 .search-result span {
-  /* Text trimming */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    /* Text trimming */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
@@ -460,6 +505,7 @@ padding: 2%;
     color: #888;
     font-style: italic;
 }
+
 /* all button */
 .button {
 
@@ -485,7 +531,7 @@ padding: 2%;
 
 .songs h2 {
     color: #D7176C;
-    font-size: 22px;    
+    font-size: 22px;
     margin-bottom: 20px;
 }
 
@@ -512,9 +558,10 @@ padding: 2%;
     text-overflow: ellipsis;
     max-width: 150px;
 }
+
 #songsArtis {
     color: #F5833F;
-    
+
     margin-bottom: auto;
     white-space: nowrap;
     overflow: hidden;
@@ -525,7 +572,7 @@ padding: 2%;
 .songs .list .item {
     margin: 7px;
     min-width: 140px;
-    width: 200px;   
+    width: 200px;
     height: 250px;
     padding: 10px;
     background-color: #fff;
@@ -549,15 +596,17 @@ padding: 2%;
     max-width: 100%;
     max-height: 100%;
 }
+
 .discoverGenre img {
     max-width: 100%;
     max-height: 100%;
 }
+
 /* notuser */
 /* header admin/ledaer */
 #whole-page-notuser {
     background-color: #FFF8E4;
-    
+
     height: 100vh;
     display: grid;
     grid-template-columns: 30vh auto;
@@ -568,7 +617,7 @@ padding: 2%;
     ;
 }
 
-.adminBox{
+.adminBox {
     background-color: #fff;
     margin-top: 15px;
     margin-left: 15px;
@@ -577,7 +626,8 @@ padding: 2%;
     border-style: none;
     border-radius: 15px;
 }
-.adminBox-scroll{
+
+.adminBox-scroll {
     background-color: #fff;
     margin: 15px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -585,60 +635,67 @@ padding: 2%;
     border-radius: 15px;
     overflow: auto;
 }
-.admin-main-content{
+
+.admin-main-content {
     grid-area: main;
     display: grid;
     grid-template-columns: auto 60vh;
     grid-template-areas: "lefty righty";
 }
-#lefty{
+
+#lefty {
     grid-area: lefty;
     display: grid;
     grid-template-rows: 20vh 25vh auto;
     grid-template-areas: "row1 "
-    "row2" "row3";
+        "row2" "row3";
 }
-#row1{
+
+#row1 {
     grid-area: row1;
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-areas: "col1 col2 col3";
 }
-#col1{
+
+#col1 {
     grid-area: col1;
 
 }
 
-#col2{
+#col2 {
     grid-area: col2;
 }
 
-#col3{
+#col3 {
     grid-area: col3;
 }
 
-#row2{
+#row2 {
     grid-area: row2;
     display: grid;
     grid-template-columns: auto auto;
     grid-template-areas: "col10 col20 ";
 }
-#col20{
+
+#col20 {
     background-color: white;
 }
-#row3{
+
+#row3 {
     grid-area: row3;
     margin-right: 0px;
 }
 
-#righty{
+#righty {
     grid-area: righty;
 }
 
 
-.header-notuser{
+.header-notuser {
     background-color: #D7176C;
 }
+
 .round-button-notuser {
     height: 40px;
     width: 40px;
@@ -647,40 +704,48 @@ padding: 2%;
     background-color: #F5833F;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
+
 .sidebar-notuser {
     grid-area: side;
     background-color: #fff;
     width: 100%;
     position: relative;
 }
-.pimpinan-main-content{
+
+.pimpinan-main-content {
     display: grid;
     grid-template-columns: auto 40vh 40vh;
     grid-template-rows: 10vh auto auto;
-    grid-template-areas: 
-    "atas atas atas"
-    "sales topsongs topgenre"
-    "user topsongs topgenre";
-    
+    grid-template-areas:
+        "atas atas atas"
+        "sales topsongs topgenre"
+        "user topsongs topgenre";
+
 }
-#pimpinan-main-content-atas{
+
+#pimpinan-main-content-atas {
     margin-left: 15px;
     display: flex;
     grid-area: atas;
 }
-#pimpinan-main-content-sales{
+
+#pimpinan-main-content-sales {
     grid-area: sales;
 }
-#pimpinan-main-content-topsongs{
+
+#pimpinan-main-content-topsongs {
     grid-area: topsongs;
 }
-#pimpinan-main-content-topgenre{
+
+#pimpinan-main-content-topgenre {
     grid-area: topgenre;
 }
-#pimpinan-main-content-user{
+
+#pimpinan-main-content-user {
     grid-area: user;
 }
-#currentDate{
+
+#currentDate {
     margin-right: 15px;
     font-size: 30px;
     margin-left: auto;
@@ -699,28 +764,29 @@ padding: 2%;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-#go-button{
+
+#go-button {
     background-color: #F5833F;
     color: white;
     font-weight: bold;
     width: auto;
     height: 35px;
 }
-  
+
 #subgenreResults {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
-  
+
 #subgenreResults li {
     margin-bottom: 10px;
 }
-  
+
 #subgenreResults li span {
     display: block;
 }
-  
+
 #subgenreResults li img {
     width: 100px;
     height: 100px;
@@ -728,31 +794,35 @@ padding: 2%;
     margin-top: 10px;
 }
 
-.admintable{
+.admintable {
     display: grid;
     grid-template-rows: 20vh auto;
     grid-template-areas: "header"
-                         "result";
+        "result";
 }
-.admintable-header{
+
+.admintable-header {
     grid-area: header;
     display: grid;
     margin: 20px;
     grid-template-areas:
 
-    "admintable-header-leftTop admintable-header-rightTop"
-    "admintable-header-leftBtm admintable-header-rightBtm";
+        "admintable-header-leftTop admintable-header-rightTop"
+        "admintable-header-leftBtm admintable-header-rightBtm";
 }
-.admintable-header-headline{
-    grid-area:admintable-header-leftTop;
+
+.admintable-header-headline {
+    grid-area: admintable-header-leftTop;
     color: #D7176C;
 }
-#addDataButton{
-    grid-area:admintable-header-rightTop ;
+
+#addButton {
+    grid-area: admintable-header-rightTop;
     justify-self: end;
 }
-.admin-searchbar{
-    grid-area: admintable-header-leftBtm ;
+
+.admin-searchbar {
+    grid-area: admintable-header-leftBtm;
     background-color: transparent;
     border-radius: 50px;
     border-width: 3px;
@@ -761,7 +831,8 @@ padding: 2%;
     width: 300px;
     color: #D7176C;
 }
-.filter{
+
+.filter {
     display: flex;
     grid-area: admintable-header-rightBtm;
     width: 500px;
@@ -777,7 +848,8 @@ padding: 2%;
     gap: 7px;
 
 }
-.filtering{
+
+.filtering {
     height: 30px;
     border-style: none;
     background-color: #f2f2f2;
@@ -785,7 +857,8 @@ padding: 2%;
     border-radius: 10px;
     font-weight: bold;
 }
-.admintable-result{
+
+.admintable-result {
     grid-area: result;
     background-color: #fff;
     margin: 1%;
@@ -794,31 +867,64 @@ padding: 2%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
 
-  }
-  
-  table th{
+}
+
+table th {
     padding: 8px;
     /* border-right: 1px dotted #727272; */
     font-size: 20px;
-  }
-  table td {
+}
+
+table td {
     padding: 8px;
-    border-right:1px dotted #727272;
+    border-right: 1px dotted #727272;
 
-  }
-  tr:hover {
-    background-color: #e6e6e6; /* Hover color */
-  }
-  tr:nth-child(even) {
-    background-color: #faf1ec; /* Alternate row color */
-  }
+}
 
-  .action-button{
+tr:hover {
+    background-color: #e6e6e6;
+    /* Hover color */
+}
+
+tr:nth-child(even) {
+    background-color: #faf1ec;
+    /* Alternate row color */
+}
+
+.action-button {
+    background-color: transparent;
+    border-style: none;
     padding-left: 10px;
-    fill: #D7176C;
-  }
-  
+}
+
+#addDataPopUp {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+#updateDataPopUp {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
