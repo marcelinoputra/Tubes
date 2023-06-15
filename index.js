@@ -352,21 +352,15 @@ app.get('/mainAdmin', authAdmin, async (req, res) => {
             const nSongs = results[2][0].nSongs.toString();
             const nUsers = results[3][0].nUsers.toString();
             
-            console.log(results[0]);
-            console.log(nTimes);
-            console.log(nSongs);
-            console.log(nUsers);
-            console.log(results[4]);
-            console.log(results[5]);
-            
             res.render('mainAdmin', {
                 name: req.session.name,
                 image: image,
                 nTimes: nTimes,
                 nSongs: nSongs,
                 nUsers: nUsers,
+                top3Subgenre: results[4],
                 top3Genre: results[5],
-                top3Subgenre: results[4]
+                
             });
         }
     });

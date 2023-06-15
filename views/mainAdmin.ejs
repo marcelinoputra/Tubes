@@ -14,75 +14,89 @@
     <div class="sidebar-notuser">
       <img src="/assets/images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
       <div id="sidebar-text">
-        
-        <div class="sidebar-text" id="Admin-sidebar-overview" style="color: #F5833F; font-weight: bold;transform: scale(1.1)">Overview</div>
+
+        <div class="sidebar-text" id="Admin-sidebar-overview"
+          style="color: #F5833F; font-weight: bold;transform: scale(1.1)">Overview</div>
         <div class="sidebar-text" id="Admin-sidebar-songs">Songs</div>
         <div class="sidebar-text" id="Admin-sidebar-subgenre">Sub Genre</div>
-        <div class="sidebar-text" id="sidebar-genre"     >Genre</div>
+        <div class="sidebar-text" id="sidebar-genre">Genre</div>
       </div>
     </div>
     <div class="header-notuser">
       <button class="hidden" id="addButton"> Add data</button>
-      
+
       <button id="profile-btn" class="round-button-notuser">
         <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512">
-          <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
+          <path
+            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+        </svg>
       </button>
     </div>
-    <div class="admin-main-content">    
-      <div  id="lefty">
+    <div class="admin-main-content">
+      <div id="lefty">
         <div id="row1">
-          <div   class="adminBox" id="col1">
+          <div class="adminBox" id="col1">
             <h1 class="headline">Time Listened</h1>
-            <h2 class="hasilQuery"><%= nTimes %> Times</h2>
+            <h2 class="hasilQuery">
+              <%= nTimes %> Times
+            </h2>
             <!-- hasil query -->
           </div>
-          <div   class="adminBox" id="col2">
+          <div class="adminBox" id="col2">
             <h1 class="headline">Songs Uploaded</h1>
-            <h2 class="hasilQuery"><%= nSongs %> Songs</h2>
+            <h2 class="hasilQuery">
+              <%= nSongs %> Songs
+            </h2>
 
 
           </div>
-          <div   class="adminBox"  id="col3">
+          <div class="adminBox" id="col3">
             <h1 class="headline">Active User</h1>
-            <h2 class="hasilQuery"><%= nUsers %> Users</h2>
+            <h2 class="hasilQuery">
+              <%= nUsers %> Users
+            </h2>
 
 
           </div>
         </div>
         <div id="row2">
-          <div   class="adminBox" id="col10">
+          <div class="adminBox" id="col10">
             <h1 class="headline">Top 3 Genre</h1>
-            <% for(const row of top3Genre){ %>
-              <div class="topGenre">
-                <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="">
-                <%= row.nama %>
-              </div>
-            <% } %>
+            <div class="topContainer" style="display: flex;">
+              <% for(const row of top3Genre){ %>
+                <div class="list-top">
+                  <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
+                  <%= row.nama %>
+                </div>
+                <% } %>
+            </div>
+
           </div>
-          <div   class="adminBox" id="col20">
+          <div class="adminBox" id="col20">
             <h1 class="headline">Top 3 Sub Genre</h1>
-            <% for(const row of top3Subgenre){ %>
-              <div class="topSubgenre">
-                <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="">
-                <%= row.nama %>
-              </div>
-            <% } %>
+            <div class="topContainer" style="display: flex;">
+              <% for(const row of top3Subgenre){ %>
+                <div class="list-top">
+                  <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
+                  <%= row.nama %>
+                </div>
+                <% } %>
+            </div>
           </div>
         </div>
-        
+
         <div class="adminBox-scroll" id="row3">
           <h1 class="headline">Recently Played Songs</h1>
-          
+
         </div>
       </div>
       <div class="adminBox-scroll" id="righty">
         <h1 class="headline">Most Listened Songs</h1>
 
-        </div>
       </div>
-
     </div>
+
+  </div>
 
 
   </div>
@@ -96,14 +110,16 @@
         <% } %>
     </div>
 
-   
-    <h1>Hi there, <%= name %> </h1>
+
+    <h1>Hi there, <%= name %>
+    </h1>
 
 
-        <form action="/logout" method="post">
-          <input id="logOutButton" class="button" type="submit" value="Log out" />
-        </form>
+    <form action="/logout" method="post">
+      <input id="logOutButton" class="button" type="submit" value="Log out" />
+    </form>
 
   </div>
 </body>
+
 </html>
