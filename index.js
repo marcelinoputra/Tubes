@@ -336,8 +336,21 @@ app.get('/mainAdmin', authAdmin, async (req, res) => {
         ON subgenre.idGenre = genre.idGenre
         GROUP BY genre.idGenre
         ORDER BY COUNT(genre.idGenre) DESC
-        LIMIT 3`;
-        
+        LIMIT 3;
+        SELECT DISTINCT musik.cover, musik.judul, musik.artis,
+        subgenre.nama as subNama, genre.nama as genNama
+        FROM daftarputarmusik JOIN musik
+        ON daftarputarmusik.idMusik = musik.idMusik JOIN subgenre
+        ON musik.idSubGenre = subgenre.idSubGenre JOIN genre
+        ON subgenre.idGenre = genre.idGenre
+        ORDER BY daftarputarmusik.tglPutar DESC LIMIT 20;
+        SELECT musik.cover, musik.judul, musik.artis, 
+        COUNT(daftarputarmusik.idMusik) as jumlah
+        FROM musik JOIN daftarputarmusik
+        ON musik.idMusik = daftarputarmusik.idMusik
+        GROUP BY daftarputarmusik.idMusik
+        ORDER BY COUNT(daftarputarmusik.idMusik) DESC LIMIT 20`;
+
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
             console.error(err);
@@ -347,11 +360,11 @@ app.get('/mainAdmin', authAdmin, async (req, res) => {
             if (results.length > 0 && results[0].profilepic) {
                 image = Buffer.from(results[0].profilepic).toString('base64');
             }
-            
+
             const nTimes = results[1][0].nTimes.toString();
             const nSongs = results[2][0].nSongs.toString();
             const nUsers = results[3][0].nUsers.toString();
-            
+
             res.render('mainAdmin', {
                 name: req.session.name,
                 image: image,
@@ -360,7 +373,8 @@ app.get('/mainAdmin', authAdmin, async (req, res) => {
                 nUsers: nUsers,
                 top3Subgenre: results[4],
                 top3Genre: results[5],
-                
+                recentlyPlayed: results[6],
+                mostListened: results[7]
             });
         }
     });
@@ -368,13 +382,33 @@ app.get('/mainAdmin', authAdmin, async (req, res) => {
 
 app.get('/songsAdmin', authAdmin, async (req, res) => {
     const conn = await dbConnect();
+    const filterOption = req.query.optFilter;
+    const filterValue = req.query.filterVal;
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            let querySongs = `SELECT musik.cover, musik.judul, musik.artis,
+            musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
+            FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
+            JOIN genre ON subgenre.idGenre = genre.idGenre`;
+
+            if (filterOption && filterValue) {
+                // Add the filter conditions based on the selected option and filter value
+                if (filterOption === "genre") {
+                    querySongs += ` WHERE genre.nama = '${filterValue}'`;
+                } else if (filterOption === "subgenre") {
+                    querySongs += ` WHERE subgenre.nama = '${filterValue}'`;
+                } else if (filterOption === "artist") {
+                    querySongs += ` WHERE musik.artis = '${filterValue}'`;
+                } else if(filterOption === "createdDate") {
+                    querySongs += ` WHERE musik.tglRIlis = '${filterValue}'`;
+                }
+            }
+
             conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
@@ -394,6 +428,7 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
         }
     });
 });
+
 
 app.get('/subgenreAdmin', async (req, res) => {
     const conn = await dbConnect();

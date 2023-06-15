@@ -87,12 +87,35 @@
 
         <div class="adminBox-scroll" id="row3">
           <h1 class="headline">Recently Played Songs</h1>
-
+          <table>
+            <% for(const row of recentlyPlayed){ %>
+            <tr>
+              <td>
+                <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
+              </td>
+              <td><%= row.judul %></td>
+              <td><%= row.artis %></td>
+              <td><%= row.subNama %></td>
+              <td><%= row.genNama %></td>
+            </tr>
+            <% } %>
+          </table>
         </div>
       </div>
       <div class="adminBox-scroll" id="righty">
         <h1 class="headline">Most Listened Songs</h1>
-
+        <table>
+          <% for(const row of mostListened){ %>
+          <tr>
+            <td>
+              <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
+            </td>
+            <td><%= row.judul %></td>
+            <td><%= row.artis %></td>
+            <td><%= row.jumlah %> Played</td>
+          </tr>
+          <% } %>
+        </table>
       </div>
     </div>
 
