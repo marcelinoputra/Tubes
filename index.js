@@ -145,6 +145,25 @@ app.get('/', authMember, async (req, res) => {
     });
 });
 
+app.post('/applypremium', async (req, res) => {
+    const fullname = req.body.fullName;
+    const address = req.body.address;
+    const carnumber = req.body.cardnumber;
+    const paket = req.body.package;
+    const tglBayar = getCurrentDate();
+    const query = `INSERT INTO pembayaran (tgl_Bayar, isVerified, paket, username) VALUES (?, ?, ?, ?) `;
+    console.log(req.session.username);
+    console.log(paket);
+    pool.query(query, [tglBayar, 1, paket, req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            res.redirect('/');
+        }
+    });
+});
+
 app.get('/discoverUser', authMember, async (req, res) => {
     const conn = await dbConnect();
     const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
@@ -321,7 +340,7 @@ app.get('/mainAdmin', authAdmin, async (req, res) => {
         SELECT profilepic FROM pengguna WHERE username = ?;
         SELECT COUNT(*) AS nTimes FROM daftarputarmusik;
         SELECT COUNT(*) AS nSongs FROM musik;
-        SELECT COUNT(*) AS nUsers FROM pengguna;
+        SELECT COUNT(*) AS nUsers FROM pengguna WHERE isActive = 1;
         SELECT subgenre.nama, subgenre.cover, COUNT(subgenre.idSubGenre) AS countSubgenre
         FROM daftarputarmusik JOIN musik
         ON daftarputarmusik.idMusik = musik.idMusik JOIN subgenre
@@ -404,8 +423,8 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
                     querySongs += ` WHERE subgenre.nama = '${filterValue}'`;
                 } else if (filterOption === "artist") {
                     querySongs += ` WHERE musik.artis = '${filterValue}'`;
-                } else if(filterOption === "createdDate") {
-                    querySongs += ` WHERE musik.tglRIlis = '${filterValue}'`;
+                } else if (filterOption === "releaseDate") {
+                    querySongs += ` WHERE musik.tglRIlis LIKE '%${filterValue}%'`;
                 }
             }
 

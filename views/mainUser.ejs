@@ -127,7 +127,7 @@
         <input class="form-box" type="text" id="address" name="address" />
 
         <label  for="cardNumber">Card number</label>
-        <input class="form-box" type="text" id="fullName" name="fullName" />
+        <input class="form-box" type="text" id="fullName" name="cardnumber" />
 
         <label  for="package">Package</label>
         <div>
@@ -154,7 +154,7 @@
 
   <!--buat logout-->
   <div id="logOutPopup" class="hidden">
-    <div id="photo-profile-container">
+    <div id="photo-profile-container">  
       <% if(image) { %>
         <img id="photo-profile" src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
         <% } %>
