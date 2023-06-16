@@ -403,7 +403,8 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
     const conn = await dbConnect();
     const filterOption = req.query.optFilter;
     const filterValue = req.query.filterVal;
-    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?;
+    SELECT nama FROM subgenre`;
 
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
@@ -440,7 +441,8 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
                     res.render('songsAdmin', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        results: results2,
+                        namaSubgenre: results[1]
                     });
                 }
             });
@@ -448,42 +450,98 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
     });
 });
 
+app.post('/addSongs', upload.single('songscover'), (req, res) => {
+    const songsTitle = req.body.songsTitle;
+    const artist = req.body.artist;
+    const createdAt = req.body['created-at'];
+    const subgenre = req.body.subgenre;
+    // Check if req.file exists before accessing its path property
+    if (req.file && req.file.path) {
+        // Mengambil ID subgenre berdasarkan nama subgenre
+        const queryGetSubgenreId = 'SELECT idSubGenre FROM subgenre WHERE nama = ?';
+        pool.query(queryGetSubgenreId, [subgenre], (err, results) => {
+            if (err) {
+                console.error('Error getting subgenre ID from database:', err);
+                res.sendStatus(500);
+                return;
+            }
+
+            if (results.length === 0) {
+                console.error('Subgenre not found');
+                res.sendStatus(404);
+                return;
+            }
+
+            const subgenreId = results[0].idSubGenre;
+
+            // Membaca isi file yang diunggah
+            const fileData = fs.readFileSync(req.file.path);
+
+            // Menyimpan data ke tabel songs
+            const queryInsertSong = 'INSERT INTO musik (judul, artis, tglRilis, idSubGenre, cover) VALUES (?, ?, ?, ?, ?)';
+            pool.query(queryInsertSong, [songsTitle, artist, createdAt, subgenreId, fileData], (err, result) => {
+                if (err) {
+                    console.error('Error saving song data to MySQL:', err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                // Mendapatkan ID songs yang baru saja di-insert
+                const newSongId = result.insertId;
+
+                // Menyimpan file ke sistem file dengan menggunakan ID songs sebagai nama file
+                const filePath = `uploads/${newSongId}.jpg`;
+                fs.writeFileSync(filePath, fileData);
+
+                res.redirect('/songsAdmin');
+            });
+        });
+
+    } else {
+        // Handle the case when no file is uploaded
+        console.log('No file uploaded');
+        // ... any additional error handling or response as needed
+    }
+});
+
+
+
 app.get('/searchAdmin', (req, res) => {
     const searchValue = req.query.query;
-  
+
     // Query the database to get filtered results based on the search value
     pool.query(
-      `SELECT musik.idMusik, musik.cover, musik.judul, musik.artis,
+        `SELECT musik.idMusik, musik.cover, musik.judul, musik.artis,
       musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
       FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
       JOIN genre ON subgenre.idGenre = genre.idGenre 
       WHERE musik.judul LIKE ? OR musik.artis LIKE ?`,
-      [`%${searchValue}%`, `%${searchValue}%`],
-      (error, results) => {
-        if (error) {
-          // If an error occurs during the query
-          res.status(500).json({ error: 'Database error' });
-        } else {
-          // If the query is successful, send the filtered results to the client
-          const filteredResults = results.map((music) => {
-            return {
-              idMusik: music.idMusik,
-              cover: music.cover,
-              judul: music.judul,
-              artis: music.artis,
-              tglRilis: music.tglRilis,
-              subNama: music.subNama,
-              genNama: music.genNama,
-              // Add more attributes as needed
-            };
-          });
-          res.json(filteredResults);
+        [`%${searchValue}%`, `%${searchValue}%`],
+        (error, results) => {
+            if (error) {
+                // If an error occurs during the query
+                res.status(500).json({ error: 'Database error' });
+            } else {
+                // If the query is successful, send the filtered results to the client
+                const filteredResults = results.map((music) => {
+                    return {
+                        idMusik: music.idMusik,
+                        cover: music.cover,
+                        judul: music.judul,
+                        artis: music.artis,
+                        tglRilis: music.tglRilis,
+                        subNama: music.subNama,
+                        genNama: music.genNama,
+                        // Add more attributes as needed
+                    };
+                });
+                res.json(filteredResults);
+            }
         }
-      }
     );
-  });
-  
-  
+});
+
+
 
 app.get('/subgenreAdmin', async (req, res) => {
     const conn = await dbConnect();

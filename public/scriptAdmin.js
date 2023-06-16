@@ -29,12 +29,7 @@ adminSidebarGenre.addEventListener("click", () => {
   window.location.href = "/genreAdmin";
 });
 
-// document.getElementById("cancelButton").addEventListener("click", function () {
-//   document.getElementById("addDataPopUp").classList.add("hidden");
-// });
-document.getElementById("cancelButton-in-update-popup").addEventListener("click", function () {
-  document.getElementById("updateDataPopUp").classList.add("hidden");
-});
+
 
 
 const buttons = document.querySelectorAll('#pencil-button');

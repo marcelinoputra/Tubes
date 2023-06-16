@@ -11,10 +11,6 @@ document.getElementById("searchCloseButton").addEventListener("click", () => {
   document.getElementById("searchPopup").style.display = "none";
 });
 
-
-
-
-
 searchInput.addEventListener("input", function () {
   const searchQuery = searchInput.value.trim().toLowerCase();
 

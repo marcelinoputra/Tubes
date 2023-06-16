@@ -145,7 +145,7 @@
         </button>
       </div>
 
-      <form method="post" action="" id="premiumtheForm">
+      <form method="post" action="/addSongs" id="premiumtheForm" enctype="multipart/form-data">
         <label for="songsTitle">Songs title</label>
         <input class="form-box" type="text" id="songsTitle" name="songsTitle" />
 
@@ -158,8 +158,10 @@
         <input class="form-box" type="date" id="created-at" name="created-at" />
 
         <label for="subgenre">Sub genre</label>
-        <select class="form-box">
-          <!-- dropdown sub genre, optionny dari table subgenre -->
+        <select class="form-box" name="subgenre">
+          <% for (let i = 0; i < namaSubgenre.length; i++) { %>
+            <option value="<%= namaSubgenre[i].nama %>"><%= namaSubgenre[i].nama %></option>
+          <% } %>
         </select>
         <label for="songscover">Songs cover</label>
         <div class="form-box">
@@ -233,6 +235,15 @@
     </form>
 
   </div>
+  <script>
+    document.getElementById("cancelButton").addEventListener("click", function () {
+      document.getElementById("addDataPopUp").classList.add("hidden");
+    });
+
+    document.getElementById("cancelButton-in-update-popup").addEventListener("click", function () {
+      document.getElementById("updateDataPopUp").classList.add("hidden");
+    });
+  </script>
 </body>
 
 </html>
