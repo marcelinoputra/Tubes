@@ -410,7 +410,7 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            let querySongs = `SELECT musik.cover, musik.judul, musik.artis,
+            let querySongs = `SELECT musik.idMusik, musik.cover, musik.judul, musik.artis,
             musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
             FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
             JOIN genre ON subgenre.idGenre = genre.idGenre`;
@@ -448,6 +448,42 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
     });
 });
 
+app.get('/searchAdmin', (req, res) => {
+    const searchValue = req.query.query;
+  
+    // Query the database to get filtered results based on the search value
+    pool.query(
+      `SELECT musik.idMusik, musik.cover, musik.judul, musik.artis,
+      musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
+      FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
+      JOIN genre ON subgenre.idGenre = genre.idGenre 
+      WHERE musik.judul LIKE ? OR musik.artis LIKE ?`,
+      [`%${searchValue}%`, `%${searchValue}%`],
+      (error, results) => {
+        if (error) {
+          // If an error occurs during the query
+          res.status(500).json({ error: 'Database error' });
+        } else {
+          // If the query is successful, send the filtered results to the client
+          const filteredResults = results.map((music) => {
+            return {
+              idMusik: music.idMusik,
+              cover: music.cover,
+              judul: music.judul,
+              artis: music.artis,
+              tglRilis: music.tglRilis,
+              subNama: music.subNama,
+              genNama: music.genNama,
+              // Add more attributes as needed
+            };
+          });
+          res.json(filteredResults);
+        }
+      }
+    );
+  });
+  
+  
 
 app.get('/subgenreAdmin', async (req, res) => {
     const conn = await dbConnect();

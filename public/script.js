@@ -184,7 +184,7 @@ sidebarGenre.addEventListener('click', () => {
 
 
 
-// Mengambil elemen-elemen yang diperlukans
+// Mengambil elemen-elemen yang diperlukan
 const items = document.querySelectorAll('.subgenre');
 const popupSubgenre = document.getElementById('popupSubgenre');
 const subGenreTitle = document.querySelector('#popupSubgenre h2');
@@ -244,7 +244,7 @@ items.forEach(item => {
 });
 
 
-// Mengambil elemen-elemen yang diperlukans
+// Mengambil elemen-elemen yang diperlukan
 const itemsGenre = document.querySelectorAll('.genre');
 const popupGenre = document.getElementById('popupGenre');
 const genreTitle = document.querySelector('#popupGenre h2');
@@ -302,6 +302,7 @@ itemsGenre.forEach(item => {
     }
   });
 });
+
 
 
 
