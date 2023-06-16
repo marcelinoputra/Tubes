@@ -62,7 +62,7 @@
         <div id="row2">
           <div class="adminBox" id="col10">
             <h1 class="headline">Top 3 Genre</h1>
-            <div class="topContainer" style="display: flex;">
+            <div class="topContainer" >
               <% for(const row of top3Genre){ %>
                 <div class="list-top">
                   <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
@@ -74,7 +74,7 @@
           </div>
           <div class="adminBox" id="col20">
             <h1 class="headline">Top 3 Sub Genre</h1>
-            <div class="topContainer" style="display: flex;">
+            <div class="topContainer" >
               <% for(const row of top3Subgenre){ %>
                 <div class="list-top">
                   <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
