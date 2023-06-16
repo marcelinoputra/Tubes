@@ -66,9 +66,11 @@
               <% for(const row of top3Genre){ %>
                 <div class="list-top">
                   <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
-                  <%= row.nama %>
+                  <h4>
+                    <%= row.nama %>
+                  </h4>
                 </div>
-                <% } %>
+              <% } %>
             </div>
 
           </div>
@@ -78,7 +80,9 @@
               <% for(const row of top3Subgenre){ %>
                 <div class="list-top">
                   <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
-                  <%= row.nama %>
+                  <h4>
+                    <%= row.nama %>
+                  </h4>
                 </div>
                 <% } %>
             </div>
@@ -87,34 +91,55 @@
 
         <div class="adminBox-scroll" id="row3">
           <h1 class="headline">Recently Played Songs</h1>
-          <table>
+          <table id="recentlyPlayedSongs">
+            <thead>
+              <tr>
+                <th id="recentlyPlayedSongsCover">Cover</th>
+                <th id="recentlyPlayedSongsTitle">Song title</th>
+                <th id="recentlyPlayedSongsArtist">Artist</th>
+                <th id="recentlyPlayedSongsSubGenre">Sub genre</th>
+                <th id="recentlyPlayedSongsGenre">Genre</th>
+              </tr>
+            </thead>
+           <tbody>
             <% for(const row of recentlyPlayed){ %>
-            <tr>
-              <td>
-                <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
-              </td>
-              <td><%= row.judul %></td>
-              <td><%= row.artis %></td>
-              <td><%= row.subNama %></td>
-              <td><%= row.genNama %></td>
-            </tr>
-            <% } %>
+              <tr>
+                <td id="recentlyPlayedSongsCover">
+                  <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
+                </td>
+                <td id="recentlyPlayedSongsTitle"><%= row.judul %></td>
+                <td id="recentlyPlayedSongsArtist"><%= row.artis %></td>
+                <td id="recentlyPlayedSongsSubGenre"><%= row.subNama %></td>
+                <td id="recentlyPlayedSongsGenre"><%= row.genNama %></td>
+              </tr>
+              <% } %>
+           </tbody>
           </table>
         </div>
       </div>
       <div class="adminBox-scroll" id="righty">
         <h1 class="headline">Most Listened Songs</h1>
-        <table>
-          <% for(const row of mostListened){ %>
-          <tr>
-            <td>
-              <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
-            </td>
-            <td><%= row.judul %></td>
-            <td><%= row.artis %></td>
-            <td><%= row.jumlah %> Played</td>
-          </tr>
-          <% } %>
+        <table id="recentlyPlayedSongs">
+          <thead>
+            <tr>
+              <th id="recentlyPlayedSongsCover">Cover</th>
+              <th id="recentlyPlayedSongsTitle">Song title</th>
+              <!-- <th id="recentlyPlayedSongsArtist">Artist</th> -->
+              <th id="recentlyPlayedSongsSubGenre">Playtime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(const row of mostListened){ %>
+              <tr>
+                <td>
+                  <img id="recentlyPlayedSongsCover" src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>">
+                </td>
+                <td><%= row.judul %></td>
+                <!-- <td><%= row.artis %></td> -->
+                <td><%= row.jumlah %> Times</td>
+              </tr>
+              <% } %>
+          </tbody>
         </table>
       </div>
     </div>

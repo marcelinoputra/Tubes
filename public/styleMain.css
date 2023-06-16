@@ -19,7 +19,8 @@ body {
     font-size: 35px;
     color: #F5833F;
 }
-.userBox{
+
+.userBox {
     display: flex;
     font-size: 15px;
     box-shadow: 2px 2px 10px #888888;
@@ -33,8 +34,9 @@ body {
     text-align: left;
     height: 27px;
     column-gap: 5%;
-    color:#747373
+    color: #747373
 }
+
 .subheadline {
     margin: 20px;
     font-size: 15px;
@@ -300,9 +302,11 @@ svg {
 #premiumForm {
     padding: 5%;
 }
-#premiumHeader{
+
+#premiumHeader {
     display: flex;
 }
+
 #premiumHeader>h1 {
     font-weight: bold;
 }
@@ -336,6 +340,7 @@ h3 {
 #cancelButton {
     margin-left: auto;
 }
+
 #cancelButton-in-update-popup {
     margin-left: auto;
 }
@@ -633,22 +638,25 @@ h3 {
     border-style: none;
     border-radius: 15px;
     overflow: auto;
+    height: 100%;
 }
 
 .admin-main-content {
     grid-area: main;
     display: grid;
     grid-template-columns: auto 60vh;
+    grid-template-rows: 85vh;
     grid-template-areas: "lefty righty";
 }
 
 #lefty {
     grid-area: lefty;
     display: grid;
-    grid-template-rows: 20vh 25vh auto;
+    grid-template-rows: 20vh 25vh 40vh;
     grid-template-areas: "row1 "
         "row2" "row3";
 }
+
 
 #row1 {
     grid-area: row1;
@@ -673,21 +681,35 @@ h3 {
 #row2 {
     grid-area: row2;
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-areas: "col10 col20 ";
-}
+    grid-template-columns: 50% 50%;
 
-#col20 {
-    background-color: white;
 }
 
 #row3 {
+    height: 100%;
     grid-area: row3;
     margin-right: 0px;
 }
 
+
+
+
+
+
 #righty {
+    height: 100%;
+    margin-right: 0px;
     grid-area: righty;
+}
+#righty table img{
+    height: 50px;
+    width: 50px;
+    background-color: #D7176C;
+}
+#righty table tr th{
+    color: #F5833F;
+    text-align: left;
+    font-size: 20px;
 }
 
 
@@ -710,6 +732,7 @@ h3 {
     width: 100%;
     position: relative;
 }
+
 .pimpinan-notmain-content {
     display: grid;
     grid-template-columns: 40vh auto;
@@ -718,45 +741,52 @@ h3 {
         "atas atas"
         "lefty righty";
 }
-.pimpinan-notmain-content-atas{
+
+.pimpinan-notmain-content-atas {
     grid-area: atas;
     display: grid;
     grid-template-areas: "pimpinan-notmain-content-atas-atas"
-               "pimpinan-notmain-content-atas-bawah";
+        "pimpinan-notmain-content-atas-bawah";
 }
-.pimpinan-notmain-content-atas-atas{
+
+.pimpinan-notmain-content-atas-atas {
     margin-left: 15px;
     margin-right: 15px;
     grid-area: pimpinan-notmain-content-atas-atas;
     display: flex;
 }
-.pimpinan-notmain-content-atas-bawah{
+
+.pimpinan-notmain-content-atas-bawah {
     margin-left: 15px;
     margin-right: 15px;
     grid-area: pimpinan-notmain-content-atas-bawah;
     display: flex;
 }
 
-.pimpinan-notmain-content-left{
+.pimpinan-notmain-content-left {
     grid-area: lefty;
     display: grid;
     grid-template-areas: "new-user"
-    "total-user"
-    "sales-this-month";
+        "total-user"
+        "sales-this-month";
     grid-template-rows: auto auto auto;
 
 }
-#new-user{
+
+#new-user {
     grid-area: new-user;
 
 }
-#total-user{
+
+#total-user {
     grid-area: total-user;
 }
-#sales-this-month{
+
+#sales-this-month {
     grid-area: sales-this-month;
 }
-.pimpinan-notmain-content-right{
+
+.pimpinan-notmain-content-right {
     grid-area: righty;
     background-color: #fff;
     margin-top: 15px;
@@ -766,6 +796,7 @@ h3 {
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 .pimpinan-main-content {
     display: grid;
     grid-template-columns: auto 40vh 40vh;
@@ -846,34 +877,38 @@ h3 {
     margin: 0;
 }
 
-.topContainer{
+.topContainer {
     display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
     margin: 10px;
+    gap: 5%;
 }
-.list-top{
-    display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-    margin: 7px;
-    min-width: 140px;
-    height: 100px;
-    width: 50px;
-    background-color: #fff;
+
+.list-top {
+    display: block;
+    background-color: #F9F6F1;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+     overflow: hidden;
     text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-    
+    white-space: nowrap;
+    padding-left: 1%;
+    padding-top: 2%;
+    text-align: center;
 }
+
+h4 {
+    margin-top: 0%;
+    margin-bottom: 1%;
+    font-size: 15px;
+}
+
 .list-top img {
-    
-    height: 50px;
-    width: 50px;
-  }
+
+    height: 55%;
+    width: 55%;
+}
 
 #subgenreResults li {
     margin-bottom: 10px;
@@ -897,6 +932,38 @@ h3 {
     margin-top: 10px;
 }
 
+#row3 table img{
+    height: 50px;
+    width: 50px;
+    background-color: #D7176C;
+}
+#row3 table tr th{
+    color: #F5833F;
+    text-align: left;
+    font-size: 20px;
+}
+#recentlyPlayedSongs{
+    margin: 2%;
+    width: 95%;
+}
+#recentlyPlayedSongsCover{
+    width: 5%;
+}
+#recentlyPlayedSongsTitle{
+    width: 15%;
+}
+#recentlyPlayedSongsArtist{
+    width: 10%;
+}
+#recentlyPlayedSongsGenre{
+    width: 10%;
+    border-right: none;
+    
+}
+#recentlyPlayedSongsSubGenre{
+    width: 10%;
+
+}
 .admintable {
     display: grid;
     grid-template-rows: 20vh auto;
@@ -975,18 +1042,26 @@ h3 {
 table {
     width: 100%;
     border-collapse: collapse;
-
-}
+    table-layout: fixed;
+  }
 
 table th {
     padding: 8px;
     /* border-right: 1px dotted #727272; */
     font-size: 20px;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 25%;
 }
 
 table td {
     padding: 8px;
     border-right: 1px dotted #727272;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 25%;
 
 }
 
@@ -1019,6 +1094,7 @@ tr:nth-child(even) {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
+
 #updateDataPopUp {
     position: fixed;
     top: 50%;
