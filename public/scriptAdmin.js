@@ -110,12 +110,14 @@ const songTableBody = document.getElementById('song-table-body');
 
 // Menangani peristiwa klik menggunakan delegasi peristiwa
 songTableBody.addEventListener('click', function(event) {
+  
   // Memeriksa apakah peristiwa berasal dari tombol delete
   if (event.target.classList.contains('trash-button')) {
+    console.log("tes");
     const trashButton = event.target;
     const songId = trashButton.getAttribute('data-song-id');
 
-    // Mengirim permintaan penghapusan ke server
+    // // Mengirim permintaan penghapusan ke server
     fetch(`/songs/${songId}`, {
       method: 'DELETE'
     })
