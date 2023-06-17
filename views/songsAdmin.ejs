@@ -203,7 +203,7 @@
         </button>
       </div>
 
-      <form method="post" action="/updateSong" id="premiumtheForm">
+      <form method="post" action="/updateSong" id="premiumtheForm" enctype="multipart/form-data">
         <input type="hidden" name="idMusik" id="idMusik">
 
         <label for="songsTitle">Songs title</label>
@@ -262,6 +262,17 @@
 
     document.getElementById("cancelButton-in-update-popup").addEventListener("click", function () {
       document.getElementById("updateDataPopUp").classList.add("hidden");
+    });
+
+    const buttons = document.querySelectorAll('.pencil-button');
+    buttons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        document.getElementById('updateDataPopUp').classList.toggle("hidden");
+        const idMusik = event.target.getAttribute('data-song-id');
+        // Mengisi nilai input tersembunyi dengan idMusik dan idSubgenre
+        const hiddenInputIdMusik = document.getElementById('idMusik');
+        hiddenInputIdMusik.value = idMusik;
+      });
     });
   </script>
 </body>

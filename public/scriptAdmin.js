@@ -29,17 +29,6 @@ adminSidebarGenre.addEventListener("click", () => {
   window.location.href = "/genreAdmin";
 });
 
-const buttons = document.querySelectorAll('.pencil-button');
-buttons.forEach(button => {
-  button.addEventListener('click', (event) => {
-    document.getElementById('updateDataPopUp').classList.toggle("hidden");
-    const idMusik = event.target.getAttribute('data-song-id');
-
-    // Mengisi nilai input tersembunyi dengan idMusik
-    const hiddenInput = document.getElementById('idMusik');
-    hiddenInput.value = idMusik;
-  });
-});
 
 
 // Search songsAdmin 
@@ -125,16 +114,6 @@ songTableBody.addEventListener('click', function (event) {
 });
 
 //search subgenreAdmin
-
-let searchSub = document.getElementById('admin-searchbar-sub');
-searchSub.addEventListener('input', async () => {
-  const searchValue = searchSub.value.trim().toLowerCase();
-  if (searchValue !== "") {
-    console.log("tes")
-    performSearchSubgenre(searchValue);
-  }
-});
-
 function performSearchSubgenre(query) {
   fetch(`/searchSubgenreAdmin?query=${query}`)
     .then((response) => response.json())

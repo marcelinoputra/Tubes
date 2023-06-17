@@ -92,12 +92,12 @@
                     <td id="action">
                       <!-- edit button -->
                       <button class="pencil-button button" style="
-                      height:10%; width:30%;" data-song-id="<%= sub.idSubGenre %>">
+                      height:10%; width:30%;" data-subgenre-id="<%= sub.idSubGenre %>">
                         Edit
                       </button>
                       <!-- delete button -->
                       <button class="trash-button button" style="
-                      height:10%; width:30%;" data-song-id="<%= sub.idSubGenre %>">
+                      height:10%; width:30%;" data-subgenre-id="<%= sub.idSubGenre %>">
                         Delete
                       </button>
                     </td>
@@ -180,8 +180,9 @@
         </button>
       </div>
 
-      <form method="post" action="/updateSong" id="premiumtheForm">
-        <input type="hidden" name="idMusik" id="idMusik">
+      <form method="post" action="/updateSubgenre" id="premiumtheForm" enctype="multipart/form-data">
+
+        <input type="hidden" name="idSubgenre" id="idSubgenre">
 
         <label for="namaSubgenre">Nama Subgenre</label>
         <input class="form-box" type="text" id="namaSubgenre" name="namaSubgenre" />
@@ -195,9 +196,9 @@
             <% } %>
               <!-- dropdown sub genre, optionny dari table subgenre -->
         </select>
-        <label for="songscover">Songs cover</label>
+        <label for="subgenreCover">Songs cover</label>
         <div class="form-box">
-          <input type="file" name="songscover"><br>
+          <input type="file" name="subgenreCover"><br>
         </div>
 
         <input class="button" id="add-button-in-popup" type="submit" value="Update" />
@@ -227,12 +228,32 @@
 
   </div>
   <script>
+    let searchSub = document.getElementById('admin-searchbar-sub');
+    searchSub.addEventListener('input', async () => {
+      const searchValue = searchSub.value.trim().toLowerCase();
+      if (searchValue !== "") {
+        console.log("tes")
+        performSearchSubgenre(searchValue);
+      }
+    });
     document.getElementById("cancelButton").addEventListener("click", function () {
       document.getElementById("addDataPopUp").classList.add("hidden");
     });
 
     document.getElementById("cancelButton-in-update-popup").addEventListener("click", function () {
       document.getElementById("updateDataPopUp").classList.add("hidden");
+    });
+
+    const buttons = document.querySelectorAll('.pencil-button');
+    buttons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        document.getElementById('updateDataPopUp').classList.toggle("hidden");
+        const idSubgenre = event.target.getAttribute('data-subgenre-id'); // Updated attribute name
+        console.log(idSubgenre);
+        // Mengisi nilai input tersembunyi dengan idMusik dan idSubgenre
+        const hiddenInputIdSubgenre = document.getElementById('idSubgenre');
+        hiddenInputIdSubgenre.value = idSubgenre;
+      });
     });
   </script>
 </body>

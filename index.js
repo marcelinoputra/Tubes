@@ -568,7 +568,7 @@ app.delete('/songs/:id', (req, res) => {
     });
 });
 
-app.post('/updateSong', authAdmin, async (req, res) => {
+app.post('/updateSong', authAdmin, upload.single('songscover'), async (req, res) => {
     const conn = await dbConnect();
 
     // Mendapatkan nilai-nilai yang dikirimkan melalui formulir
@@ -577,6 +577,7 @@ app.post('/updateSong', authAdmin, async (req, res) => {
     const artis = req.body.artist;
     const tglRilis = req.body['created-at'];
     const subgenre = req.body.subgenre; // Nama subgenre yang dikirim dari formulir
+    const coverImage = req.file ? req.file.path : null; // Nama subgenre yang dikirim dari formulir
 
     // Lakukan query untuk mendapatkan idSubGenre berdasarkan nama subgenre
     const getSubGenreQuery = 'SELECT * FROM subgenre WHERE nama = ?';
@@ -585,7 +586,7 @@ app.post('/updateSong', authAdmin, async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            console.log(result);
+
             const idSubGenre = result[0].idSubGenre; // Mengambil idSubGenre dari hasil query
 
             // Lakukan query untuk mendapatkan data lagu yang akan diupdate
@@ -602,12 +603,18 @@ app.post('/updateSong', authAdmin, async (req, res) => {
                     const updatedArtis = artis || existingSong.artis;
                     const updatedTglRilis = tglRilis || existingSong.tglRilis;
                     const updatedIdSubGenre = subgenre ? idSubGenre : existingSong.idSubGenre;
-
+                    // Check if a new cover image is uploaded
+                    const updatedCover = coverImage !== null ? coverImage : existingSong && existingSong.cover || null;
+                    console.log(updatedJudul);
+                    console.log(updatedArtis);
+                    console.log(updatedTglRilis);
+                    console.log(updatedIdSubGenre);
+                    console.log(idMusik);
                     // Lakukan update data di MySQL
-                    const updateQuery = 'UPDATE musik SET judul = ?, artis = ?, tglRilis = ?, idSubGenre = ? WHERE idMusik = ?';
+                    const updateQuery = 'UPDATE musik SET judul = ?, artis = ?, tglRilis = ?, idSubGenre = ?, cover = ? WHERE idMusik = ?';
                     conn.query(
                         updateQuery,
-                        [updatedJudul, updatedArtis, updatedTglRilis, updatedIdSubGenre, idMusik],
+                        [updatedJudul, updatedArtis, updatedTglRilis, updatedIdSubGenre, updatedCover, idMusik],
                         (err, result) => {
                             if (err) {
                                 console.error(err);
@@ -623,6 +630,60 @@ app.post('/updateSong', authAdmin, async (req, res) => {
         }
     });
 });
+
+
+app.post('/updateSubgenre', upload.single('subgenreCover'), async (req, res) => {
+    const conn = await dbConnect();
+  
+    // Mendapatkan nilai-nilai yang dikirimkan melalui formulir
+    const idSubgenre = req.body.idSubgenre;
+    const namaSub = req.body.namaSubgenre;
+    const namaGenre = req.body.genre;
+    const coverImage = req.file ? req.file.path : null;
+  
+    // Lakukan query untuk mendapatkan idGenre berdasarkan nama genre
+    const getGenreQuery = 'SELECT * FROM genre WHERE nama = ?';
+    conn.query(getGenreQuery, [namaGenre], (err, genreResult) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(500);
+      } else {
+        const idGenre = genreResult[0].idGenre; // Mengambil idGenre dari hasil query
+  
+        // Lakukan query untuk mendapatkan data subgenre yang akan diupdate
+        const getSubgenreQuery = 'SELECT * FROM Subgenre WHERE idSubGenre = ?';
+        conn.query(getSubgenreQuery, [idSubgenre], (err, subgenreResult) => {
+          if (err) {
+            console.error(err);
+            res.sendStatus(500);
+          } else {
+            const existingSubgenre = subgenreResult[0]; // Data subgenre yang sudah ada
+  
+            // Periksa jika nilai nama subgenre atau idGenre kosong atau tidak diubah
+            const updatedNamaSub = namaSub || existingSubgenre.nama;
+            const updatedIdGenre = idGenre || existingSubgenre.idGenre;
+            // Periksa jika ada cover image baru diunggah
+            const updatedCover = coverImage !== null ? fs.readFileSync(coverImage) : existingSubgenre.cover;
+            // Lakukan update data di MySQL
+            const updateQuery = 'UPDATE subgenre SET nama = ?, idGenre = ?, cover = ? WHERE idSubGenre = ?';
+            conn.query(updateQuery, [updatedNamaSub, updatedIdGenre, updatedCover, idSubgenre], (err, result) => {
+              if (err) {
+                console.error(err);
+                res.sendStatus(500);
+              } else {
+                console.log('Data berhasil diupdate');
+                res.redirect('/subgenreAdmin');
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+  
+  
+
+
 
 app.get('/subgenreAdmin', async (req, res) => {
     const conn = await dbConnect();
