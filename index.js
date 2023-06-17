@@ -432,9 +432,9 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
             const page = req.query.page || 1;
             querySongs += ` ORDER BY musik.idMusik ASC LIMIT ?, ?`
             const totalRows = results[2][0].totalRows;
-            const offset = (page - 1) * 15;
-            const pageCount = Math.ceil(totalRows / 15);
-            conn.query(querySongs, [offset, 15], (err, results2) => {
+            const offset = (page - 1) * 14;
+            const pageCount = Math.ceil(totalRows / 14);
+            conn.query(querySongs, [offset, 14], (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
