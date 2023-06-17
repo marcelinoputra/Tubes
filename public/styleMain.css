@@ -1111,11 +1111,23 @@ h4 {
 
 }
 
+
 table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
   }
+#admintable-result-id{
+    width: 5%;
+}
+#admintable-result-artist{
+    width: 10%;
+}
+#admintable-result-genre{
+    width: 10%;
+}#admintable-result-sub{
+    width: 15%;
+}
 
 table th {
     padding: 8px;
