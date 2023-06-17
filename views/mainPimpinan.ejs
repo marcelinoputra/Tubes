@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
   <link rel="stylesheet" href="styleMain.css" />
   <script src="scriptPimpinan.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body  onload="getCurrentDate()">
@@ -41,28 +42,28 @@
       <div  id="pimpinan-main-content-atas">
         <h1> Monthly Overview</h1>
         <h1  id="currentDate"></h1>
-        
       </div>
+
       <div class="adminBox" id="pimpinan-main-content-sales">
-        <div class="headline">Monthly Sales</div>
+        <div class="headline">Monthly Sales </div>
+        <canvas id="salesBarChart"></canvas>
+        <canvas id="salesLineChart"></canvas>
       </div>
+
       <div class="adminBox" id="pimpinan-main-content-topsongs">
         <div class="headline">Statistics</div>
         <div class="subheadline">Top Songs</div>
-        
       </div>
+
       <div class="adminBox" id="pimpinan-main-content-topgenre">
         <div class="headline">Statistics</div>
         <div class="subheadline">Top Genre</div>
       </div>
+
       <div class="adminBox" id="pimpinan-main-content-user">
         <div class="headline">User Analytics</div>
-
       </div>
-
     </div>
-
-
   </div>
   
   <!--buat logout-->

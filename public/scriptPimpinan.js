@@ -18,3 +18,51 @@ function getCurrentDate() {
     var dateElement = document.getElementById("currentDate");
     dateElement.textContent = dateString;
 }
+
+//diagram batang sales
+const ctb = document.getElementById('salesBarChart').getContext('2d');
+const barChart = new Chart(ctb, {
+  type: 'bar',
+  data: {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    datasets: [{
+      label: 'Data',
+      data: [12, 19, 3, 5, 2, 3, 6, 10, 8, 7, 4, 15], //data sementara, blm connect db
+      backgroundColor: 'rgba(0, 123, 255, 0.5)', // Optional
+      borderColor: 'rgba(0, 123, 255, 1)', // Optional
+      borderWidth: 1 // Optional
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+//diagram garis sales
+const ctl = document.getElementById('salesLineChart').getContext('2d');
+const lineChart = new Chart(ctl, {
+  type: 'line',
+  data: {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    datasets: [{
+      label: 'Data',
+      data: [12, 19, 3, 5, 2, 3, 6, 10, 8, 7, 4, 15], //data sementara, blm connect db
+      backgroundColor: 'rgba(0, 123, 255, 0.5)', // Optional
+      borderColor: 'rgba(0, 123, 255, 1)', // Optional
+      borderWidth: 1 // Optional
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
