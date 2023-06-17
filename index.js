@@ -404,7 +404,7 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
     const filterOption = req.query.optFilter;
     const filterValue = req.query.filterVal;
     const query = `SELECT profilepic FROM pengguna WHERE username = ?;
-    SELECT nama FROM subgenre`;
+    SELECT nama FROM subgenre; SELECT COUNT(*) AS totalRows FROM musik`;
 
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
@@ -429,7 +429,14 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
                 }
             }
 
-            conn.query(querySongs, (err, results2) => {
+            const page = req.query.page || 1;
+            querySongs += ` ORDER BY musik.idMusik ASC LIMIT ?, ?`
+            const totalRows = results[2][0].totalRows;
+            const offset = (page - 1) * 15;
+            const pageCount = Math.ceil(totalRows / 15);
+            console.log(results);
+            console.log(totalRows)
+            conn.query(querySongs, [offset,15], (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -442,8 +449,10 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
                         name: req.session.name,
                         image: image,
                         results: results2,
-                        namaSubgenre: results[1]
-                    });
+                        namaSubgenre: results[1],
+                        pageCount: pageCount
+                      });
+                      
                 }
             });
         }
@@ -513,7 +522,7 @@ app.get('/searchAdmin', (req, res) => {
       musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
       FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
       JOIN genre ON subgenre.idGenre = genre.idGenre 
-      WHERE musik.judul LIKE ? OR musik.artis LIKE ?`,
+      WHERE musik.judul LIKE ? OR musik.artis LIKE ? ORDER BY musik.idMusik ASC`,
         [`%${searchValue}%`, `%${searchValue}%`],
         (error, results) => {
             if (error) {
