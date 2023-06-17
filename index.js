@@ -504,8 +504,6 @@ app.post('/addSongs', upload.single('songscover'), (req, res) => {
     }
 });
 
-
-
 app.get('/searchAdmin', (req, res) => {
     const searchValue = req.query.query;
 
@@ -540,6 +538,30 @@ app.get('/searchAdmin', (req, res) => {
         }
     );
 });
+
+app.delete('/songs/:id', (req, res) => {
+    const songId = req.params.id;
+  
+    // Disable foreign key checks
+    pool.query('SET FOREIGN_KEY_CHECKS = 0;', (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Error deleting song');
+      } else {
+        // Delete the row from the tables
+        pool.query('DELETE FROM musik WHERE idMusik = ?;', [songId], (error, results) => {
+          if (error) {
+            console.error(error);
+            res.status(500).send('Error deleting song');
+          } else {
+            res.sendStatus(200);
+          }
+        });
+      }
+    });
+  });
+  
+  
 
 
 

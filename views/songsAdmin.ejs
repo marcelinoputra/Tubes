@@ -67,14 +67,14 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="song-table-body">
             <% if (results.length===0) { %>
               <tr>
                 <td colspan="7">No results found</td>
               </tr>
               <% } else { %>
                 <% results.forEach((song)=> { %>
-                  <tr>
+                  <tr id="<%= song.idMusik %>">
                     <td>
                       <%= song.idMusik %>
                     </td>
@@ -103,7 +103,7 @@
                         </svg>
                       </button>
                       <!-- delete button -->
-                      <button class="action-button" id="trash-button" style="fill: #D7176C;">
+                      <button class="action-button trash-button" style="fill: #D7176C;" data-song-id="<%= song.idMusik %>">
                         <svg style="fill: #D7176C;" xmlns="http://www.w3.org/2000/svg" height="1em"
                           viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                           <path

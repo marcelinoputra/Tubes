@@ -103,3 +103,33 @@ function displaySearchAdminResults(results) {
     });
   }
 }
+
+//delete button
+// Mendapatkan referensi elemen tbody
+const songTableBody = document.getElementById('song-table-body');
+
+// Menangani peristiwa klik menggunakan delegasi peristiwa
+songTableBody.addEventListener('click', function(event) {
+  // Memeriksa apakah peristiwa berasal dari tombol delete
+  if (event.target.classList.contains('trash-button')) {
+    const trashButton = event.target;
+    const songId = trashButton.getAttribute('data-song-id');
+
+    // Mengirim permintaan penghapusan ke server
+    fetch(`/songs/${songId}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        if (response.ok) {
+          // Hapus baris dari HTML jika permintaan berhasil
+          const row = trashButton.closest('tr');
+          row.remove();
+        } else {
+          console.error('Error deleting song');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+});
