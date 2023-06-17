@@ -548,7 +548,6 @@ app.get('/searchAdmin', (req, res) => {
 
 app.delete('/songs/:id', (req, res) => {
     const songId = req.params.id;
-
     // Disable foreign key checks
     pool.query('SET FOREIGN_KEY_CHECKS = 0;', (error, results) => {
         if (error) {
@@ -634,54 +633,73 @@ app.post('/updateSong', authAdmin, upload.single('songscover'), async (req, res)
 
 app.post('/updateSubgenre', upload.single('subgenreCover'), async (req, res) => {
     const conn = await dbConnect();
-  
+
     // Mendapatkan nilai-nilai yang dikirimkan melalui formulir
     const idSubgenre = req.body.idSubgenre;
     const namaSub = req.body.namaSubgenre;
     const namaGenre = req.body.genre;
     const coverImage = req.file ? req.file.path : null;
-  
+
     // Lakukan query untuk mendapatkan idGenre berdasarkan nama genre
     const getGenreQuery = 'SELECT * FROM genre WHERE nama = ?';
     conn.query(getGenreQuery, [namaGenre], (err, genreResult) => {
-      if (err) {
-        console.error(err);
-        res.sendStatus(500);
-      } else {
-        const idGenre = genreResult[0].idGenre; // Mengambil idGenre dari hasil query
-  
-        // Lakukan query untuk mendapatkan data subgenre yang akan diupdate
-        const getSubgenreQuery = 'SELECT * FROM Subgenre WHERE idSubGenre = ?';
-        conn.query(getSubgenreQuery, [idSubgenre], (err, subgenreResult) => {
-          if (err) {
+        if (err) {
             console.error(err);
             res.sendStatus(500);
-          } else {
-            const existingSubgenre = subgenreResult[0]; // Data subgenre yang sudah ada
-  
-            // Periksa jika nilai nama subgenre atau idGenre kosong atau tidak diubah
-            const updatedNamaSub = namaSub || existingSubgenre.nama;
-            const updatedIdGenre = idGenre || existingSubgenre.idGenre;
-            // Periksa jika ada cover image baru diunggah
-            const updatedCover = coverImage !== null ? fs.readFileSync(coverImage) : existingSubgenre.cover;
-            // Lakukan update data di MySQL
-            const updateQuery = 'UPDATE subgenre SET nama = ?, idGenre = ?, cover = ? WHERE idSubGenre = ?';
-            conn.query(updateQuery, [updatedNamaSub, updatedIdGenre, updatedCover, idSubgenre], (err, result) => {
-              if (err) {
-                console.error(err);
-                res.sendStatus(500);
-              } else {
-                console.log('Data berhasil diupdate');
-                res.redirect('/subgenreAdmin');
-              }
+        } else {
+            const idGenre = genreResult[0].idGenre; // Mengambil idGenre dari hasil query
+
+            // Lakukan query untuk mendapatkan data subgenre yang akan diupdate
+            const getSubgenreQuery = 'SELECT * FROM Subgenre WHERE idSubGenre = ?';
+            conn.query(getSubgenreQuery, [idSubgenre], (err, subgenreResult) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    const existingSubgenre = subgenreResult[0]; // Data subgenre yang sudah ada
+
+                    // Periksa jika nilai nama subgenre atau idGenre kosong atau tidak diubah
+                    const updatedNamaSub = namaSub || existingSubgenre.nama;
+                    const updatedIdGenre = idGenre || existingSubgenre.idGenre;
+                    // Periksa jika ada cover image baru diunggah
+                    const updatedCover = coverImage !== null ? fs.readFileSync(coverImage) : existingSubgenre.cover;
+                    // Lakukan update data di MySQL
+                    const updateQuery = 'UPDATE subgenre SET nama = ?, idGenre = ?, cover = ? WHERE idSubGenre = ?';
+                    conn.query(updateQuery, [updatedNamaSub, updatedIdGenre, updatedCover, idSubgenre], (err, result) => {
+                        if (err) {
+                            console.error(err);
+                            res.sendStatus(500);
+                        } else {
+                            console.log('Data berhasil diupdate');
+                            res.redirect('/subgenreAdmin');
+                        }
+                    });
+                }
             });
-          }
-        });
-      }
+        }
     });
-  });
-  
-  
+});
+
+app.delete('/subgenre/:id', (req, res) => {
+    const subgenreID = req.params.id;
+    // Disable foreign key checks
+    pool.query('SET FOREIGN_KEY_CHECKS = 0;', (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Error deleting song');
+        } else {
+            // Delete the row from the tables
+            pool.query('DELETE FROM subgenre WHERE idSubGenre = ?;', [subgenreID], (error, results) => {
+                if (error) {
+                    console.error(error);
+                    res.status(500).send('Error deleting subgenre');
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
+    });
+});
 
 
 
@@ -794,6 +812,58 @@ app.get('/genreAdmin', async (req, res) => {
             });
         }
     });
+});
+
+app.post('/addSubgenre', upload.single('subgenreCover'), (req, res) => {
+    const subgenre = req.body.subgenre;
+    const genre = req.body.genre;
+    // Check if req.file exists before accessing its path property
+    if (req.file && req.file.path) {
+        // Mengambil ID subgenre berdasarkan nama subgenre
+        const queryGetGenreId = 'SELECT idGenre FROM genre WHERE nama = ?';
+        pool.query(queryGetGenreId, [genre], (err, results) => {
+            if (err) {
+                console.error('Error getting subgenre ID from database:', err);
+                res.sendStatus(500);
+                return;
+            }
+
+            if (results.length === 0) {
+                console.error('Genre not found');
+                res.sendStatus(404);
+                return;
+            }
+
+            const genreId = results[0].idGenre;
+
+            // Membaca isi file yang diunggah
+            const fileData = fs.readFileSync(req.file.path);
+
+            // Menyimpan data ke tabel songs
+            const queryInsertSubgenre = 'INSERT INTO subgenre (nama, idGenre, cover) VALUES (?, ?, ?)';
+            pool.query(queryInsertSubgenre, [subgenre, genreId, fileData], (err, result) => {
+                if (err) {
+                    console.error('Error saving song data to MySQL:', err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                // Mendapatkan ID songs yang baru saja di-insert
+                const newSongId = result.insertId;
+
+                // Menyimpan file ke sistem file dengan menggunakan ID songs sebagai nama file
+                const filePath = `uploads/${newSongId}.jpg`;
+                fs.writeFileSync(filePath, fileData);
+
+                res.redirect('/subgenreAdmin');
+            });
+        });
+
+    } else {
+        // Handle the case when no file is uploaded
+        console.log('No file uploaded');
+        // ... any additional error handling or response as needed
+    }
 });
 
 app.get('/mainPimpinan', authPimpinan, async (req, res) => {
