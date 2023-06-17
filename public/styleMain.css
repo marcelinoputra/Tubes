@@ -799,8 +799,8 @@ h3 {
 
 .pimpinan-main-content {
     display: grid;
-    grid-template-columns: auto 40vh 40vh;
-    grid-template-rows: 10vh auto auto;
+    grid-template-columns: 70vh auto auto;
+    grid-template-rows: 10vh 40vh auto;
     grid-template-areas:
         "atas atas atas"
         "sales topsongs topgenre"
@@ -817,7 +817,20 @@ h3 {
 #pimpinan-main-content-sales {
     grid-area: sales;
 }
-
+.pimpinan-main-content-sales-chart {
+    height: 70%;
+    width: 100em;
+    padding-left: 5%;
+    padding-right: 5%;
+    overflow-y: scroll;
+}
+.chart{
+    width: 100vh;
+}
+#salesBarChart{
+    height: 30%;
+    width: 90%;
+}
 #pimpinan-main-content-topsongs {
     grid-area: topsongs;
 }
