@@ -16,9 +16,10 @@
       <div id="sidebar-text">
         <div class="sidebar-text" id="sidebar-home">Home</div>
         <div class="sidebar-text" id="sidebar-discover">Discover</div>
-        <div class="sidebar-text" id="sidebar-subgenre" style="color: #F5833F; font-weight: bold;transform: scale(1.1)">
+        <div class="sidebar-text" id="sidebar-subgenre">
           Sub Genre</div>
-        <div class="sidebar-text" id="sidebar-genre">Genre</div>
+        
+        <div style="color: #F5833F; font-weight: bold;transform: scale(1.1)" class="sidebar-text" id="sidebar-genre">Genre</div>
       </div>
       <div class="sidebar-music">
         <img src="/assets/images/MySpotitiLogo.png" alt="" id="sidebar-cover">
@@ -194,10 +195,12 @@
   <!-- popup list musik genre tertentu -->
   <div id="popupGenre" class="hidden">
     <h2>Genre :</h2>
+    <button id="popupCloseButton" class="hidden">Close</button>
+
+    <button id="popupCloseButton2" class="button">Close</button>
     <div id="genreResults-container">
       <ul id="genreResults"></ul>
     </div>
-    <button id="popupCloseButton">X</button>
   </div>
 
 
