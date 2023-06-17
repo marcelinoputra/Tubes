@@ -705,7 +705,7 @@ app.get('/subgenreAdmin', async (req, res) => {
                 // Add the filter conditions based on the selected option and filter value
                 if (filterOption === "subgenre") {
                     querySongs += ` WHERE subgenre.nama = '${filterValue}'`;
-                } else if (filterOption === "artist") {
+                } else if (filterOption === "genre") {
                     querySongs += ` WHERE genre.nama = '${filterValue}'`;
                 }
             }
