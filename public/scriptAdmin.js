@@ -138,6 +138,58 @@ function performSearchSubgenre(query) {
     .catch((error) => console.log(error));
 }
 
+//search genreAdmin
+function performSearchGenre(query) {
+  fetch(`/searchGenreAdmin?query=${query}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Search request failed');
+      }
+      return response.json();
+    })
+    .then((data) => displaySearchGenreResults(data))
+    .catch((error) => console.log(error));
+}
+
+function displaySearchGenreResults(results) {
+  const tableBody = document.querySelector('.admintable-result tbody');
+
+  tableBody.innerHTML = ''; // Clear the table body
+
+  if (results.length === 0) {
+    // Display "No results found" message
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.setAttribute('colspan', '5');
+    cell.textContent = 'No results found';
+    row.appendChild(cell);
+    tableBody.appendChild(row);
+  } else {
+    // Display the search results
+    results.forEach((genre) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${genre.idGenre}</td>
+        <td>${genre.nama}</td>
+        <td>${genre.totMusik}</td>
+        <td>${genre.totSub}</td>
+        <td id="action">
+          <!-- edit button -->
+          <button class="pencil-button button" style="height:10%; width:30%;" data-genre-id="${genre.idGenre}">
+            Edit
+          </button>
+          <!-- delete button -->
+          <button class="trash-button button" style="height:10%; width:30%;" data-genre-id="${genre.idGenre}">
+            Delete
+          </button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+}
+
+
 function displaySearchSubgenreResults(results) {
   const tableBody = document.querySelector('.admintable-result tbody');
 

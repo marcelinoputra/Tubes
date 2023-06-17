@@ -785,35 +785,6 @@ app.get('/searchSubgenreAdmin', (req, res) => {
     );
 });
 
-app.get('/genreAdmin', async (req, res) => {
-    const conn = await dbConnect();
-    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
-    conn.query(query, [req.session.username], (err, results) => {
-        if (err) {
-            console.error(err);
-            res.sendStatus(500);
-        } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
-            conn.query(querySongs, (err, results2) => {
-                if (err) {
-                    console.error(err);
-                    res.sendStatus(500);
-                } else {
-                    let image = null;
-                    if (results.length > 0 && results[0].profilepic) {
-                        image = Buffer.from(results[0].profilepic).toString('base64');
-                    }
-                    res.render('genreAdmin', {
-                        name: req.session.name,
-                        image: image,
-                        results: results2
-                    });
-                }
-            });
-        }
-    });
-});
-
 app.post('/addSubgenre', upload.single('subgenreCover'), (req, res) => {
     const subgenre = req.body.subgenre;
     const genre = req.body.genre;
@@ -865,6 +836,85 @@ app.post('/addSubgenre', upload.single('subgenreCover'), (req, res) => {
         // ... any additional error handling or response as needed
     }
 });
+
+app.get('/genreAdmin', async (req, res) => {
+    const conn = await dbConnect();
+    const filterOption = req.query.optFilter;
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    conn.query(query, [req.session.username], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            let querySongs = `SELECT genre.idGenre, genre.nama, COUNT(musik.idMusik) AS totMusik,
+             COUNT(subgenre.idSubGenre) AS totSub FROM genre JOIN subgenre ON genre.idGenre = subgenre.idGenre
+             JOIN musik ON musik.idSubGenre = subgenre.idSubGenre GROUP BY genre.idGenre`;
+
+            if (filterOption) {
+                // Add the filter conditions based on the selected option and filter value
+                if (filterOption === "id") {
+                    querySongs += ` ORDER BY genre.idGenre`;
+                } else if (filterOption === "totalSongs") {
+                    querySongs += ` ORDER BY COUNT(musik.idMusik) DESC`;
+                } else if (filterOption === "totalSubgenre") {
+                    querySongs += ` ORDER BY COUNT(subgenre.idSubGenre) DESC`;
+                }
+            } else {
+                querySongs += ` ORDER BY genre.idGenre ASC`;
+            }
+
+            conn.query(querySongs, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    let image = null;
+                    if (results.length > 0 && results[0].profilepic) {
+                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    }
+                    res.render('genreAdmin', {
+                        name: req.session.name,
+                        image: image,
+                        results: results2
+                    });
+                }
+            });
+        }
+    });
+});
+
+app.get('/searchGenreAdmin', (req, res) => {
+    const searchValue = req.query.query;
+
+    // Query the database to get filtered results based on the search value
+    pool.query(
+        `SELECT genre.idGenre, genre.nama, COUNT(musik.idMusik) AS totMusik,
+        COUNT(subgenre.idSubGenre) AS totSub FROM genre JOIN subgenre ON genre.idGenre = subgenre.idGenre
+        JOIN musik ON musik.idSubGenre = subgenre.idSubGenre 
+        WHERE genre.idGenre LIKE ? OR genre.nama LIKE ?
+        GROUP BY genre.idGenre`,
+        [`%${searchValue}%`, `%${searchValue}%`],
+        (error, results) => {
+            if (error) {
+                // If an error occurs during the query
+                res.status(500).json({ error: 'Database error' });
+            } else {
+                // If the query is successful, send the filtered results to the client
+                const filteredResults = results.map((genre) => {
+                    return {
+                        idGenre: genre.idGenre,
+                        nama: genre.nama,
+                        totMusik: genre.totMusik,
+                        totSub: genre.totSub
+                        // Add more attributes as needed
+                    };
+                });
+                res.json(filteredResults);
+            }
+        }
+    );
+});
+
 
 app.get('/mainPimpinan', authPimpinan, async (req, res) => {
     const conn = await dbConnect();
