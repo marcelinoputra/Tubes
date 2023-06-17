@@ -36,15 +36,27 @@
       <div class="admintable-header">
         <h1 class="admintable-header-headline">Songs Overview</h1>
         <div class="pagination-row">
-        <h1 class="pagination-headline">Page view:</h1>
+          <h1 class="pagination-headline">Page view:</h1>
 
-          <% for (let i = 1; i <= pageCount; i++) { %>
-            <a class="button" id="pagination" href="/songsAdmin?page=<%= i %>"><%= i %></a>
-          <% } %>
+          <% for (let i=1; i <=pageCount; i++) { %>
+            <a class="button" id="pagination" href="/songsAdmin?page=<%= i %>">
+              <%= i %>
+            </a>
+            <% } %>
         </div>
         <button class="button" id="addButton"> Add data</button>
-     
-        <input class="admin-searchbar" type="text" placeholder="Search" />
+
+        <input class="admin-searchbar" id="searchBarAdmin" type="text" placeholder="Search" />
+        <script>
+          let searchBar = document.querySelector('input#searchBarAdmin');
+
+          searchBar.addEventListener('input', async () => {
+            const searchValue = searchBar.value.trim().toLowerCase();
+            if (searchValue !== "") {
+              performSearchAdmin(searchValue);
+            }
+          });
+        </script>
         <div class="filter">
           Filter by:
           <form action="/songsAdmin" method="get">
@@ -62,7 +74,7 @@
       </div>
 
       <div class="admintable-result">
-        <table class="admintable-result-table" >
+        <table class="admintable-result-table">
           <thead>
             <tr>
               <th id="admintable-result-id">ID</th>
@@ -210,7 +222,7 @@
               <%= namaSubgenre[i].nama %>
             </option>
             <% } %>
-          <!-- dropdown sub genre, optionny dari table subgenre -->
+              <!-- dropdown sub genre, optionny dari table subgenre -->
         </select>
         <label for="songscover">Songs cover</label>
         <div class="form-box">

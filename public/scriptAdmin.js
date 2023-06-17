@@ -51,15 +51,6 @@ buttons.forEach(button => {
 
 
 // Search songsAdmin
-let searchBar = document.querySelector('input.admin-searchbar');
-
-searchBar.addEventListener('input', async () => {
-  const searchValue = searchBar.value.trim().toLowerCase();
-  if (searchValue !== "") {
-    performSearchAdmin(searchValue);
-  }
-});
-
 function performSearchAdmin(query) {
   fetch(`/searchAdmin?query=${query}`)
     .then((response) => response.json())
@@ -109,15 +100,13 @@ function displaySearchAdminResults(results) {
   }
 }
 
-
-
 //delete button
 // Mendapatkan referensi elemen tbody
 const songTableBody = document.getElementById('song-table-body');
 
 // Menangani peristiwa klik menggunakan delegasi peristiwa
-songTableBody.addEventListener('click', function(event) {
-  
+songTableBody.addEventListener('click', function (event) {
+
   // Memeriksa apakah peristiwa berasal dari tombol delete
   if (event.target.classList.contains('trash-button')) {
     console.log("tes");
@@ -142,3 +131,60 @@ songTableBody.addEventListener('click', function(event) {
       });
   }
 });
+
+//search subgenreAdmin
+
+let searchSub = document.getElementById('admin-searchbar-sub');
+searchSub.addEventListener('input', async () => {
+  const searchValue = searchSub.value.trim().toLowerCase();
+  if (searchValue !== "") {
+    console.log("tes")
+    performSearchSubgenre(searchValue);
+  }
+});
+
+function performSearchSubgenre(query) {
+  fetch(`/searchSubgenreAdmin?query=${query}`)
+    .then((response) => response.json())
+    .then((data) => displaySearchSubgenreResults(data))
+    .catch((error) => console.log(error));
+}
+
+function displaySearchSubgenreResults(results) {
+  const tableBody = document.querySelector('.admintable-result tbody');
+
+  tableBody.innerHTML = ''; // Clear the table body
+
+  if (results.length === 0) {
+    // Display "No results found" message
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.setAttribute('colspan', '4');
+    cell.textContent = 'No results found';
+    row.appendChild(cell);
+    tableBody.appendChild(row);
+  } else {
+    // Display the search results
+    results.forEach((sub) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+  <td>${sub.idSubgenre}</td>
+  <td>${sub.subNama}</td>
+  <td>${sub.genNama}</td>
+  <td id="action">
+  <!-- edit button -->
+  <button class="pencil-button button" style="
+  height:10%; width:30%;" data-song-id="<%= song.idMusik %>">
+  Edit
+  </button>
+  <!-- delete button -->
+  <button class="trash-button button" style="
+  height:10%; width:30%;" data-song-id="<%= song.idMusik %>">
+  Delete
+  </button>
+          </td>
+  `;
+      tableBody.appendChild(row);
+    });
+  }
+}

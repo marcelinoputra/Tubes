@@ -16,12 +16,10 @@
       <div id="sidebar-text">
 
         <div class="sidebar-text" id="Admin-sidebar-overview">Overview</div>
-        <div class="sidebar-text" id="Admin-sidebar-songs"
-          >Songs</div>
-          
-          <div  class="sidebar-text" id="Admin-sidebar-subgenre"
-          style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
-          >Sub Genre</div>
+        <div class="sidebar-text" id="Admin-sidebar-songs">Songs</div>
+
+        <div class="sidebar-text" id="Admin-sidebar-subgenre"
+          style="color: #F5833F; font-weight: bold;transform: scale(1.1)">Sub Genre</div>
         <div class="sidebar-text" id="sidebar-genre">Genre</div>
       </div>
     </div>
@@ -39,14 +37,16 @@
       <div class="admintable-header">
         <h1 class="admintable-header-headline">Sub Genre Overview</h1>
         <div class="pagination-row">
-        <h1 class="pagination-headline">Page view:</h1>
+          <h1 class="pagination-headline">Page view:</h1>
 
-          <% for (let i = 1; i <= pageCount; i++) { %>
-            <a class="button" id="pagination" href="/songsAdmin?page=<%= i %>"><%= i %></a>
-          <% } %>
+          <% for (let i=1; i <=pageCount; i++) { %>
+            <a class="button" id="pagination" href="/subgenreAdmin?page=<%= i %>">
+              <%= i %>
+            </a>
+            <% } %>
         </div>
         <button class="button" id="addButton"> Add data</button>
-     
+
         <input class="admin-searchbar" id="admin-searchbar-sub" type="text" placeholder="Search" />
         <div class="filter">
           Filter by:
@@ -63,7 +63,7 @@
       </div>
 
       <div class="admintable-result">
-        <table class="admintable-result-table" >
+        <table class="admintable-result-table">
           <thead>
             <tr>
               <th id="admintable-resultsub-id">ID</th>
@@ -75,15 +75,15 @@
           <tbody id="song-table-body">
             <% if (results.length===0) { %>
               <tr>
-                <td colspan="7">No results found</td>
+                <td colspan="4">No results found</td>
               </tr>
               <% } else { %>
                 <% results.forEach((sub)=> { %>
                   <tr id="<%= sub.idSubGenre %>">
-                    <td  id="admintable-resultsub-id">
+                    <td id="admintable-resultsub-id">
                       <%= sub.idSubGenre %>
                     </td>
-                    <td  id="admintable-resultsub-sub">
+                    <td id="admintable-resultsub-sub">
                       <%= sub.nama %>
                     </td>
                     <td id="admintable-resultsub-genre">
@@ -199,7 +199,7 @@
               <%= namaSubgenre[i].nama %>
             </option>
             <% } %>
-          <!-- dropdown sub genre, optionny dari table subgenre -->
+              <!-- dropdown sub genre, optionny dari table subgenre -->
         </select>
         <label for="songscover">Songs cover</label>
         <div class="form-box">

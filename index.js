@@ -624,10 +624,6 @@ app.post('/updateSong', authAdmin, async (req, res) => {
     });
 });
 
-
-
-
-
 app.get('/subgenreAdmin', async (req, res) => {
     const conn = await dbConnect();
     const filterOption = req.query.optFilter;
@@ -679,6 +675,35 @@ app.get('/subgenreAdmin', async (req, res) => {
             });
         }
     });
+});
+
+app.get('/searchSubgenreAdmin', (req, res) => {
+    const searchValue = req.query.query;
+
+    // Query the database to get filtered results based on the search value
+    pool.query(
+        `SELECT subgenre.idSubGenre, subgenre.nama AS subNama, genre.nama AS genNama
+      FROM subgenre JOIN genre ON subgenre.idGenre = genre.idGenre 
+      WHERE subgenre.nama LIKE ? OR genre.nama LIKE ? ORDER BY subgenre.idSubGenre ASC`,
+        [`%${searchValue}%`, `%${searchValue}%`],
+        (error, results) => {
+            if (error) {
+                // If an error occurs during the query
+                res.status(500).json({ error: 'Database error' });
+            } else {
+                // If the query is successful, send the filtered results to the client
+                const filteredResults = results.map((subgenre) => {
+                    return {
+                        idSubgenre: subgenre.idSubGenre,
+                        subNama: subgenre.subNama,
+                        genNama: subgenre.genNama,
+                        // Add more attributes as needed
+                    };
+                });
+                res.json(filteredResults);
+            }
+        }
+    );
 });
 
 app.get('/genreAdmin', async (req, res) => {
