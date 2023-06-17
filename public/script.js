@@ -239,6 +239,10 @@ items.forEach(item => {
   });
 });
 
+document.getElementById("popupCloseButton").addEventListener("click",()=>{
+  popupSubgenre.classList.toggle("hidden");
+
+})
 
 // Mengambil elemen-elemen yang diperlukan
 const itemsGenre = document.querySelectorAll('.genre');
@@ -298,7 +302,10 @@ itemsGenre.forEach(item => {
     }
   });
 });
+document.getElementById("popupCloseButton2").addEventListener("click",()=>{
+  popupGenre.classList.toggle("hidden");
 
+})
 
 
 
