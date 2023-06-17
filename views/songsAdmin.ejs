@@ -37,20 +37,23 @@
         <h1 class="admintable-header-headline">Songs Overview</h1>
         <button class="button" id="addButton"> Add data</button>
         <input class="admin-searchbar" type="text" placeholder="Search" />
-        <div class="filter">
-          Filter by:
-          <form action="/songsAdmin" method="get">
-            <select class="filtering" name="optFilter">
-              <option value="genre">Genre</option>
-              <option value="subgenre">Sub Genre</option>
-              <option value="artist">Artist</option>
-              <option value="releaseDate">Created date</option>
-            </select>
-            is a
-            <input class="filtering" type="text" placeholder="type here" name="filterVal"></input>
-            <button class="button" id="go-button">GO</button>
-          </form>
-        </div>
+        <% for (let i = 1; i <= pageCount; i++) { %>
+          <a href="/songsAdmin?page=<%= i %>"><%= i %></a>
+        <% } %>
+            <div class="filter">
+              Filter by:
+              <form action="/songsAdmin" method="get">
+                <select class="filtering" name="optFilter">
+                  <option value="genre">Genre</option>
+                  <option value="subgenre">Sub Genre</option>
+                  <option value="artist">Artist</option>
+                  <option value="releaseDate">Created date</option>
+                </select>
+                is a
+                <input class="filtering" type="text" placeholder="type here" name="filterVal"></input>
+                <button class="button" id="go-button">GO</button>
+              </form>
+            </div>
 
       </div>
 
@@ -97,12 +100,12 @@
                       <!-- edit button -->
                       <button class="pencil-button button" style="
                       height:10%; width:30%;" data-song-id="<%= song.idMusik %>">
-                      Edit
+                        Edit
                       </button>
                       <!-- delete button -->
                       <button class="trash-button button" style="
                       height:10%; width:30%;" data-song-id="<%= song.idMusik %>">
-                      Delete
+                        Delete
                       </button>
                     </td>
                   </tr>
@@ -153,9 +156,11 @@
 
         <label for="subgenre">Sub genre</label>
         <select class="form-box" name="subgenre">
-          <% for (let i = 0; i < namaSubgenre.length; i++) { %>
-            <option value="<%= namaSubgenre[i].nama %>"><%= namaSubgenre[i].nama %></option>
-          <% } %>
+          <% for (let i=0; i < namaSubgenre.length; i++) { %>
+            <option value="<%= namaSubgenre[i].nama %>">
+              <%= namaSubgenre[i].nama %>
+            </option>
+            <% } %>
         </select>
         <label for="songscover">Songs cover</label>
         <div class="form-box">
