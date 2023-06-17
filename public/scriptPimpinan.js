@@ -11,6 +11,21 @@ document.getElementById('Pimpinan-sidebar-sales').addEventListener('click', () =
   window.location.href = '/salesPimpinan'; 
 });
 
+document.getElementById('Pimpinan-sidebar-songs').addEventListener('click', () => {
+  window.location.href = '/songsPimpinan'; 
+});
+
+document.getElementById('Pimpinan-sidebar-genre').addEventListener('click', () => {
+  window.location.href = '/genrePimpinan'; 
+});
+
+document.getElementById('Pimpinan-sidebar-subgenre').addEventListener('click', () => {
+  window.location.href = '/subgenrePimpinan'; 
+});
+
+document.getElementById('Pimpinan-sidebar-user').addEventListener('click', () => {
+  window.location.href = '/userPimpinan'; 
+});
 
 function getCurrentDate() {
     var currentDate = new Date();
