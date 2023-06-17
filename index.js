@@ -434,9 +434,7 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
             const totalRows = results[2][0].totalRows;
             const offset = (page - 1) * 15;
             const pageCount = Math.ceil(totalRows / 15);
-            console.log(results);
-            console.log(totalRows)
-            conn.query(querySongs, [offset,15], (err, results2) => {
+            conn.query(querySongs, [offset, 15], (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -451,8 +449,8 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
                         results: results2,
                         namaSubgenre: results[1],
                         pageCount: pageCount
-                      });
-                      
+                    });
+
                 }
             });
         }
@@ -550,27 +548,83 @@ app.get('/searchAdmin', (req, res) => {
 
 app.delete('/songs/:id', (req, res) => {
     const songId = req.params.id;
-  
+
     // Disable foreign key checks
     pool.query('SET FOREIGN_KEY_CHECKS = 0;', (error, results) => {
-      if (error) {
-        console.error(error);
-        res.status(500).send('Error deleting song');
-      } else {
-        // Delete the row from the tables
-        pool.query('DELETE FROM musik WHERE idMusik = ?;', [songId], (error, results) => {
-          if (error) {
+        if (error) {
             console.error(error);
             res.status(500).send('Error deleting song');
-          } else {
-            res.sendStatus(200);
-          }
-        });
-      }
+        } else {
+            // Delete the row from the tables
+            pool.query('DELETE FROM musik WHERE idMusik = ?;', [songId], (error, results) => {
+                if (error) {
+                    console.error(error);
+                    res.status(500).send('Error deleting song');
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
     });
-  });
-  
-  
+});
+
+app.post('/updateSong', authAdmin, async (req, res) => {
+    const conn = await dbConnect();
+
+    // Mendapatkan nilai-nilai yang dikirimkan melalui formulir
+    const idMusik = req.body.idMusik;
+    const judul = req.body.songsTitle;
+    const artis = req.body.artist;
+    const tglRilis = req.body['created-at'];
+    const subgenre = req.body.subgenre; // Nama subgenre yang dikirim dari formulir
+
+    // Lakukan query untuk mendapatkan idSubGenre berdasarkan nama subgenre
+    const getSubGenreQuery = 'SELECT * FROM subgenre WHERE nama = ?';
+    conn.query(getSubGenreQuery, [subgenre], (err, result) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            console.log(result);
+            const idSubGenre = result[0].idSubGenre; // Mengambil idSubGenre dari hasil query
+
+            // Lakukan query untuk mendapatkan data lagu yang akan diupdate
+            const getSongQuery = 'SELECT * FROM musik WHERE idMusik = ?';
+            conn.query(getSongQuery, [idMusik], (err, songResult) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    const existingSong = songResult[0]; // Data lagu yang sudah ada
+
+                    // Periksa jika nilai judul, artis, tglRilis, atau subgenre kosong atau tidak diubah
+                    const updatedJudul = judul || existingSong.judul;
+                    const updatedArtis = artis || existingSong.artis;
+                    const updatedTglRilis = tglRilis || existingSong.tglRilis;
+                    const updatedIdSubGenre = subgenre ? idSubGenre : existingSong.idSubGenre;
+
+                    // Lakukan update data di MySQL
+                    const updateQuery = 'UPDATE musik SET judul = ?, artis = ?, tglRilis = ?, idSubGenre = ? WHERE idMusik = ?';
+                    conn.query(
+                        updateQuery,
+                        [updatedJudul, updatedArtis, updatedTglRilis, updatedIdSubGenre, idMusik],
+                        (err, result) => {
+                            if (err) {
+                                console.error(err);
+                                res.sendStatus(500);
+                            } else {
+                                console.log('Data berhasil diupdate');
+                                res.redirect('/songsAdmin');
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    });
+});
+
+
 
 
 
