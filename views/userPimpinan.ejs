@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>MySpotiti</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+  <link rel="stylesheet" href="styleMain.css" />
+  <script src="scriptPimpinan.js" defer></script>
+</head>
+
+<body  onload="getCurrentDate()">
+  <div id="whole-page-notuser">
+    <div class="sidebar-notuser">
+      <img src="/assets/images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
+      <div id="sidebar-text">
+        
+        <div class="sidebar-text" id="Pimpinan-sidebar-overview" >Overview</div>
+        <div class="sidebar-text" id="Pimpinan-sidebar-sales"
+        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
+        >Sales</div>
+        <div class="sidebar-text" id="Pimpinan-sidebar-subgenre">Statistics</div>
+
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs">Songs</div>
+        <div class="sidebar-subtext"id="Pimpinan-sidebar-genre">Genre</div>
+        <div class="sidebar-subtext"id="Pimpinan-sidebar-subgenre">Sub Genre</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-user">User</div>
+
+
+      </div>
+    </div>
+    <div class="header-notuser">
+      
+      <button id="profile-btn" class="round-button-notuser">
+        <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512">
+          <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
+      </button>
+    </div>
+    <div class="pimpinan-notmain-content">  
+    <div class="pimpinan-notmain-content-atas">
+        <div class="pimpinan-notmain-content-atas-atas">
+            <h1 class="admintable-header-headline" >Monthly User Statistics</h1>
+            <h1  id="currentDate"></h1>
+        </div>
+        <div class="pimpinan-notmain-content-atas-bawah">
+            <input class="admin-searchbar"type="text" placeholder="Search" />
+            <div class="filter">
+              Filter by:
+              <select class="filtering">
+                <option value="genre">Genre</option>
+                <option value="subgenre">Sub Genre</option>
+                <option value="subgenre">Artist</option>
+                <option value="subgenre">Created date</option>
+              </select>
+              is a 
+              <input class="filtering" type="text"placeholder="type here"></input>
+              <button class="button"id="go-button">GO</button>
+            </div>
+        </div>
+    </div>
+    <div class="pimpinan-notmain-content-left">
+        <div class="adminBox"id="new-user">
+            <h1 class="headline">Statistics</h1>
+            <h2 class="hasilQuery">Top Users</h2>
+            <!-- hasil query -->
+        </div>
+    </div>
+    <div class="pimpinan-notmain-content-right">
+            <table>
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Username</th>
+                      <th>Name</th>
+                      <th>Package</th>
+                      <th>Total Stream</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Username</td>
+                  <td>User's name</td>
+                  <td>1 Month</td>
+                  <td>n times</td>
+                </tr>  
+              </tbody>
+          </table>
+    </div>
+  </div>
+  
+  <!--buat logout-->
+  <div id="logOutPopup" class="hidden">
+    <div id="photo-profile-container">
+      <% if(image) { %>
+        <img id="photo-profile" src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
+        <% } %>
+    </div>
+    <h1>Hi there, <%= name %> </h1>
+
+
+        <form action="/logout" method="post">
+          <input id="logOutButton" class="button" type="submit" value="Log out" />
+        </form>
+
+  </div>
+</body>
+</html>
