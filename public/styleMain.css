@@ -1051,7 +1051,7 @@ h4 {
 }
 .admintable {
     display: grid;
-    grid-template-rows: 20vh auto;
+    grid-template-rows: 25vh 65vh;
     grid-template-areas: "header"
         "result";
 }
@@ -1060,17 +1060,52 @@ h4 {
     grid-area: header;
     display: grid;
     margin: 20px;
+    margin-bottom: 0px;
+    grid-template-rows: 10vh auto 5vh;
     grid-template-areas:
         "admintable-header-leftTop admintable-header-rightTop"
-        "admintable-header-leftBtm admintable-header-rightBtm";
+        "admintable-header-leftBtm admintable-header-rightBtm"
+        "admintable-header-bottom admintable-header-bottom";
 }
+.pagination-row{
+    margin-top: 0.5%;
+    height: 50%;
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 20px;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    width: 100%;
+    justify-self: flex-end;
+    background-color: #ffffff;
+    align-items: center;
+    display: flex;
+    gap: 2%;
+grid-area: admintable-header-bottom;
+}
+.pagination-headline{
+    color: #F5833F;
+    font-size: 15px;
+}
+#pagination{
+    display: flex;
+    font-weight: bolder;
+    justify-content: center;
+    align-items: center;
+      background-color: #D7176C;
+      height: 100%;
+      width: 2%;
+  }
 
 .admintable-header-headline {
     grid-area: admintable-header-leftTop;
+    margin-top: 2%;
     color: #D7176C;
 }
 
 #addButton {
+    margin-top: 2%;
     grid-area: admintable-header-rightTop;
     justify-self: end;
 }
@@ -1085,6 +1120,7 @@ h4 {
     width: 300px;
     color: #D7176C;
 }
+
 
 .filter {
     display: flex;
@@ -1116,6 +1152,7 @@ h4 {
 
 .admintable-result {
     grid-area: result;
+    overflow-y: scroll;
     background-color: #fff;
     margin: 15px;
     padding: 1%;
@@ -1124,6 +1161,10 @@ h4 {
 
 }
 
+#song-table-body{
+    grid-area: tbody;
+    overflow-y: scroll;
+}
 
 table {
     width: 100%;

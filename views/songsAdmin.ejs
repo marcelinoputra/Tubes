@@ -35,30 +35,34 @@
     <div class="admintable">
       <div class="admintable-header">
         <h1 class="admintable-header-headline">Songs Overview</h1>
-        <button class="button" id="addButton"> Add data</button>
-        <input class="admin-searchbar" type="text" placeholder="Search" />
-        <% for (let i = 1; i <= pageCount; i++) { %>
-          <a href="/songsAdmin?page=<%= i %>"><%= i %></a>
-        <% } %>
-            <div class="filter">
-              Filter by:
-              <form action="/songsAdmin" method="get">
-                <select class="filtering" name="optFilter">
-                  <option value="genre">Genre</option>
-                  <option value="subgenre">Sub Genre</option>
-                  <option value="artist">Artist</option>
-                  <option value="releaseDate">Created date</option>
-                </select>
-                is a
-                <input class="filtering" type="text" placeholder="type here" name="filterVal"></input>
-                <button class="button" id="go-button">GO</button>
-              </form>
-            </div>
+        <div class="pagination-row">
+        <h1 class="pagination-headline">Page view:</h1>
 
+          <% for (let i = 1; i <= pageCount; i++) { %>
+            <a class="button" id="pagination" href="/songsAdmin?page=<%= i %>"><%= i %></a>
+          <% } %>
+        </div>
+        <button class="button" id="addButton"> Add data</button>
+     
+        <input class="admin-searchbar" type="text" placeholder="Search" />
+        <div class="filter">
+          Filter by:
+          <form action="/songsAdmin" method="get">
+            <select class="filtering" name="optFilter">
+              <option value="genre">Genre</option>
+              <option value="subgenre">Sub Genre</option>
+              <option value="artist">Artist</option>
+              <option value="releaseDate">Created date</option>
+            </select>
+            is a
+            <input class="filtering" type="text" placeholder="type here" name="filterVal"></input>
+            <button class="button" id="go-button">GO</button>
+          </form>
+        </div>
       </div>
 
       <div class="admintable-result">
-        <table>
+        <table class="admintable-result-table" >
           <thead>
             <tr>
               <th id="admintable-result-id">ID</th>
