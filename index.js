@@ -630,14 +630,35 @@ app.post('/updateSong', authAdmin, async (req, res) => {
 
 app.get('/subgenreAdmin', async (req, res) => {
     const conn = await dbConnect();
-    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
+    const filterOption = req.query.optFilter;
+    const filterValue = req.query.filterVal;
+    const query = `SELECT profilepic FROM pengguna WHERE username = ?;
+    SELECT nama FROM subgenre; SELECT COUNT(*) AS totalRows FROM musik`;
+
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
-            conn.query(querySongs, (err, results2) => {
+            let querySongs = `SELECT subgenre.idSubGenre,  subgenre.nama, 
+            genre.nama as namaGenre
+            FROM subgenre JOIN genre ON genre.idGenre = subgenre.idGenre`;
+
+            if (filterOption && filterValue) {
+                // Add the filter conditions based on the selected option and filter value
+                if (filterOption === "subgenre") {
+                    querySongs += ` WHERE subgenre.nama = '${filterValue}'`;
+                } else if (filterOption === "artist") {
+                    querySongs += ` WHERE genre.nama = '${filterValue}'`;
+                }
+            }
+
+            const page = req.query.page || 1;
+            querySongs += ` ORDER BY subgenre.idSubGenre ASC LIMIT ?, ?`
+            const totalRows = results[2][0].totalRows;
+            const offset = (page - 1) * 15;
+            const pageCount = Math.ceil(totalRows / 15);
+            conn.query(querySongs, [offset, 15], (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -649,8 +670,11 @@ app.get('/subgenreAdmin', async (req, res) => {
                     res.render('subgenreAdmin', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        results: results2,
+                        namaSubgenre: results[1],
+                        pageCount: pageCount
                     });
+
                 }
             });
         }

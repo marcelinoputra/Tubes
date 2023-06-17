@@ -51,7 +51,7 @@ buttons.forEach(button => {
 
 
 // Search songsAdmin
-const searchBar = document.querySelector('input.admin-searchbar');
+let searchBar = document.querySelector('input.admin-searchbar');
 
 searchBar.addEventListener('input', async () => {
   const searchValue = searchBar.value.trim().toLowerCase();
@@ -108,6 +108,8 @@ function displaySearchAdminResults(results) {
     });
   }
 }
+
+
 
 //delete button
 // Mendapatkan referensi elemen tbody

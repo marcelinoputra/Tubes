@@ -1116,11 +1116,20 @@ grid-area: admintable-header-bottom;
     border-radius: 50px;
     border-width: 3px;
     border-color: #D7176C;
+    border-style: solid;
     height: 30px;
-    width: 300px;
+    width: 500px;
     color: #D7176C;
+    font-size: 18px;
+    padding-left: 2%;
 }
-
+.admin-searchbar::placeholder {
+    color: #D7176C;
+    font-size: 18px;
+    margin-left: 5%;
+    opacity: 0.7; /* Adjust the opacity as needed */
+    /* Add any other styles you want for the placeholder text */
+  }
 
 .filter {
     display: flex;
@@ -1171,16 +1180,24 @@ table {
     border-collapse: collapse;
     table-layout: fixed;
   }
-#admintable-result-id{
-    width: 5%;
-}
-#admintable-result-artist{
+  #admintable-result-artist{
     width: 10%;
+}
+#admintable-result-id{
+    width: 20px;
 }
 #admintable-result-genre{
     width: 10%;
 }#admintable-result-sub{
     width: 15%;
+}
+#admintable-resultsub-id{
+    width: 10%;
+}
+#admintable-resultsub-genre{
+    width: 50%;
+}#admintable-resultsub-sub{
+    width: 50%;
 }
 
 table th {
