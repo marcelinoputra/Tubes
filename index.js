@@ -629,7 +629,7 @@ app.get('/subgenreAdmin', async (req, res) => {
     const filterOption = req.query.optFilter;
     const filterValue = req.query.filterVal;
     const query = `SELECT profilepic FROM pengguna WHERE username = ?;
-    SELECT nama FROM subgenre; SELECT COUNT(*) AS totalRows FROM musik`;
+    SELECT nama FROM genre; SELECT COUNT(*) AS totalRows FROM subgenre`;
 
     conn.query(query, [req.session.username], (err, results) => {
         if (err) {
@@ -667,7 +667,7 @@ app.get('/subgenreAdmin', async (req, res) => {
                         name: req.session.name,
                         image: image,
                         results: results2,
-                        namaSubgenre: results[1],
+                        namaGenre: results[1],
                         pageCount: pageCount
                     });
 

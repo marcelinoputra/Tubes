@@ -29,9 +29,6 @@ adminSidebarGenre.addEventListener("click", () => {
   window.location.href = "/genreAdmin";
 });
 
-
-
-
 const buttons = document.querySelectorAll('.pencil-button');
 buttons.forEach(button => {
   button.addEventListener('click', (event) => {
@@ -41,16 +38,11 @@ buttons.forEach(button => {
     // Mengisi nilai input tersembunyi dengan idMusik
     const hiddenInput = document.getElementById('idMusik');
     hiddenInput.value = idMusik;
-
-    // Lakukan tindakan apa pun yang Anda inginkan dengan idMusik, misalnya mengirimnya ke server untuk proses update data.
-
-    // Contoh: Menampilkan idMusik di console
-    console.log(idMusik);
   });
 });
 
 
-// Search songsAdmin
+// Search songsAdmin 
 function performSearchAdmin(query) {
   fetch(`/searchAdmin?query=${query}`)
     .then((response) => response.json())
