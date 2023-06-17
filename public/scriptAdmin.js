@@ -34,10 +34,21 @@ adminSidebarGenre.addEventListener("click", () => {
 
 const buttons = document.querySelectorAll('.pencil-button');
 buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    document.getElementById('updateDataPopUp').classList.toggle("hidden")
+  button.addEventListener('click', (event) => {
+    document.getElementById('updateDataPopUp').classList.toggle("hidden");
+    const idMusik = event.target.getAttribute('data-song-id');
+
+    // Mengisi nilai input tersembunyi dengan idMusik
+    const hiddenInput = document.getElementById('idMusik');
+    hiddenInput.value = idMusik;
+
+    // Lakukan tindakan apa pun yang Anda inginkan dengan idMusik, misalnya mengirimnya ke server untuk proses update data.
+
+    // Contoh: Menampilkan idMusik di console
+    console.log(idMusik);
   });
 });
+
 
 // Search songsAdmin
 const searchBar = document.querySelector('input.admin-searchbar');

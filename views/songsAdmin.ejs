@@ -191,20 +191,25 @@
         </button>
       </div>
 
-      <form method="post" action="" id="premiumtheForm">
+      <form method="post" action="/updateSong" id="premiumtheForm">
+        <input type="hidden" name="idMusik" id="idMusik">
+
         <label for="songsTitle">Songs title</label>
         <input class="form-box" type="text" id="songsTitle" name="songsTitle" />
 
         <label for="artist">Artist</label>
         <input class="form-box" type="text" id="artist" name="artist" />
 
-
-
-        <label for="created-at">Created at</label>
+        <label for="created-at">Release Date</label>
         <input class="form-box" type="date" id="created-at" name="created-at" />
 
         <label for="subgenre">Sub genre</label>
-        <select class="form-box">
+        <select class="form-box" name="subgenre">
+          <% for (let i=0; i < namaSubgenre.length; i++) { %>
+            <option value="<%= namaSubgenre[i].nama %>">
+              <%= namaSubgenre[i].nama %>
+            </option>
+            <% } %>
           <!-- dropdown sub genre, optionny dari table subgenre -->
         </select>
         <label for="songscover">Songs cover</label>
@@ -212,7 +217,7 @@
           <input type="file" name="songscover"><br>
         </div>
 
-        <input class="button" id="add-button-in-popup" type="submit" value="add" />
+        <input class="button" id="add-button-in-popup" type="submit" value="Update" />
       </form>
 
 
