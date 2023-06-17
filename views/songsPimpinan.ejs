@@ -26,7 +26,6 @@
         <div class="sidebar-subtext"id="Pimpinan-sidebar-subgenre">Sub Genre</div>
         <div class="sidebar-subtext" id="Pimpinan-sidebar-user">User</div>
 
-
       </div>
     </div>
     <div class="header-notuser">
@@ -66,23 +65,39 @@
         </div>
     </div>
     <div class="pimpinan-notmain-content-right">
-            <table>
+            <table class="pimpinantable-result-table">
               <thead>
                   <tr>
-                      <th>ID</th>
-                      <th>Title</th>
-                      <th>Artist</th>
-                      <th>Total Stream</th>
+                      <th id="pimpinantable-result-id">ID</th>
+                      <th id="pimpinantable-result-title">Title</th>
+                      <th id="pimpinantable-result-artist">Artist</th>
+                      <th id="pimpinantable-result-totalstream">Total Stream</th>
                   </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Songs title</td>
-                  <td>Artist</td>
-                  <td>n times</td>
-                </tr>  
-              </tbody>
+              <tbody id="pimpinansong-table-body">
+                <% if (results.length===0) { %>
+                  <tr>
+                    <td colspan="7">No results found</td>
+                  </tr>
+                  <% } else { %>
+                    <% results.forEach((song)=> { %>
+                      <tr id="<%= song.idMusik %>">
+                        <td>
+                          <%= song.idMusik %>
+                        </td>
+                        <td>
+                          <%= song.judul %>
+                        </td>
+                        <td>
+                          <%= song.artis %>
+                        </td>
+                        <td>
+                          <%= song.totalstreamed %>
+                        </td>
+                        </td>
+                      </tr>
+                      <% }); %>
+                        <% } %>
           </table>
     </div>
   </div>
@@ -95,7 +110,6 @@
         <% } %>
     </div>
     <h1>Hi there, <%= name %> </h1>
-
 
         <form action="/logout" method="post">
           <input id="logOutButton" class="button" type="submit" value="Log out" />

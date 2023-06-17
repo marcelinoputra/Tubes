@@ -982,7 +982,9 @@ app.get('/songsPimpinan', authPimpinan, async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            const querySongs = `SELECT m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
+            FROM musik m LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
+            GROUP BY m.idMusik, m.judul, m.artis`;
             conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
@@ -1002,6 +1004,7 @@ app.get('/songsPimpinan', authPimpinan, async (req, res) => {
         }
     });
 });
+
 
 app.get('/genrePimpinan', authPimpinan, async (req, res) => {
     const conn = await dbConnect();
