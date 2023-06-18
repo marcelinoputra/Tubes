@@ -143,8 +143,9 @@ svg {
 }
 
 #sidebar-logo {
-    height: 100px;
-    width: 250px;
+    margin-left: 0%;
+    height: 13%;
+    width: 100%;
 }
 
 .sidebar-music {
@@ -191,16 +192,22 @@ svg {
 }
 
 #searchButton {
-    color: #fff;
-    border-color: #fff;
-    border-style: solid;
-    background-color: transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    padding-left: 2%;
+    font-size: 15px;
+    color: #D7176C;
+    border-style: none;
+    font-weight: bold;
     border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.75); 
     text-align: left;
-    border-style: solidcolor;
-    height: 40px;
+    height: 35px;
     width: 400px;
     margin: 2%;
+}
+#artisInfo{
+    color: #F5833F;
+    font-size: 15px;
 }
 
 #searchInput {
@@ -579,7 +586,7 @@ h3 {
     width: 200px;
     height: 250px;
     padding: 10px;
-    background-color: #fff;
+    background-color: #ffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
@@ -1004,9 +1011,17 @@ h4 {
    }
 #subgenreResults li span {
     text-align: center;
-    font-weight: bold;
     display: block;
+    font-weight: bold;
 }
+#subgenreResults li span:nth-child(2) {
+    font-weight: normal;
+
+    text-align: center;
+    display: block;
+    color: #F5833F;
+  }
+  
 #subgenreResults li img {
     margin-left: 5%;
 
@@ -1200,7 +1215,7 @@ table {
     width: 10%;
 }
 #admintable-result-id{
-    width: 20px;
+    width: 5%;
 }
 #admintable-result-genre{
     width: 10%;
