@@ -322,6 +322,8 @@ app.get('/genre/:genreId', (req, res) => {
                     };
                 });
                 const genreName = results[1][0].nama;
+                console.log(genreName)
+                console.log(musicData)
                 res.json({
                     hasilQuery: musicData,
                     hasilQuery2: genreName

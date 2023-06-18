@@ -95,6 +95,7 @@ async function handleClick(element) {
       const coverURL = URL.createObjectURL(blob);
       console.log(data.artist);
       document.querySelector(".song-info span:nth-child(1)").textContent = data.title;
+      document.getElementById("artisInfo").textContent = data.artist;
       const coverEl = document.getElementById("sidebar-cover");
       coverEl.src = coverURL;
       console.log(coverEl);
@@ -304,7 +305,6 @@ itemsGenre.forEach(item => {
 });
 document.getElementById("popupCloseButton2").addEventListener("click",()=>{
   popupGenre.classList.toggle("hidden");
-
 })
 
 
