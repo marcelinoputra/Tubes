@@ -10,38 +10,40 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body  onload="getCurrentDate()">
+<body onload="getCurrentDate()">
   <div id="whole-page-notuser">
     <div class="sidebar-notuser">
       <img src="/assets/images/MySpotitiLogoWithext.png" id="sidebar-logo" alt="" />
       <div id="sidebar-text">
-        
-        
-        <div class="sidebar-text" id="Pimpinan-sidebar-overview" style="color: #F5833F; font-weight: bold;transform: scale(1.1)">Overview</div>
-        <div class="sidebar-text" id="Pimpinan-sidebar-sales"
-        >Sales</div>
+
+
+        <div class="sidebar-text" id="Pimpinan-sidebar-overview"
+          style="color: #F5833F; font-weight: bold;transform: scale(1.1)">Overview</div>
+        <div class="sidebar-text" id="Pimpinan-sidebar-sales">Sales</div>
         <div class="sidebar-text" id="Pimpinan-sidebar-subgenre">Statistics</div>
 
         <div class="sidebar-subtext" id="Pimpinan-sidebar-songs">Songs</div>
-        <div class="sidebar-subtext"id="Pimpinan-sidebar-genre">Genre</div>
-        <div class="sidebar-subtext"id="Pimpinan-sidebar-subgenre">Sub Genre</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-genre">Genre</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-subgenre">Sub Genre</div>
         <div class="sidebar-subtext" id="Pimpinan-sidebar-user">User</div>
 
 
       </div>
     </div>
     <div class="header-notuser">
-      
+
       <button id="profile-btn" class="round-button-notuser">
         <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512">
-          <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
+          <path
+            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+        </svg>
       </button>
     </div>
-    
-    <div class="pimpinan-main-content">    
-      <div  id="pimpinan-main-content-atas">
+
+    <div class="pimpinan-main-content">
+      <div id="pimpinan-main-content-atas">
         <h1> Monthly Overview</h1>
-        <h1  id="currentDate"></h1>
+        <h1 id="currentDate"></h1>
       </div>
 
       <div class="adminBox" id="pimpinan-main-content-sales">
@@ -50,12 +52,16 @@
           <canvas class="chart" id="salesBarChart"></canvas>
           <canvas class="chart" id="salesLineChart"></canvas>
         </div>
-       
+
       </div>
 
       <div class="adminBox" id="pimpinan-main-content-topsongs">
         <div class="headline">Statistics</div>
         <div class="subheadline">Top Songs</div>
+        <div class="pimpinan-main-content-topSongs-chart">
+          <canvas class="chart" id="topSongsBarChart"></canvas>
+          <canvas class="chart" id="topSongsLineChart"></canvas>
+        </div>
       </div>
 
       <div class="adminBox" id="pimpinan-main-content-topgenre">
@@ -68,7 +74,7 @@
       </div>
     </div>
   </div>
-  
+
   <!--buat logout-->
   <div id="logOutPopup" class="hidden">
     <div id="photo-profile-container">
@@ -76,13 +82,15 @@
         <img id="photo-profile" src="data:image/jpeg;base64,<%= image.toString('base64') %>" />
         <% } %>
     </div>
-    <h1>Hi there, <%= name %> </h1>
+    <h1>Hi there, <%= name %>
+    </h1>
 
 
-        <form action="/logout" method="post">
-          <input id="logOutButton" class="button" type="submit" value="Log out" />
-        </form>
+    <form action="/logout" method="post">
+      <input id="logOutButton" class="button" type="submit" value="Log out" />
+    </form>
 
   </div>
 </body>
+
 </html>

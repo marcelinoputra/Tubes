@@ -1061,6 +1061,27 @@ app.get('/dataPembayaran', (req, res) => {
       }
     });
   });
+
+  app.get('/laguTerpopuler', (req, res) => {
+    const query = `
+      SELECT musik.judul, COUNT(daftarputarmusik.idMusik) AS jumlah_diputar
+      FROM daftarputarmusik
+      JOIN musik ON daftarputarmusik.idMusik = musik.idMusik
+      GROUP BY daftarputarmusik.idMusik
+      ORDER BY jumlah_diputar DESC
+      LIMIT 5
+    `;
+  
+    pool.query(query, (error, results) => {
+      if (error) {
+        console.error(error);
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    });
+  });
+  
   
 
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
