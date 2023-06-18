@@ -847,8 +847,12 @@ app.get('/genreAdmin', async (req, res) => {
             res.sendStatus(500);
         } else {
             let querySongs = `SELECT genre.idGenre, genre.nama, COUNT(musik.idMusik) AS totMusik,
-             COUNT(subgenre.idSubGenre) AS totSub FROM genre JOIN subgenre ON genre.idGenre = subgenre.idGenre
-             JOIN musik ON musik.idSubGenre = subgenre.idSubGenre GROUP BY genre.idGenre`;
+            COUNT(subgenre.idSubGenre) AS totSub
+            FROM genre
+            LEFT OUTER JOIN subgenre ON genre.idGenre = subgenre.idGenre
+            LEFT OUTER JOIN musik ON musik.idSubGenre = subgenre.idSubGenre
+            GROUP BY genre.idGenre
+            `;
 
             if (filterOption) {
                 // Add the filter conditions based on the selected option and filter value
@@ -872,6 +876,7 @@ app.get('/genreAdmin', async (req, res) => {
                     if (results.length > 0 && results[0].profilepic) {
                         image = Buffer.from(results[0].profilepic).toString('base64');
                     }
+                    console.log(results2)
                     res.render('genreAdmin', {
                         name: req.session.name,
                         image: image,
@@ -889,8 +894,10 @@ app.get('/searchGenreAdmin', (req, res) => {
     // Query the database to get filtered results based on the search value
     pool.query(
         `SELECT genre.idGenre, genre.nama, COUNT(musik.idMusik) AS totMusik,
-        COUNT(subgenre.idSubGenre) AS totSub FROM genre JOIN subgenre ON genre.idGenre = subgenre.idGenre
-        JOIN musik ON musik.idSubGenre = subgenre.idSubGenre 
+        COUNT(subgenre.idSubGenre) AS totSub
+        FROM genre
+        LEFT OUTER JOIN subgenre ON genre.idGenre = subgenre.idGenre
+        LEFT OUTER JOIN musik ON musik.idSubGenre = subgenre.idSubGenre 
         WHERE genre.idGenre LIKE ? OR genre.nama LIKE ?
         GROUP BY genre.idGenre`,
         [`%${searchValue}%`, `%${searchValue}%`],
@@ -951,6 +958,60 @@ app.post('/updateGenre', upload.single('subgenreCover'), async (req, res) => {
     });
 }
 );
+
+app.delete('/genre/:id', (req, res) => {
+    const genreId = req.params.id;
+    // Disable foreign key checks
+    pool.query('SET FOREIGN_KEY_CHECKS = 0;', (error, results) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Error deleting song');
+        } else {
+            // Delete the row from the tables
+            pool.query('DELETE FROM genre WHERE idGenre = ?;', [genreId], (error, results) => {
+                if (error) {
+                    console.error(error);
+                    res.status(500).send('Error deleting song');
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
+    });
+});
+
+app.post('/addGenre', upload.single('genreCover'), (req, res) => {
+    const genre = req.body.genre;
+    // Check if req.file exists before accessing its path property
+    if (req.file && req.file.path) {
+        // Mengambil ID subgenre berdasarkan nama subgenre
+        // Membaca isi file yang diunggah
+        const fileData = fs.readFileSync(req.file.path);
+
+        // Menyimpan data ke tabel songs
+        const queryInsertGenre = 'INSERT INTO genre (nama, cover) VALUES (?, ?)';
+        pool.query(queryInsertGenre, [genre, fileData], (err, result) => {
+            if (err) {
+                console.error('Error saving song data to MySQL:', err);
+                res.sendStatus(500);
+                return;
+            }
+
+            // Mendapatkan ID songs yang baru saja di-insert
+            const newGenreId = result.insertId;
+
+            // Menyimpan file ke sistem file dengan menggunakan ID songs sebagai nama file
+            const filePath = `uploads/${newGenreId}.jpg`;
+            fs.writeFileSync(filePath, fileData);
+
+            res.redirect('/genreAdmin');
+        });
+    } else {
+        // Handle the case when no file is uploaded
+        console.log('No file uploaded');
+        // ... any additional error handling or response as needed
+    }
+});
 
 
 app.get('/mainPimpinan', authPimpinan, async (req, res) => {

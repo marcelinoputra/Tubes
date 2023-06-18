@@ -122,25 +122,13 @@
         </button>
       </div>
 
-      <form method="post" action="" id="premiumtheForm">
-        <label for="songsTitle">Songs title</label>
-        <input class="form-box" type="text" id="songsTitle" name="songsTitle" />
+      <form method="post" action="/addGenre" id="premiumtheForm" enctype="multipart/form-data">
+        <label for="genre">Genre</label>
+        <input class="form-box" type="text" id="genre" name="genre" />
 
-        <label for="artist">Artist</label>
-        <input class="form-box" type="text" id="artist" name="artist" />
-
-
-
-        <label for="created-at">Created at</label>
-        <input class="form-box" type="date" id="created-at" name="created-at" />
-
-        <label for="subgenre">Sub genre</label>
-        <select class="form-box">
-          <!-- dropdown sub genre, optionny dari table subgenre -->
-        </select>
-        <label for="songscover">Songs cover</label>
+        <label for="genreCover">Genre cover</label>
         <div class="form-box">
-          <input type="file" name="songscover"><br>
+          <input type="file" name="genreCover"><br>
         </div>
 
         <input class="button" id="add-button-in-popup" type="submit" value="add" />
