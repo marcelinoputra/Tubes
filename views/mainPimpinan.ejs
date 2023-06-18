@@ -87,8 +87,27 @@
           <% } %>
       </div>
 
-      <div class="adminBox" id="pimpinan-main-content-user">
-        <div class="headline">User Analytics</div>
+      <div class="adminBox" id="pimpinan-main-content-user" style="overflow-y: scroll;">
+        <div class="headline">Top Users by total played</div>
+        <% for(const row of userAnalytics) { %>
+          <div class="topSongsContainer"style="margin:3% ;width:88%">
+            <% if (row.profilepic) { %>
+              <img id = "profilepic-in-analytics" src="data:image/jpeg;base64,<%= row.profilepic.toString('base64') %>" alt="">
+            <% } else { %>
+              <img  id = "profilepic-in-analytics"src="../Assets/images/defaultProfilePicture.png" alt="">
+            <% } %>
+            <div class="useranalytics-text" style="width: 100%;">
+              <h3 id="nama-in-analytics"style="padding-top:0%; padding-right=5%" >
+                <%= row.nama %> </br>
+                @<%= row.username %>
+              </h3>
+              
+            </div>
+            <h3 id="judulTopGenre" style="color:#F5833F;font-size:15px; text-align: left; width: 30%;">
+              <%= row.jumlahPutar %> times
+            </h3>
+          </div>
+          <% } %>
       </div>
     </div>
   </div>

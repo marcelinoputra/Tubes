@@ -860,7 +860,7 @@ overflow-y:SCROLL ;
     padding: 5%;
 }
 .topSongsContainer{
-    background-color: #f0efef;
+    background-color: #eeeeee;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     margin-bottom: 3%;
@@ -868,6 +868,15 @@ overflow-y:SCROLL ;
     height: 15%;
     width: 93%;
     padding: 3%;
+}
+#profilepic-in-analytics{
+    width: 3em;
+    height: 3em;
+    margin-right: 5%;
+}
+.useranalytics-text{
+    align-items: center;
+    display: flex;
 }
 .topSongsContainer img{
     display: flex;
@@ -1201,7 +1210,7 @@ grid-area: admintable-header-bottom;
 .filter {
     display: flex;
     grid-area: admintable-header-rightBtm;
-    width: 500px;
+    width: 530px;
     height: 40px;
     font-weight: bold;
     background-color: #D7176C;
