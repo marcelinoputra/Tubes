@@ -1042,6 +1042,27 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
     });
 });
 
+app.get('/dataPembayaran', (req, res) => {
+    // Eksekusi query SQL untuk mengambil data pembayaran dari database
+    const query = `
+      SELECT MONTH(tgl_Bayar) AS bulan, COUNT(*) AS jumlah_pembayaran
+      FROM Pembayaran
+      GROUP BY MONTH(tgl_Bayar)
+    `;
+  
+    // Jalankan query ke database
+    pool.query(query, (error, results) => {
+      if (error) {
+        console.error('Error executing SQL query:', error);
+        res.sendStatus(500);
+      } else {
+        // Kirim hasil query sebagai respons ke halaman HTML dalam format JSON
+        res.json(results);
+      }
+    });
+  });
+  
+
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     try {
       const conn = await dbConnect();
