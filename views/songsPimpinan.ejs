@@ -65,8 +65,6 @@
       <table class="pimpinantable-result-table">
         <thead>
           <tr>
-            <th id="pimpinantable-result-profile">Cover
-            </th>
             <th id="pimpinantable-result-id">ID</th>
             <th id="pimpinantable-result-title">Title</th>
             <th id="pimpinantable-result-artist">Artist</th>
@@ -81,13 +79,6 @@
           <% } else { %>
           <% results.forEach((song) => { %>
           <tr id="<%= song.idMusik %>">
-            <td id="pimpinantable-result-profile">
-              <% if (song.cover) { %>
-              <img class="profilepic-in-table" src="data:image/png;base64,<%= song.cover %>" alt="Cover" />
-              <% } else { %>
-              <img class="profilepic-in-table" src="../Assets/images/defaultCover.png" alt="Default Cover" />
-              <% } %>
-            </td>
             <td id="pimpinantable-result-id"><%= song.idMusik %></td>
             <td id="pimpinantable-result-title"><%= song.judul %></td>
             <td id="pimpinantable-result-artist"><%= song.artis %></td>

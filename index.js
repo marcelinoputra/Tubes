@@ -1411,47 +1411,48 @@ app.get("/api/get-audio-path", async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
-        const conn = await dbConnect();
-        const username = req.body.username;
-        const password = req.body.password;
-        const hashedPassword = hashPassword(password);
-        //cek apakah username dan password kosong
-        const query = `SELECT * FROM pengguna WHERE username = ? AND password = ?`;
-        if (username && password) {
-            conn.query(query, [username, hashedPassword], (err, results) => {
-                if (err) {
-                    console.error(err);
-                    res.sendStatus(500);
-                } else {
-                    if (results.length > 0) {
-                        console.log('berhasil');
-                        // Tambahkan session dengan nama pengguna
-                        req.session.username = results[0].username;
-                        req.session.name = results[0].nama;
-                        req.session.jabatan = results[0].jabatan;
-                        // Redirect ke halaman utama (tabel users)
-                        if (req.session.jabatan === "Member") {
-                            res.redirect('/');
-                        } else if (req.session.jabatan === "Admin") {
-                            res.redirect('/mainAdmin');
-                        } else if (req.session.jabatan === "Pimpinan") {
-                            res.redirect('/mainPimpinan');
-                        }
-                    } else {
-                        // Jika akun tidak ditemukan, tetap berada di halaman login
-                        res.redirect('/login');
-                    }
-                }
-            });
-        } else {
-            // Jika username atau password kosong
-            console.log('login gagal, username dan password harus diisi');
-        }
+      const conn = await dbConnect();
+      const username = req.body.username;
+      const password = req.body.password;
+      const hashedPassword = hashPassword(password);
+  
+      const query = `SELECT * FROM pengguna WHERE username = ? AND password = ?`;
+      if (username && password) {
+        conn.query(query, [username, hashedPassword], (err, results) => {
+          if (err) {
+            console.error(err);
+            res.sendStatus(500);
+          } else {
+            if (results.length > 0) {
+              console.log('berhasil');
+              req.session.username = results[0].username;
+              req.session.name = results[0].nama;
+              req.session.jabatan = results[0].jabatan;
+  
+              if (req.session.jabatan === "Member") {
+                res.redirect('/');
+              } else if (req.session.jabatan === "Admin") {
+                res.redirect('/mainAdmin');
+              } else if (req.session.jabatan === "Pimpinan") {
+                res.redirect('/mainPimpinan');
+              }
+            } else {
+              // Login failed, display an alert and redirect to login page
+              res.send('<script>alert("Login failed. Please check your username or/and password correctly."); window.location.href = "/login";</script>');
+            }
+          }
+        });
+      } else {
+        // If username or password is empty
+        res.send('<script>alert("Login failed. Please fill your username or/and password."); window.location.href = "/login";</script>');
+
+      }
     } catch (err) {
-        console.error(err);
-        res.sendStatus(500);
+      console.error(err);
+      res.sendStatus(500);
     }
-});
+  });
+  
 
 
 app.post('/logout', (req, res) => {
@@ -1467,45 +1468,67 @@ app.post('/logout', (req, res) => {
 
 app.post('/signup', upload.single('profilepic'), async (req, res) => {
     try {
-        const conn = await dbConnect();
-        const username = req.body.username;
-        const password = req.body.password;
-        const rePassword = req.body.reconfirmpassword;
-        const name = req.body.name;
-        const tanggalBergabung = getCurrentDate();
-        const hashedPassword = hashPassword(password);
-        console.log(req.file);
-        console.log(req.body.profilepic);
-        let buffer = null;
-        if (req.file) {
-            buffer = fs.readFileSync(req.file.path);
-        }
-        //cek apakah username dan password kosong
-        const query = `
-            INSERT INTO pengguna (username, password, nama, 
-            jabatan, isActive, tgl_Bergabung, tgl_Keluar, profilepic) 
-            VALUES (?, ?, ?, "Member",
-            TRUE, ? , NULL, ?)
-        `;
-        if (username && password && name && (password === rePassword)) {
-            conn.query(query, [username, hashedPassword, name, tanggalBergabung, buffer], (err, results) => {
-                if (err) {
+      const conn = await dbConnect();
+      const username = req.body.username;
+      const password = req.body.password;
+      const rePassword = req.body.reconfirmpassword;
+      const name = req.body.name;
+      const tanggalBergabung = getCurrentDate();
+      const hashedPassword = hashPassword(password);
+      console.log(req.file);
+      console.log(req.body.profilepic);
+      let buffer = null;
+      if (req.file) {
+        buffer = fs.readFileSync(req.file.path);
+      }
+  
+      // Check if the username already exists
+      const checkUsernameQuery = `SELECT * FROM pengguna WHERE username = ?`;
+      conn.query(checkUsernameQuery, [username], (err, results) => {
+        if (err) {
+          console.error(err);
+          res.sendStatus(500);
+        } else {
+          if (results.length > 0) {
+            // Username already taken, display an alert
+            res.send('<script>alert("Username is already taken. Please choose a different username."); window.location.href = "/signup";</script>');
+          } else {
+            if (password.length < 8) {
+              // Password is less than 8 characters, display an alert
+              res.send('<script>alert("Password must be at least 8 characters long."); window.location.href = "/signup";</script>');
+            } else {
+              // Insert the new user into the database
+              const query = `
+                INSERT INTO pengguna (username, password, nama, jabatan, isActive, tgl_Bergabung, tgl_Keluar, profilepic) 
+                VALUES (?, ?, ?, "Member", TRUE, ?, NULL, ?)
+              `;
+  
+              if (username && password && name && (password === rePassword)) {
+                conn.query(query, [username, hashedPassword, name, tanggalBergabung, buffer], (err, results) => {
+                  if (err) {
                     console.error(err);
                     res.sendStatus(500);
-                } else {
-                    res.redirect('/login');
-                }
-            });
-        } else {
-            // Jika username atau password atau nama kosong
-            res.redirect('/signup');
+                  } else {
+                    // Signup successful, display an alert and redirect to login page
+                    res.send('<script>alert("Signup successful. Please login with your new account."); window.location.href = "/login";</script>');
+                  }
+                });
+              } else {
+                // Signup failed, display an alert and redirect to signup page
+                res.send('<script>alert("Signup failed. Please check your inputs and try again."); window.location.href = "/signup";</script>');
+              }
+            }
+          }
         }
+      });
     } catch (err) {
-        console.error(err);
-        res.sendStatus(500);
+      console.error(err);
+      res.sendStatus(500);
     }
-});
-
+  });
+  
+  
+  
 
 app.listen(PORT, () => {
     console.log(`Server is ready, listening in port ${PORT}`);

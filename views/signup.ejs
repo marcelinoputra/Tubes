@@ -1,30 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Document</title>
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="login-container">
-
-        <img src="/assets/images/MySpotitiLogo.png" alt="">
-        <h2>Sign up</h2>
-        <h3>Can we get to know each other?</h3>
-        <form class="form-container" id ="signUpForm" method ="post" action="/signup" enctype="multipart/form-data">
-            <input type="text" name="name" class="userBox" placeholder="Full Name"><br>
-            <input type="text" name="username" class="userBox" placeholder="Username"><br>
-            <input type="password" name="password" class="userBox" placeholder="Password"><br>
-            <input type="password" name="reconfirmpassword" class="userBox" placeholder="Reconfirm Password"><br>
-            <div class="userBox">
-                Avatar  
-            <input type="file" name="profilepic"><br>
-
-            </div>
-            <button class="button">Sign Up</button>
-        </form>
-        <a class="hoveredText" href="login">Already have account?</a>
+      <img src="/assets/images/MySpotitiLogo.png" alt="" />
+      <h2>Sign up</h2>
+      <h3>Can we get to know each other?</h3>
+      <form
+        class="form-container"
+        id="signUpForm"
+        method="post"
+        action="/signup"
+        enctype="multipart/form-data"
+      >
+        <input
+          type="text"
+          name="name"
+          class="userBox"
+          placeholder="Full Name"
+        /><br />
+        <input
+          type="text"
+          name="username"
+          class="userBox"
+          placeholder="Username"
+          oninput="checkUsername()"
+        /><br />
+        <input
+          type="password"
+          name="password"
+          class="userBox"
+          placeholder="Password"
+          oninput="checkPasswordLength()"
+        /><br />
+        <input
+          type="password"
+          name="reconfirmpassword"
+          class="userBox-red"
+          placeholder="Reconfirm Password"
+          oninput="checkPasswordMatch()"
+        /><br />
+        <div class="userBox">
+          Avatar
+          <input type="file" name="profilepic" /><br />
+        </div>
+        <button class="button">Sign Up</button>
+      </form>
+      <a class="hoveredText" href="login">Already have an account?</a>
     </div>
-</body>
+    <div id="usernamePopup" class="popup">
+      Username cannot be empty.
+    </div>
+    <div id="passwordPopup" class="popup">
+      Password must be at least 8 characters long.
+    </div>
+    <script>
+      function showPopup(popupId) {
+        const popup = document.getElementById(popupId);
+        popup.style.display = "block";
+      }
+
+      function hidePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        popup.style.display = "none";
+      }
+
+      const usernameInput = document.getElementsByName("username")[0];
+      const passwordInput = document.getElementsByName("password")[0];
+      const reconfirmPasswordInput = document.getElementsByName("reconfirmpassword")[0];
+
+      function checkUsername() {
+        if (usernameInput.value.trim() === "") {
+          showPopup("usernamePopup");
+        } else {
+          hidePopup("usernamePopup");
+        }
+      }
+
+      function checkPasswordLength() {
+        if (passwordInput.value.length < 8) {
+          showPopup("passwordPopup");
+        } else {
+          hidePopup("passwordPopup");
+        }
+      }
+
+      function checkPasswordMatch() {
+        checkUsername();
+        checkPasswordLength();
+        if (passwordInput.value === reconfirmPasswordInput.value && reconfirmPasswordInput.value.length >= 8) {
+          reconfirmPasswordInput.classList.remove("userBox-red");
+          reconfirmPasswordInput.classList.add("userBox");
+        } else {
+          reconfirmPasswordInput.classList.remove("userBox");
+          reconfirmPasswordInput.classList.add("userBox-red");
+        }
+      }
+    </script>
+  </body>
 </html>
