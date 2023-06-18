@@ -736,7 +736,7 @@ h3 {
 .pimpinan-notmain-content {
     display: grid;
     grid-template-columns: 40vh auto;
-    grid-template-rows: 20vh auto;
+    grid-template-rows: 20vh 65vh;
     grid-template-areas:
         "atas atas"
         "lefty righty";
@@ -791,8 +791,9 @@ h3 {
     background-color: #fff;
     margin-top: 15px;
     margin-left: 15px;
-
+overflow-y:SCROLL ;
     padding: 1%;
+    height: 100%;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -1199,7 +1200,9 @@ table {
 }#admintable-resultsub-sub{
     width: 50%;
 }
-
+#pimpinantable-result-id{
+    width: 5%;
+}
 table th {
     padding: 8px;
     /* border-right: 1px dotted #727272; */

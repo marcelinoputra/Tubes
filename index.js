@@ -948,64 +948,125 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
 });
 
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
-    const conn = await dbConnect();
-    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
-    conn.query(query, [req.session.username], (err, results) => {
-        if (err) {
-            console.error(err);
-            res.sendStatus(500);
-        } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
-            conn.query(querySongs, (err, results2) => {
+    try {
+        const conn = await dbConnect();
+        
+        const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
+        const query2 = 'SELECT COUNT(*) AS nPengguna FROM pengguna WHERE jabatan = "member"';
+        const currentMonth = new Date().getMonth() + 1;
+        const query3 = `SELECT COUNT(*) AS nPengguna FROM pengguna WHERE MONTH(tgl_bergabung) = ${currentMonth} AND jabatan = 'member'`;
+
+        conn.query(query1, [req.session.username], (err, results1) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            conn.query(query2, (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
-                } else {
-                    let image = null;
-                    if (results.length > 0 && results[0].profilepic) {
-                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    return;
+                }
+
+                conn.query(query3, (err, results3) => {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(500);
+                        return;
                     }
+
+                    let image = null;
+                    if (results1.length > 0 && results1[0].profilepic) {
+                        image = Buffer.from(results1[0].profilepic).toString('base64');
+                    }
+
+                    const nPengguna = results2[0].nPengguna.toString();
+                    const nPenggunaThisMonth = results3[0].nPengguna.toString();
+
                     res.render('salesPimpinan', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        nPengguna: nPengguna,
+                        nPenggunaThisMonth: nPenggunaThisMonth,
                     });
-                }
+                });
             });
-        }
-    });
+        });
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 });
 
+
+
 app.get('/songsPimpinan', authPimpinan, async (req, res) => {
-    const conn = await dbConnect();
-    const query = `SELECT profilepic FROM pengguna WHERE username = ?`;
-    conn.query(query, [req.session.username], (err, results) => {
-        if (err) {
-            console.error(err);
-            res.sendStatus(500);
-        } else {
-            const querySongs = `SELECT m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
+    try {
+        const conn = await dbConnect();
+
+        const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
+        const query2 = `SELECT m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
             FROM musik m LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
             GROUP BY m.idMusik, m.judul, m.artis`;
-            conn.query(querySongs, (err, results2) => {
+
+        conn.query(query1, [req.session.username], (err, results1) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            conn.query(query2, (err, results2) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
-                } else {
-                    let image = null;
-                    if (results.length > 0 && results[0].profilepic) {
-                        image = Buffer.from(results[0].profilepic).toString('base64');
+                    return;
+                }
+
+                const currentMonth = new Date().getMonth() + 1;
+                const query3 = `SELECT idMusik, COUNT(idMusik) AS totalLaguThisMonth FROM daftarputarmusik
+                    WHERE MONTH(tglPutar) = ${currentMonth}
+                    GROUP BY idMusik`;
+
+                conn.query(query3, (err, results3) => {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(500);
+                        return;
                     }
+
+                    let image = null;
+                    if (results1.length > 0 && results1[0].profilepic) {
+                        image = Buffer.from(results1[0].profilepic).toString('base64');
+                    }
+
+                    // Combine the results from query2 and query3 based on the matching id
+                    const combinedResults = results2.map((result2) => {
+                        const result3 = results3.find((r) => r.idMusik === result2.idMusik);
+                        const totalLaguThisMonth = result3 ? result3.totalLaguThisMonth : 0;
+                        return {
+                            ...result2,
+                            totalLaguThisMonth,
+                        };
+                    });
+
                     res.render('songsPimpinan', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        results: combinedResults,
                     });
-                }
+                });
             });
-        }
-    });
+        });
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 });
+
+
 
 
 app.get('/genrePimpinan', authPimpinan, async (req, res) => {
