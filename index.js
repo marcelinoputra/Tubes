@@ -1082,13 +1082,21 @@ app.get('/dataPembayaran', (req, res) => {
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
-
+        const filterOption = req.query.optFilter;
+        const filterValue = req.query.filterVal;
         const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
         const query2 = 'SELECT COUNT(*) AS nPengguna FROM pengguna WHERE jabatan = "member"';
         const currentMonth = new Date().getMonth() + 1;
         const query3 = `SELECT COUNT(*) AS nPengguna FROM pengguna WHERE MONTH(tgl_bergabung) = ${currentMonth} AND jabatan = 'member'`;
-        const query4 = `SELECT * FROM pembayaran WHERE MONTH(tgl_bayar) = ${currentMonth} AND username IS NOT NULL AND paket IS NOT NULL`;
-
+        let query4 = `SELECT * FROM pembayaran WHERE MONTH(tgl_bayar) = ${currentMonth} AND username IS NOT NULL AND paket IS NOT NULL`;
+        if (filterOption && filterValue) {
+            // Add the filter conditions based on the selected option and filter value
+            if (filterOption === "username") {
+                query4 += ` AND pembayaran.username = '${filterValue}'`;
+            } else if (filterOption === "package") {
+                query4 += ` AND pembayaran.paket = '${filterValue}'`;
+            }
+        }
         conn.query(query1, [req.session.username], (err, results1) => {
             if (err) {
                 console.error(err);
