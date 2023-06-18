@@ -1147,93 +1147,6 @@ app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     }
 });
 
-// app.get('/songsPimpinan', authPimpinan, async (req, res) => {
-//     try {
-//         const conn = await dbConnect();
-//         const filterOption = req.query.optFilter;
-//         const filterValue = req.query.filterVal;
-//         const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
-//         let query2 = `SELECT m.cover, m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
-//                       FROM musik m LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
-//                       GROUP BY m.idMusik, m.judul, m.artis`;
-//         if (filterOption) {
-//             // Add the filter conditions based on the selected option and filter value
-//             if (filterOption === "title") {
-//                 query2 = `SELECT m.cover, m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
-//                           FROM musik m LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
-//                           WHERE m.judul = ?
-//                           GROUP BY m.idMusik, m.judul, m.artis`;
-//             } else if (filterOption === "artist") {
-//                 query2 = `SELECT m.cover, m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
-//                           FROM musik m LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
-//                           WHERE m.artis = ?
-//                           GROUP BY m.idMusik, m.judul, m.artis`;
-//             } else if (filterOption === "sort") {
-//                 query2 = `SELECT m.cover, m.idMusik, m.judul, m.artis, 
-//                           COUNT(dpm.idMusik) AS totalLaguDiputar,
-//                           SUM(MONTH(dpm.tglPutar) = ?) AS totalLaguThisMonth
-//                           FROM musik m
-//                           LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
-//                           GROUP BY m.idMusik, m.judul, m.artis
-//                           ORDER BY totalLaguThisMonth ASC`;
-//             }
-//         }
-//         conn.query(query1, [req.session.username], (err, results1) => {
-//             if (err) {
-//                 console.error(err);
-//                 res.sendStatus(500);
-//                 return;
-//             }
-
-//             conn.query(query2, [filterValue], (err, results2) => {
-//                 if (err) {
-//                     console.error(err);
-//                     res.sendStatus(500);
-//                     return;
-//                 }
-
-//                 const currentMonth = new Date().getMonth() + 1;
-//                 const query3 = `SELECT idMusik, COUNT(idMusik) AS totalLaguThisMonth
-//                                 FROM daftarputarmusik
-//                                 WHERE MONTH(tglPutar) = ?
-//                                 GROUP BY idMusik`;
-
-//                 conn.query(query3, [currentMonth], (err, results3) => {
-//                     if (err) {
-//                         console.error(err);
-//                         res.sendStatus(500);
-//                         return;
-//                     }
-
-//                     let image = null;
-//                     if (results1.length > 0 && results1[0].profilepic) {
-//                         image = Buffer.from(results1[0].profilepic).toString('base64');
-//                     }
-
-//                     // Combine the results from query2 and query3 based on the matching id
-//                     const combinedResults = results2.map((result2) => {
-//                         const result3 = results3.find((r) => r.idMusik === result2.idMusik);
-//                         const totalLaguThisMonth = result3 ? result3.totalLaguThisMonth : 0;
-//                         return {
-//                             ...result2,
-//                             totalLaguThisMonth,
-//                         };
-//                     });
-
-//                     res.render('songsPimpinan', {
-//                         name: req.session.name,
-//                         image: image,
-//                         results: combinedResults,
-//                     });
-//                 });
-//             });
-//         });
-//     } catch (err) {
-//         console.error(err);
-//         res.sendStatus(500);
-//     }
-// });
-
 app.get('/songsPimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
@@ -1289,7 +1202,7 @@ app.get('/songsPimpinan', authPimpinan, async (req, res) => {
                 });
             });
         });
-    } catch (err){
+    } catch (err) {
         console.error(err);
         res.sendStatus(500);
     }
@@ -1395,10 +1308,13 @@ app.get('/searchSales', (req, res) => {
 app.get('/genrePimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
+        const filterOption = req.query.optFilter;
+        const filterValue = req.query.filterVal;
         const currentMonth = new Date().getMonth() + 1;
         const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
-        const query2 = `
-            SELECT t1.idGenre,t1.nama, t1.jumlahPutar, t2.jumlahLagu
+
+        let query2 = `
+            SELECT t1.idGenre, t1.nama, t1.jumlahPutar, t2.jumlahLagu
             FROM
             (SELECT COUNT(musik.idMusik) AS jumlahPutar, genre.idGenre, genre.nama
             FROM daftarputarmusik
@@ -1413,8 +1329,18 @@ app.get('/genrePimpinan', authPimpinan, async (req, res) => {
             JOIN subgenre ON genre.idGenre = subgenre.idGenre
             JOIN musik ON subgenre.idSubGenre = musik.idSubGenre
             GROUP BY genre.idGenre) AS t2
-            ON t1.idGenre = t2.idGenre;
+            ON t1.idGenre = t2.idGenre
         `;
+        if (filterOption) {
+            if (filterOption === 'genre' && filterValue) {
+                query2 += ` WHERE t1.nama LIKE '%${filterValue}%'`;
+            } else if (filterOption === 'sortTotalSongs') {
+                query2 += ` ORDER BY t2.jumlahLagu DESC`;
+            } else if (filterOption === 'sortTotalStream') {
+                query2 += ` ORDER BY t1.jumlahPutar DESC`;
+            }
+        }
+
 
         conn.query(query1, [req.session.username], (err, results1) => {
             if (err) {
@@ -1434,7 +1360,7 @@ app.get('/genrePimpinan', authPimpinan, async (req, res) => {
                 if (results1.length > 0 && results1[0].profilepic) {
                     image = Buffer.from(results1[0].profilepic).toString('base64');
                 }
-
+                console.log(results2)
                 res.render('genrePimpinan', {
                     name: req.session.name,
                     image: image,
@@ -1447,6 +1373,7 @@ app.get('/genrePimpinan', authPimpinan, async (req, res) => {
         res.sendStatus(500);
     }
 });
+
 
 
 
