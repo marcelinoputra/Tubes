@@ -322,8 +322,6 @@ app.get('/genre/:genreId', (req, res) => {
                     };
                 });
                 const genreName = results[1][0].nama;
-                console.log(genreName)
-                console.log(musicData)
                 res.json({
                     hasilQuery: musicData,
                     hasilQuery2: genreName
@@ -916,6 +914,43 @@ app.get('/searchGenreAdmin', (req, res) => {
         }
     );
 });
+
+app.post('/updateGenre', upload.single('subgenreCover'), async (req, res) => {
+    const conn = await dbConnect();
+
+    // Mendapatkan nilai-nilai yang dikirimkan melalui formulir
+    const idGenre = req.body.idGenre;
+    const namaGenre = req.body.namaGenre;
+    const coverImage = req.file ? req.file.path : null;
+
+    // Lakukan query untuk mendapatkan data subgenre yang akan diupdate
+    const getGenreQuery = 'SELECT * FROM genre WHERE idGenre = ?';
+    conn.query(getGenreQuery, [idGenre], (err, genreResult) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            const existingGenre = genreResult[0]; // Data subgenre yang sudah ada
+
+            // Periksa jika nilai nama subgenre atau idGenre kosong atau tidak diubah
+            const updatedNamaGen = namaGenre || existingGenre.nama;
+            // Periksa jika ada cover image baru diunggah
+            const updatedCover = coverImage !== null ? fs.readFileSync(coverImage) : existingGenre.cover;
+            // Lakukan update data di MySQL
+            const updateQuery = 'UPDATE genre SET nama = ?, cover = ? WHERE idGenre = ?';
+            conn.query(updateQuery, [updatedNamaGen, updatedCover, idGenre], (err, result) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    console.log('Data berhasil diupdate');
+                    res.redirect('/genreAdmin');
+                }
+            });
+        }
+    });
+}
+);
 
 
 app.get('/mainPimpinan', authPimpinan, async (req, res) => {
