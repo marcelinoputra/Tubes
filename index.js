@@ -1343,7 +1343,14 @@ app.get('/userPimpinan', authPimpinan, async (req, res) => {
     }
 });
 
+//fitur donlot pdf
+app.set('views', path.join(process.cwd(), 'views'));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
+app.get('/download', (req, res) => {
+    const file = path.join(process.cwd(), 'public', 'Monthly Sales.pdf');
+    res.download(file, 'Monthly Sales.pdf');
+});
 
 app.get('/login', async (req, res) => {
     const conn = await dbConnect();
