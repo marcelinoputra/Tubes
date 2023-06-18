@@ -1147,10 +1147,6 @@ app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     }
 });
 
-
-
-
-
 app.get('/songsPimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
@@ -1299,8 +1295,8 @@ app.get('/searchSales', (req, res) => {
                     return {
                         idPembayaran: pembayaran.idPembayaran,
                         username: pembayaran.username,
-                        tgl_Bayar: pembayaran.tgl_bayar,
-                        paket: pembayaran.paket ,
+                        tgl_Bayar: pembayaran.tgl_Bayar, // Menggunakan huruf besar (camelCase)
+                        paket: pembayaran.paket,
                         isVerified: pembayaran.isVerified
                         // Add more attributes as needed
                     };

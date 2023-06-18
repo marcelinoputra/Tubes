@@ -124,7 +124,6 @@ fetch('/dataPembayaran')
           <td>${data.idPembayaran}</td>
           <td>${data.username}</td>
           <td>${data.tgl_Bayar}</td>
-          <td>${data.tglRilis}</td>
           <td>${data.paket}</td>
           <td>${data.isVerified}</td>
           `;
