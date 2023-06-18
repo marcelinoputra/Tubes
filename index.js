@@ -1021,7 +1021,20 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT * FROM musik LIMIT 7`;
+            const querySongs = `SELECT musik.judul, musik.artis, musik.cover, COUNT(daftarputarmusik.idMusik) AS jumlah_diputar
+            FROM daftarputarmusik
+            LEFT OUTER JOIN musik ON daftarputarmusik.idMusik = musik.idMusik
+            GROUP BY daftarputarmusik.idMusik
+            ORDER BY jumlah_diputar DESC
+            LIMIT 10;
+            SELECT genre.nama, genre.cover, COUNT(daftarputarmusik.idMusik) AS jumlahPutaran
+            FROM genre
+            RIGHT OUTER JOIN subgenre ON genre.idGenre = subgenre.idGenre
+            RIGHT OUTER JOIN musik ON subgenre.idSubGenre = musik.idSubGenre
+            RIGHT OUTER JOIN daftarputarmusik ON musik.idMusik = daftarputarmusik.idMusik
+            GROUP BY genre.nama
+            ORDER BY jumlahPutaran DESC
+            LIMIT 10;`;
             conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
@@ -1034,7 +1047,8 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
                     res.render('mainPimpinan', {
                         name: req.session.name,
                         image: image,
-                        results: results2
+                        topSongs: results2[0],
+                        topGenre: results2[1]
                     });
                 }
             });
@@ -1049,172 +1063,153 @@ app.get('/dataPembayaran', (req, res) => {
       FROM Pembayaran
       GROUP BY MONTH(tgl_Bayar)
     `;
-  
+
     // Jalankan query ke database
     pool.query(query, (error, results) => {
-      if (error) {
-        console.error('Error executing SQL query:', error);
-        res.sendStatus(500);
-      } else {
-        // Kirim hasil query sebagai respons ke halaman HTML dalam format JSON
-        res.json(results);
-      }
+        if (error) {
+            console.error('Error executing SQL query:', error);
+            res.sendStatus(500);
+        } else {
+            // Kirim hasil query sebagai respons ke halaman HTML dalam format JSON
+            res.json(results);
+        }
     });
-  });
+});
 
-  app.get('/laguTerpopuler', (req, res) => {
-    const query = `
-      SELECT musik.judul, COUNT(daftarputarmusik.idMusik) AS jumlah_diputar
-      FROM daftarputarmusik
-      JOIN musik ON daftarputarmusik.idMusik = musik.idMusik
-      GROUP BY daftarputarmusik.idMusik
-      ORDER BY jumlah_diputar DESC
-      LIMIT 5
-    `;
-  
-    pool.query(query, (error, results) => {
-      if (error) {
-        console.error(error);
-        res.sendStatus(500);
-      } else {
-        res.json(results);
-      }
-    });
-  });
-  
-  
+
+
 
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     try {
-      const conn = await dbConnect();
-  
-      const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
-      const query2 = 'SELECT COUNT(*) AS nPengguna FROM pengguna WHERE jabatan = "member"';
-      const currentMonth = new Date().getMonth() + 1;
-      const query3 = `SELECT COUNT(*) AS nPengguna FROM pengguna WHERE MONTH(tgl_bergabung) = ${currentMonth} AND jabatan = 'member'`;
-      const query4 = `SELECT * FROM pembayaran WHERE MONTH(tgl_bayar) = ${currentMonth} AND username IS NOT NULL AND paket IS NOT NULL`;
+        const conn = await dbConnect();
 
-      conn.query(query1, [req.session.username], (err, results1) => {
-        if (err) {
-          console.error(err);
-          res.sendStatus(500);
-          return;
-        }
-  
-        conn.query(query2, (err, results2) => {
-          if (err) {
-            console.error(err);
-            res.sendStatus(500);
-            return;
-          }
-  
-          conn.query(query3, (err, results3) => {
+        const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
+        const query2 = 'SELECT COUNT(*) AS nPengguna FROM pengguna WHERE jabatan = "member"';
+        const currentMonth = new Date().getMonth() + 1;
+        const query3 = `SELECT COUNT(*) AS nPengguna FROM pengguna WHERE MONTH(tgl_bergabung) = ${currentMonth} AND jabatan = 'member'`;
+        const query4 = `SELECT * FROM pembayaran WHERE MONTH(tgl_bayar) = ${currentMonth} AND username IS NOT NULL AND paket IS NOT NULL`;
+
+        conn.query(query1, [req.session.username], (err, results1) => {
             if (err) {
-              console.error(err);
-              res.sendStatus(500);
-              return;
-            }
-  
-            conn.query(query4, (err, results4) => {
-              if (err) {
                 console.error(err);
                 res.sendStatus(500);
                 return;
-              }
-  
-              let image = null;
-              if (results1.length > 0 && results1[0].profilepic) {
-                image = Buffer.from(results1[0].profilepic).toString('base64');
-              }
-  
-              const nPengguna = results2[0].nPengguna.toString();
-              const nPenggunaThisMonth = results3[0].nPengguna.toString();
-  
-              res.render('salesPimpinan', {
-                name: req.session.name,
-                image: image,
-                nPengguna: nPengguna,
-                nPenggunaThisMonth: nPenggunaThisMonth,
-                pembayaranData: results4,
-              });
+            }
+
+            conn.query(query2, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                conn.query(query3, (err, results3) => {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(500);
+                        return;
+                    }
+
+                    conn.query(query4, (err, results4) => {
+                        if (err) {
+                            console.error(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+
+                        let image = null;
+                        if (results1.length > 0 && results1[0].profilepic) {
+                            image = Buffer.from(results1[0].profilepic).toString('base64');
+                        }
+
+                        const nPengguna = results2[0].nPengguna.toString();
+                        const nPenggunaThisMonth = results3[0].nPengguna.toString();
+
+                        res.render('salesPimpinan', {
+                            name: req.session.name,
+                            image: image,
+                            nPengguna: nPengguna,
+                            nPenggunaThisMonth: nPenggunaThisMonth,
+                            pembayaranData: results4,
+                        });
+                    });
+                });
             });
-          });
         });
-      });
     } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
+        console.error(err);
+        res.sendStatus(500);
     }
-  });
-  
-  
+});
+
+
 
 
 
 app.get('/songsPimpinan', authPimpinan, async (req, res) => {
     try {
-      const conn = await dbConnect();
-  
-      const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
-      const query2 = `SELECT m.cover, m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
+        const conn = await dbConnect();
+
+        const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
+        const query2 = `SELECT m.cover, m.idMusik, m.judul, m.artis, COUNT(dpm.idMusik) AS totalLaguDiputar
                       FROM musik m LEFT JOIN daftarputarmusik dpm ON m.idMusik = dpm.idMusik
                       GROUP BY m.idMusik, m.judul, m.artis`;
-  
-      conn.query(query1, [req.session.username], (err, results1) => {
-        if (err) {
-          console.error(err);
-          res.sendStatus(500);
-          return;
-        }
-  
-        conn.query(query2, (err, results2) => {
-          if (err) {
-            console.error(err);
-            res.sendStatus(500);
-            return;
-          }
-  
-          const currentMonth = new Date().getMonth() + 1;
-          const query3 = `SELECT idMusik, COUNT(idMusik) AS totalLaguThisMonth FROM daftarputarmusik
+
+        conn.query(query1, [req.session.username], (err, results1) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            conn.query(query2, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                const currentMonth = new Date().getMonth() + 1;
+                const query3 = `SELECT idMusik, COUNT(idMusik) AS totalLaguThisMonth FROM daftarputarmusik
                           WHERE MONTH(tglPutar) = ${currentMonth}
                           GROUP BY idMusik`;
-  
-          conn.query(query3, (err, results3) => {
-            if (err) {
-              console.error(err);
-              res.sendStatus(500);
-              return;
-            }
-  
-            let image = null;
-            if (results1.length > 0 && results1[0].profilepic) {
-              image = Buffer.from(results1[0].profilepic).toString('base64');
-            }
-  
-            // Combine the results from query2 and query3 based on the matching id
-            const combinedResults = results2.map((result2) => {
-              const result3 = results3.find((r) => r.idMusik === result2.idMusik);
-              const totalLaguThisMonth = result3 ? result3.totalLaguThisMonth : 0;
-              return {
-                ...result2,
-                totalLaguThisMonth,
-              };
+
+                conn.query(query3, (err, results3) => {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(500);
+                        return;
+                    }
+
+                    let image = null;
+                    if (results1.length > 0 && results1[0].profilepic) {
+                        image = Buffer.from(results1[0].profilepic).toString('base64');
+                    }
+
+                    // Combine the results from query2 and query3 based on the matching id
+                    const combinedResults = results2.map((result2) => {
+                        const result3 = results3.find((r) => r.idMusik === result2.idMusik);
+                        const totalLaguThisMonth = result3 ? result3.totalLaguThisMonth : 0;
+                        return {
+                            ...result2,
+                            totalLaguThisMonth,
+                        };
+                    });
+
+                    res.render('songsPimpinan', {
+                        name: req.session.name,
+                        image: image,
+                        results: combinedResults,
+                    });
+                });
             });
-  
-            res.render('songsPimpinan', {
-              name: req.session.name,
-              image: image,
-              results: combinedResults,
-            });
-          });
         });
-      });
     } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
+        console.error(err);
+        res.sendStatus(500);
     }
-  });
-  
+});
+
 
 
 
@@ -1460,48 +1455,48 @@ app.get("/api/get-audio-path", async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
-      const conn = await dbConnect();
-      const username = req.body.username;
-      const password = req.body.password;
-      const hashedPassword = hashPassword(password);
-  
-      const query = `SELECT * FROM pengguna WHERE username = ? AND password = ?`;
-      if (username && password) {
-        conn.query(query, [username, hashedPassword], (err, results) => {
-          if (err) {
-            console.error(err);
-            res.sendStatus(500);
-          } else {
-            if (results.length > 0) {
-              console.log('berhasil');
-              req.session.username = results[0].username;
-              req.session.name = results[0].nama;
-              req.session.jabatan = results[0].jabatan;
-  
-              if (req.session.jabatan === "Member") {
-                res.redirect('/');
-              } else if (req.session.jabatan === "Admin") {
-                res.redirect('/mainAdmin');
-              } else if (req.session.jabatan === "Pimpinan") {
-                res.redirect('/mainPimpinan');
-              }
-            } else {
-              // Login failed, display an alert and redirect to login page
-              res.send('<script>alert("Login failed. Please check your username or/and password correctly."); window.location.href = "/login";</script>');
-            }
-          }
-        });
-      } else {
-        // If username or password is empty
-        res.send('<script>alert("Login failed. Please fill your username or/and password."); window.location.href = "/login";</script>');
+        const conn = await dbConnect();
+        const username = req.body.username;
+        const password = req.body.password;
+        const hashedPassword = hashPassword(password);
 
-      }
+        const query = `SELECT * FROM pengguna WHERE username = ? AND password = ?`;
+        if (username && password) {
+            conn.query(query, [username, hashedPassword], (err, results) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    if (results.length > 0) {
+                        console.log('berhasil');
+                        req.session.username = results[0].username;
+                        req.session.name = results[0].nama;
+                        req.session.jabatan = results[0].jabatan;
+
+                        if (req.session.jabatan === "Member") {
+                            res.redirect('/');
+                        } else if (req.session.jabatan === "Admin") {
+                            res.redirect('/mainAdmin');
+                        } else if (req.session.jabatan === "Pimpinan") {
+                            res.redirect('/mainPimpinan');
+                        }
+                    } else {
+                        // Login failed, display an alert and redirect to login page
+                        res.send('<script>alert("Login failed. Please check your username or/and password correctly."); window.location.href = "/login";</script>');
+                    }
+                }
+            });
+        } else {
+            // If username or password is empty
+            res.send('<script>alert("Login failed. Please fill your username or/and password."); window.location.href = "/login";</script>');
+
+        }
     } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
+        console.error(err);
+        res.sendStatus(500);
     }
-  });
-  
+});
+
 
 
 app.post('/logout', (req, res) => {
@@ -1517,67 +1512,67 @@ app.post('/logout', (req, res) => {
 
 app.post('/signup', upload.single('profilepic'), async (req, res) => {
     try {
-      const conn = await dbConnect();
-      const username = req.body.username;
-      const password = req.body.password;
-      const rePassword = req.body.reconfirmpassword;
-      const name = req.body.name;
-      const tanggalBergabung = getCurrentDate();
-      const hashedPassword = hashPassword(password);
-      console.log(req.file);
-      console.log(req.body.profilepic);
-      let buffer = null;
-      if (req.file) {
-        buffer = fs.readFileSync(req.file.path);
-      }
-  
-      // Check if the username already exists
-      const checkUsernameQuery = `SELECT * FROM pengguna WHERE username = ?`;
-      conn.query(checkUsernameQuery, [username], (err, results) => {
-        if (err) {
-          console.error(err);
-          res.sendStatus(500);
-        } else {
-          if (results.length > 0) {
-            // Username already taken, display an alert
-            res.send('<script>alert("Username is already taken. Please choose a different username."); window.location.href = "/signup";</script>');
-          } else {
-            if (password.length < 8) {
-              // Password is less than 8 characters, display an alert
-              res.send('<script>alert("Password must be at least 8 characters long."); window.location.href = "/signup";</script>');
+        const conn = await dbConnect();
+        const username = req.body.username;
+        const password = req.body.password;
+        const rePassword = req.body.reconfirmpassword;
+        const name = req.body.name;
+        const tanggalBergabung = getCurrentDate();
+        const hashedPassword = hashPassword(password);
+        console.log(req.file);
+        console.log(req.body.profilepic);
+        let buffer = null;
+        if (req.file) {
+            buffer = fs.readFileSync(req.file.path);
+        }
+
+        // Check if the username already exists
+        const checkUsernameQuery = `SELECT * FROM pengguna WHERE username = ?`;
+        conn.query(checkUsernameQuery, [username], (err, results) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
             } else {
-              // Insert the new user into the database
-              const query = `
+                if (results.length > 0) {
+                    // Username already taken, display an alert
+                    res.send('<script>alert("Username is already taken. Please choose a different username."); window.location.href = "/signup";</script>');
+                } else {
+                    if (password.length < 8) {
+                        // Password is less than 8 characters, display an alert
+                        res.send('<script>alert("Password must be at least 8 characters long."); window.location.href = "/signup";</script>');
+                    } else {
+                        // Insert the new user into the database
+                        const query = `
                 INSERT INTO pengguna (username, password, nama, jabatan, isActive, tgl_Bergabung, tgl_Keluar, profilepic) 
                 VALUES (?, ?, ?, "Member", TRUE, ?, NULL, ?)
               `;
-  
-              if (username && password && name && (password === rePassword)) {
-                conn.query(query, [username, hashedPassword, name, tanggalBergabung, buffer], (err, results) => {
-                  if (err) {
-                    console.error(err);
-                    res.sendStatus(500);
-                  } else {
-                    // Signup successful, display an alert and redirect to login page
-                    res.send('<script>alert("Signup successful. Please login with your new account."); window.location.href = "/login";</script>');
-                  }
-                });
-              } else {
-                // Signup failed, display an alert and redirect to signup page
-                res.send('<script>alert("Signup failed. Please check your inputs and try again."); window.location.href = "/signup";</script>');
-              }
+
+                        if (username && password && name && (password === rePassword)) {
+                            conn.query(query, [username, hashedPassword, name, tanggalBergabung, buffer], (err, results) => {
+                                if (err) {
+                                    console.error(err);
+                                    res.sendStatus(500);
+                                } else {
+                                    // Signup successful, display an alert and redirect to login page
+                                    res.send('<script>alert("Signup successful. Please login with your new account."); window.location.href = "/login";</script>');
+                                }
+                            });
+                        } else {
+                            // Signup failed, display an alert and redirect to signup page
+                            res.send('<script>alert("Signup failed. Please check your inputs and try again."); window.location.href = "/signup";</script>');
+                        }
+                    }
+                }
             }
-          }
-        }
-      });
+        });
     } catch (err) {
-      console.error(err);
-      res.sendStatus(500);
+        console.error(err);
+        res.sendStatus(500);
     }
-  });
-  
-  
-  
+});
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is ready, listening in port ${PORT}`);

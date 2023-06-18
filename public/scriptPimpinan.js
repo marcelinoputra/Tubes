@@ -93,66 +93,7 @@ fetch('/dataPembayaran')
   .catch((error) => {
     console.error('Error fetching data:', error);
   });
-//grafik topsongs
-  fetch('/laguTerpopuler')
-  .then((response) => response.json())
-  .then((data) => {
-    // Data lagu terpopuler diterima dari server, lanjutkan dengan membuat grafik
-    const judulLagu = data.map((item) => item.judul);
-    const jumlahDiputar = data.map((item) => item.jumlah_diputar);
 
-    // Menggunakan Chart.js untuk membuat grafik
-    const ctx = document.getElementById('topSongsBarChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: judulLagu,
-        datasets: [
-          {
-            label: 'Jumlah Diputar',
-            data: jumlahDiputar,
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-
-    const ctx2 = document.getElementById('topSongsLineChart').getContext('2d');
-    new Chart(ctx2, {
-      type: 'line',
-      data: {
-        labels: judulLagu,
-        datasets: [
-          {
-            label: 'Jumlah Diputar',
-            data: jumlahDiputar,
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  })
-  .catch((error) => {
-    console.error('Error fetching data:', error);
-  });
 
 
 function displaySearchAdminResults(results) {

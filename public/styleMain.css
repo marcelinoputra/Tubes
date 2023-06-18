@@ -847,13 +847,7 @@ overflow-y:SCROLL ;
     padding-right: 5%;
     overflow-y: scroll;
 }
-.pimpinan-main-content-topSongs-chart {
-    height: auto;
-    width: auto;
-    padding-left: 5%;
-    padding-right: 5%;
-    overflow-y: scroll;
-}
+
 .chart{
     width: 150vh;
 }

@@ -55,18 +55,34 @@
 
       </div>
 
-      <div class="adminBox" id="pimpinan-main-content-topsongs">
+      <div class="adminBox" id="pimpinan-main-content-topsongs" style="overflow-y: scroll;">
         <div class="headline">Statistics</div>
         <div class="subheadline">Top Songs</div>
-        <div class="pimpinan-main-content-topSongs-chart">
-          <canvas class="chart" id="topSongsBarChart"></canvas>
-          <canvas class="chart" id="topSongsLineChart"></canvas>
-        </div>
+        <% for(const row of topSongs) { %>
+          <div class="topSongsContainer">
+            <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="" style="width: 100px; height: 100px;">
+            <h3>
+              <%= row.judul %>
+            </h3>
+            <p>
+              <%= row.artis %>
+            </p>
+          </div>
+          <% } %>
       </div>
+
 
       <div class="adminBox" id="pimpinan-main-content-topgenre">
         <div class="headline">Statistics</div>
         <div class="subheadline">Top Genre</div>
+        <% for(const row of topGenre) { %>
+          <div class="topGenreContainer">
+            <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="" style="width: 100px; height: 100px;">
+            <h3>
+              <%= row.nama %>
+            </h3>
+          </div>
+          <% } %>
       </div>
 
       <div class="adminBox" id="pimpinan-main-content-user">
