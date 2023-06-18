@@ -93,12 +93,14 @@ songTableBody.addEventListener('click', function (event) {
     const trashButton = event.target;
     const songId = trashButton.getAttribute('data-song-id');
     let subgenreId = '';
-
+    let genreId = '';
     // Determine the appropriate ID attribute based on the page
     if (window.location.pathname.includes('/songsAdmin')) {
       subgenreId = trashButton.getAttribute('data-subgenre-id');
     } else if (window.location.pathname.includes('/subgenreAdmin')) {
       subgenreId = trashButton.getAttribute('data-subgenre-id');
+    } else if (window.location.pathname.includes('/genreAdmin')) {
+      genreId = trashButton.getAttribute('data-genre-id');
     }
 
     let deleteURL = '';
@@ -108,6 +110,8 @@ songTableBody.addEventListener('click', function (event) {
       deleteURL = `/songs/${songId}`;
     } else if (window.location.pathname.includes('/subgenreAdmin')) {
       deleteURL = `/subgenre/${subgenreId}`;
+    } else if (window.location.pathname.includes('/genreAdmin')) {
+      deleteURL = `/genre/${genreId}`;
     }
 
     // Mengirim permintaan penghapusan ke server
