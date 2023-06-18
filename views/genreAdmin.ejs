@@ -86,12 +86,12 @@
                     <td id="action">
                       <!-- edit button -->
                       <button class="pencil-button button" style="
-                        height:10%; width:30%;" data-subgenre-id="<%= gen.idSubGenre %>">
+                        height:10%; width:30%;" data-genre-id="<%= gen.idGenre %>">
                         Edit
                       </button>
                       <!-- delete button -->
                       <button class="trash-button button" style="
-                        height:10%; width:30%;" data-subgenre-id="<%= gen.idSubGenre %>">
+                        height:10%; width:30%;" data-genre-id="<%= gen.idGenre %>">
                         Delete
                       </button>
                     </td>
@@ -163,28 +163,17 @@
         </button>
       </div>
 
-      <form method="post" action="" id="premiumtheForm">
-        <label for="songsTitle">Songs title</label>
-        <input class="form-box" type="text" id="songsTitle" name="songsTitle" />
+      <form method="post" action="/updateGenre" id="premiumtheForm" enctype="multipart/form-data">
+        <input type="hidden" name="idGenre" id="idGenre">
+        <label for="namaGenre">Nama Genre</label>
+        <input class="form-box" type="text" id="namaGenre" name="namaGenre" />
 
-        <label for="artist">Artist</label>
-        <input class="form-box" type="text" id="artist" name="artist" />
-
-
-
-        <label for="created-at">Created at</label>
-        <input class="form-box" type="date" id="created-at" name="created-at" />
-
-        <label for="subgenre">Sub genre</label>
-        <select class="form-box">
-          <!-- dropdown sub genre, optionny dari table subgenre -->
-        </select>
         <label for="songscover">Songs cover</label>
         <div class="form-box">
-          <input type="file" name="songscover"><br>
+          <input type="file" name="genreCover"><br>
         </div>
 
-        <input class="button" id="add-button-in-popup" type="submit" value="add" />
+        <input class="button" id="add-button-in-popup" type="submit" value="Update" />
       </form>
 
 
@@ -218,6 +207,27 @@
         console.log("tes")
         performSearchGenre(searchValue);
       }
+    });
+
+    document.getElementById("cancelButton").addEventListener("click", function () {
+      document.getElementById("addDataPopUp").classList.add("hidden");
+    });
+
+    document.getElementById("cancelButton-in-update-popup").addEventListener("click", function () {
+      document.getElementById("updateDataPopUp").classList.add("hidden");
+    });
+
+    const buttons = document.querySelectorAll('.pencil-button');
+    buttons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        console.log("tes")
+        document.getElementById('updateDataPopUp').classList.toggle("hidden");
+        const idGenre = event.target.getAttribute('data-genre-id'); // Updated attribute name
+        console.log(idGenre);
+        // Mengisi nilai input tersembunyi dengan idMusik dan idSubgenre
+        const hiddenInputIdGenre = document.getElementById('idGenre');
+        hiddenInputIdGenre.value = idGenre;
+      });
     });
   </script>
 </body>
