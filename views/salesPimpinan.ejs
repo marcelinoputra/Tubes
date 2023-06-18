@@ -44,7 +44,18 @@
           <h1 id="currentDate"></h1>
         </div>
         <div class="pimpinan-notmain-content-atas-bawah">
-          <input class="admin-searchbar" type="text" placeholder="Search" />
+          <input class="admin-searchbar" type="text" placeholder="Search" id="searchBarSales"/>
+          <script>
+            let searchBar = document.querySelector('input#searchBarSales');
+
+            searchBar.addEventListener('input', async () => {
+              const searchValue = searchBar.value.trim().toLowerCase();
+              if (searchValue !== "") {
+                performSearchSales(searchValue);
+              }
+            });
+          </script>
+
           <div class="filter">
             Filter by:
             <form action="/salesPimpinan" method="get">
@@ -53,7 +64,7 @@
                 <option value="package">Package</option>
               </select>
               is a
-            <input class="filtering" type="text" placeholder="type here" name="filterVal"></input>
+              <input class="filtering" type="text" placeholder="type here" name="filterVal"></input>
               <button class="button" id="go-button">GO</button>
             </form>
           </div>
@@ -100,7 +111,7 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="pimpinantable-result">
             <% for (let i=0; i < pembayaranData.length; i++) { %>
               <tr>
                 <td>

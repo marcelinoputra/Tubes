@@ -1076,9 +1076,6 @@ app.get('/dataPembayaran', (req, res) => {
     });
 });
 
-
-
-
 app.get('/salesPimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
@@ -1218,10 +1215,6 @@ app.get('/songsPimpinan', authPimpinan, async (req, res) => {
     }
 });
 
-
-
-
-
 app.get('/subgenrePimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
@@ -1285,6 +1278,37 @@ app.get('/subgenrePimpinan', authPimpinan, async (req, res) => {
         console.error(err);
         res.sendStatus(500);
     }
+});
+
+app.get('/searchSales', (req, res) => {
+    const searchValue = req.query.query;
+
+    // Query the database to get filtered results based on the search value
+    pool.query(
+        `SELECT * FROM pembayaran WHERE username IS NOT NULL 
+        AND paket IS NOT NULL
+        AND username LIKE ?`,
+        [`%${searchValue}%`],
+        (error, results) => {
+            if (error) {
+                // If an error occurs during the query
+                res.status(500).json({ error: 'Database error' });
+            } else {
+                // If the query is successful, send the filtered results to the client
+                const filteredResults = results.map((pembayaran) => {
+                    return {
+                        idPembayaran: pembayaran.idPembayaran,
+                        username: pembayaran.username,
+                        tgl_Bayar: pembayaran.tgl_bayar,
+                        paket: pembayaran.paket ,
+                        isVerified: pembayaran.isVerified
+                        // Add more attributes as needed
+                    };
+                });
+                res.json(filteredResults);
+            }
+        }
+    );
 });
 
 app.get('/genrePimpinan', authPimpinan, async (req, res) => {

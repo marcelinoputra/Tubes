@@ -32,7 +32,7 @@ function getCurrentDate() {
   var dateElement = document.getElementById("currentDate");
   dateElement.textContent = dateString;
 }
-
+if (window.location.pathname.includes('/mainPimpinan')) {
 // Menggunakan Fetch API untuk mengambil data pembayaran dari server
 fetch('/dataPembayaran')
   .then((response) => response.json())
@@ -93,33 +93,42 @@ fetch('/dataPembayaran')
   .catch((error) => {
     console.error('Error fetching data:', error);
   });
-
-
-
-function displaySearchAdminResults(results) {
-  const tableBody = document.querySelector('.pimpinan-notmain-content-right tbody');
-
-  tableBody.innerHTML = ''; // Clear the table body
-
-  if (results.length === 0) {
-    // Display "No results found" message
-    const row = document.createElement('tr');
-    const cell = document.createElement('td');
-    cell.setAttribute('colspan', '7');
-    cell.textContent = 'No results found';
-    row.appendChild(cell);
-    tableBody.appendChild(row);
-  } else {
-    // Display the search results
-    results.forEach((song) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-      <td>${song.idMusik}</td>
-      <td>${song.judul}</td>
-      <td>${song.artis}</td>
-      <td>${song.totalstreamed}</td>
-      `;
-      tableBody.appendChild(row);
-    });
-  }
 }
+
+
+  function performSearchSales(query) {
+    fetch(`/searchSales?query=${query}`)
+      .then((response) => response.json())
+      .then((data) => displaySearchSalesResults(data))
+      .catch((error) => console.log(error));
+  }
+  
+  function displaySearchSalesResults(results) {
+    const tableBody = document.querySelector('tbody.pimpinantable-result ');
+  
+    tableBody.innerHTML = ''; // Clear the table body
+  
+    if (results.length === 0) {
+      // Display "No results found" message
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.setAttribute('colspan', '5');
+      cell.textContent = 'No results found';
+      row.appendChild(cell);
+      tableBody.appendChild(row);
+    } else {
+      // Display the search results
+      results.forEach((data) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${data.idPembayaran}</td>
+          <td>${data.username}</td>
+          <td>${data.tgl_Bayar}</td>
+          <td>${data.tglRilis}</td>
+          <td>${data.paket}</td>
+          <td>${data.isVerified}</td>
+          `;
+        tableBody.appendChild(row);
+      });
+    }
+  }
