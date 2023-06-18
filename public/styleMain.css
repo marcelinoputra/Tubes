@@ -1210,7 +1210,7 @@ grid-area: admintable-header-bottom;
 .filter {
     display: flex;
     grid-area: admintable-header-rightBtm;
-    width: 530px;
+    width: 650px;
     height: 40px;
     font-weight: bold;
     background-color: #D7176C;

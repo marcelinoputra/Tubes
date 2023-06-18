@@ -1220,15 +1220,41 @@ app.get('/songsPimpinan', authPimpinan, async (req, res) => {
 });
 
 
+
 app.get('/subgenrePimpinan', authPimpinan, async (req, res) => {
     try {
         const conn = await dbConnect();
-
+        const filterOption = req.query.optFilter;
+        const filterValue = req.query.filterVal;
+        const currentMonth = new Date().getMonth() + 1;
         const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
-        const query2 = `SELECT musik.idSubGenre, subgenre.nama, COUNT(musik.idMusik) AS totalSongs
-        FROM musik
-        JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
-        GROUP BY musik.idSubGenre, subgenre.nama`;
+
+        let query2 = `
+            SELECT t1.idSubGenre, t1.nama, t1.jumlahPutar, t2.jumlahLagu
+            FROM
+            (SELECT COUNT(musik.idMusik) AS jumlahPutar, subgenre.idSubGenre, subgenre.nama
+            FROM daftarputarmusik
+            JOIN musik ON daftarputarmusik.idMusik = musik.idMusik
+            JOIN subgenre ON subgenre.idSubGenre = musik.idSubGenre
+            WHERE MONTH(daftarputarmusik.tglPutar) = ${currentMonth}
+            GROUP BY subgenre.idSubGenre) AS t1
+            JOIN
+            (SELECT subgenre.idSubGenre, COUNT(musik.idMusik) AS jumlahLagu
+            FROM subgenre
+            JOIN musik ON subgenre.idSubGenre = musik.idSubGenre
+            GROUP BY subgenre.idSubGenre) AS t2
+            ON t1.idSubGenre = t2.idSubGenre
+        `;
+        if (filterOption) {
+            if (filterOption === 'subgenre' && filterValue) {
+                query2 += ` WHERE t1.nama LIKE '%${filterValue}%'`;
+            } else if (filterOption === 'sortTotalSongs') {
+                query2 += ` ORDER BY t2.jumlahLagu DESC`;
+            } else if (filterOption === 'sortTotalStream') {
+                query2 += ` ORDER BY t1.jumlahPutar DESC`;
+            }
+        }
+
 
         conn.query(query1, [req.session.username], (err, results1) => {
             if (err) {
@@ -1244,38 +1270,14 @@ app.get('/subgenrePimpinan', authPimpinan, async (req, res) => {
                     return;
                 }
 
-                const currentMonth = new Date().getMonth() + 1;
-                const query3 = `SELECT idMusik, COUNT(idMusik) AS totalLaguThisMonth FROM daftarputarmusik
-                                WHERE MONTH(tglPutar) = ${currentMonth}
-                                GROUP BY idMusik`;
-
-                conn.query(query3, (err, results3) => {
-                    if (err) {
-                        console.error(err);
-                        res.sendStatus(500);
-                        return;
-                    }
-
-                    let image = null;
-                    if (results1.length > 0 && results1[0].profilepic) {
-                        image = Buffer.from(results1[0].profilepic).toString('base64');
-                    }
-
-                    // Combine the results from query2 and query3 based on the matching id
-                    const combinedResults = results2.map((result2) => {
-                        const result3 = results3.find((r) => r.idMusik === result2.idSubGenre);
-                        const totalLaguThisMonth = result3 ? result3.totalLaguThisMonth : 0;
-                        return {
-                            ...result2,
-                            totalLaguThisMonth,
-                        };
-                    });
-
-                    res.render('subgenrePimpinan', {
-                        name: req.session.name,
-                        image: image,
-                        results: combinedResults,
-                    });
+                let image = null;
+                if (results1.length > 0 && results1[0].profilepic) {
+                    image = Buffer.from(results1[0].profilepic).toString('base64');
+                }
+                res.render('subgenrePimpinan', {
+                    name: req.session.name,
+                    image: image,
+                    results: results2,
                 });
             });
         });
@@ -1284,6 +1286,7 @@ app.get('/subgenrePimpinan', authPimpinan, async (req, res) => {
         res.sendStatus(500);
     }
 });
+
 
 app.get('/searchSales', (req, res) => {
     const searchValue = req.query.query;
@@ -1393,11 +1396,27 @@ app.get('/userPimpinan', authPimpinan, async (req, res) => {
         const conn = await dbConnect();
 
         const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
-        const query2 = `SELECT pengguna.profilepic, pengguna.username, pengguna.nama, pengguna.isActive, COUNT(daftarputarmusik.username) AS totalPlays
+        let query2 = `SELECT pengguna.profilepic, pengguna.username, pengguna.nama, pengguna.isActive, COUNT(daftarputarmusik.username) AS totalPlays
                         FROM pengguna
-                        LEFT JOIN daftarputarmusik ON pengguna.username = daftarputarmusik.username
-                        GROUP BY pengguna.username, pengguna.nama, pengguna.isActive
-                        ORDER BY totalPlays DESC`;
+                        LEFT JOIN daftarputarmusik ON pengguna.username = daftarputarmusik.username`;
+
+        const filterOption = req.query.optFilter;
+        const filterValue = req.query.filterVal;
+
+        if (filterOption) {
+            if (filterOption === 'username') {
+                query2 += ` WHERE pengguna.username LIKE '%${filterValue}%'`;
+            } else if (filterOption === 'name') {
+                query2 += ` WHERE pengguna.nama LIKE '%${filterValue}%'`;
+            } else if (filterOption === 'status') {
+                query2 += ` WHERE pengguna.isActive = ${filterValue === 'active' ? 1 : 0}`;
+            } else if (filterOption === 'sort') {
+                query2 += ` GROUP BY pengguna.username, pengguna.nama, pengguna.isActive
+                            ORDER BY totalPlays DESC`;
+            }
+        } else {
+            query2 += ` GROUP BY pengguna.username, pengguna.nama, pengguna.isActive`;
+        }
 
         conn.query(query1, [req.session.username], (err, results1) => {
             if (err) {
@@ -1430,6 +1449,7 @@ app.get('/userPimpinan', authPimpinan, async (req, res) => {
         res.sendStatus(500);
     }
 });
+
 
 //fitur donlot pdf
 app.set('views', path.join(process.cwd(), 'views'));
