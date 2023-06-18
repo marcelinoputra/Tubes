@@ -60,13 +60,15 @@
         <div class="subheadline">Top Songs</div>
         <% for(const row of topSongs) { %>
           <div class="topSongsContainer">
-            <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="" style="width: 100px; height: 100px;">
-            <h3>
-              <%= row.judul %>
-            </h3>
-            <p>
-              <%= row.artis %>
-            </p>
+            <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="">
+            <div class="textOnlistPimpinan">
+              <h3 id="judulTopSongs">
+                <%= row.judul %>
+              </h3>
+              <h3 id="artistTopSongs">
+                <%= row.artis %>
+              </h3>
+            </div>
           </div>
           <% } %>
       </div>
@@ -76,9 +78,9 @@
         <div class="headline">Statistics</div>
         <div class="subheadline">Top Genre</div>
         <% for(const row of topGenre) { %>
-          <div class="topGenreContainer">
-            <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="" style="width: 100px; height: 100px;">
-            <h3>
+          <div class="topSongsContainer">
+            <img src="data:image/jpeg;base64,<%= row.cover.toString('base64') %>" alt="">
+            <h3 id="judulTopGenre">
               <%= row.nama %>
             </h3>
           </div>

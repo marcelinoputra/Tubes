@@ -822,8 +822,8 @@ overflow-y:SCROLL ;
 
 .pimpinan-main-content {
     display: grid;
-    grid-template-columns: 70vh auto auto;
-    grid-template-rows: 10vh 40vh auto;
+    grid-template-columns: 70vh 45vh 45vh;
+    grid-template-rows: 10vh 40vh 38vh;
     grid-template-areas:
         "atas atas atas"
         "sales topsongs topgenre"
@@ -857,10 +857,45 @@ overflow-y:SCROLL ;
 }
 #pimpinan-main-content-topsongs {
     grid-area: topsongs;
+    padding: 5%;
 }
+.topSongsContainer{
+    background-color: #f0efef;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 3%;
+    display: flex;
+    height: 15%;
+    width: 93%;
+    padding: 3%;
+}
+.topSongsContainer img{
+    display: flex;
+    width: 5em;
+    height: 5em;
+    margin-right: 5%;
+    
+}
+.textOnListPimpinan{
+    margin-left: 5%;
+    display: block;
+}
+#judulTopSongs{
+    font-size:15px ;
+}
+#judulTopGenre{
+    font-size:20px ;
+}
+#artistTopSongs{
+    color: #F5833F;
+    font-size:15px ;
+}
+
 
 #pimpinan-main-content-topgenre {
     grid-area: topgenre;
+    padding: 5%;
+    overflow-y: scroll;
 }
 
 #pimpinan-main-content-user {
