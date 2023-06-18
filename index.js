@@ -413,8 +413,8 @@ app.get('/songsAdmin', authAdmin, async (req, res) => {
         } else {
             let querySongs = `SELECT musik.idMusik, musik.cover, musik.judul, musik.artis,
             musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
-            FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
-            JOIN genre ON subgenre.idGenre = genre.idGenre`;
+            FROM musik LEFT OUTER JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
+            LEFT OUTER JOIN genre ON subgenre.idGenre = genre.idGenre`;
 
             if (filterOption && filterValue) {
                 // Add the filter conditions based on the selected option and filter value
@@ -518,8 +518,8 @@ app.get('/searchAdmin', (req, res) => {
     pool.query(
         `SELECT musik.idMusik, musik.cover, musik.judul, musik.artis,
       musik.tglRilis, genre.nama AS genNama, subgenre.nama AS subNama
-      FROM musik JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
-      JOIN genre ON subgenre.idGenre = genre.idGenre 
+      FROM musik LEFT OUTER JOIN subgenre ON musik.idSubGenre = subgenre.idSubGenre
+      LEFT OUTER JOIN genre ON subgenre.idGenre = genre.idGenre 
       WHERE musik.judul LIKE ? OR musik.artis LIKE ? ORDER BY musik.idMusik ASC`,
         [`%${searchValue}%`, `%${searchValue}%`],
         (error, results) => {
@@ -717,7 +717,7 @@ app.get('/subgenreAdmin', async (req, res) => {
         } else {
             let querySongs = `SELECT subgenre.idSubGenre,  subgenre.nama, 
             genre.nama as namaGenre
-            FROM subgenre JOIN genre ON genre.idGenre = subgenre.idGenre`;
+            FROM subgenre LEFT OUTER JOIN genre ON genre.idGenre = subgenre.idGenre`;
 
             if (filterOption && filterValue) {
                 // Add the filter conditions based on the selected option and filter value
@@ -762,7 +762,7 @@ app.get('/searchSubgenreAdmin', (req, res) => {
     // Query the database to get filtered results based on the search value
     pool.query(
         `SELECT subgenre.idSubGenre, subgenre.nama AS subNama, genre.nama AS genNama
-      FROM subgenre JOIN genre ON subgenre.idGenre = genre.idGenre 
+      FROM subgenre LEFT OUTER JOIN genre ON subgenre.idGenre = genre.idGenre 
       WHERE subgenre.nama LIKE ? OR genre.nama LIKE ? ORDER BY subgenre.idSubGenre ASC`,
         [`%${searchValue}%`, `%${searchValue}%`],
         (error, results) => {
@@ -876,7 +876,6 @@ app.get('/genreAdmin', async (req, res) => {
                     if (results.length > 0 && results[0].profilepic) {
                         image = Buffer.from(results[0].profilepic).toString('base64');
                     }
-                    console.log(results2)
                     res.render('genreAdmin', {
                         name: req.session.name,
                         image: image,
