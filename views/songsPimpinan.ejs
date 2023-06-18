@@ -17,11 +17,14 @@
         
         <div class="sidebar-text" id="Pimpinan-sidebar-overview" >Overview</div>
         <div class="sidebar-text" id="Pimpinan-sidebar-sales"
-        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
         >Sales</div>
-        <div class="sidebar-text" id="Pimpinan-sidebar-subgenre">Statistics</div>
+        <div class="sidebar-text" id="Pimpinan-sidebar-subgenre"
+        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
+        >Statistics</div>
 
-        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs">Songs</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs"
+        style="color: #000000; font-weight: bold;transform: scale(1.1)"
+        >Songs</div>
         <div class="sidebar-subtext"id="Pimpinan-sidebar-genre">Genre</div>
         <div class="sidebar-subtext"id="Pimpinan-sidebar-subgenre">Sub Genre</div>
         <div class="sidebar-subtext" id="Pimpinan-sidebar-user">User</div>
@@ -65,41 +68,34 @@
         </div>
     </div>
     <div class="pimpinan-notmain-content-right">
-            <table class="pimpinantable-result-table">
-              <thead>
-                  <tr>
-                      <th id="pimpinantable-result-id">ID</th>
-                      <th id="pimpinantable-result-title">Title</th>
-                      <th id="pimpinantable-result-artist">Artist</th>
-                      <th id="pimpinantable-result-totalstream">Total Stream</th>
-                  </tr>
-              </thead>
-              <tbody id="pimpinansong-table-body">
-                <% if (results.length===0) { %>
-                  <tr>
-                    <td colspan="7">No results found</td>
-                  </tr>
-                  <% } else { %>
-                    <% results.forEach((song)=> { %>
-                      <tr id="<%= song.idMusik %>">
-                        <td>
-                          <%= song.idMusik %>
-                        </td>
-                        <td>
-                          <%= song.judul %>
-                        </td>
-                        <td>
-                          <%= song.artis %>
-                        </td>
-                        <td>
-                          <%= song.totalstreamed %>
-                        </td>
-                        </td>
-                      </tr>
-                      <% }); %>
-                        <% } %>
-          </table>
-    </div>
+      <table class="pimpinantable-result-table">
+          <thead>
+              <tr>
+                  <th id ="pimpinantable-result-id">ID</th>
+                  <th  id ="pimpinantable-result-title">Title</th>
+                  <th  id ="pimpinantable-result-artist">Artist</th>
+                  <th  id ="pimpinantable-result-total">Total Stream This Month</th>
+              </tr>
+          </thead>
+          <tbody id="pimpinansong-table-body">
+              <% if (results.length === 0) { %>
+              <tr>
+                  <td colspan="4">No results found</td>
+              </tr>
+              <% } else { %>
+              <% results.forEach((song) => { %>
+              <tr id="<%= song.idMusik %>">
+                  <td  id ="pimpinantable-result-id"><%= song.idMusik %></td>
+                  <td id ="pimpinantable-result-title"><%= song.judul %></td>
+                  <td  id ="pimpinantable-result-artist"><%= song.artis %></td>
+                  <td  id ="pimpinantable-result-total"><%= song.totalLaguThisMonth %> Times</td>
+              </tr>
+              <% }); %>
+              <% } %>
+          </tbody>
+      </table>
+  </div>
+  
   </div>
   
   <!--buat logout-->
