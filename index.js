@@ -1242,6 +1242,62 @@ app.get('/subgenrePimpinan', authPimpinan, async (req, res) => {
     }
 });
 
+app.get('/genrePimpinan', authPimpinan, async (req, res) => {
+    try {
+        const conn = await dbConnect();
+        const currentMonth = new Date().getMonth() + 1;
+        const query1 = 'SELECT profilepic FROM pengguna WHERE username = ?';
+        const query2 = `
+            SELECT t1.idGenre,t1.nama, t1.jumlahPutar, t2.jumlahLagu
+            FROM
+            (SELECT COUNT(musik.idMusik) AS jumlahPutar, genre.idGenre, genre.nama
+            FROM daftarputarmusik
+            JOIN musik ON daftarputarmusik.idMusik = musik.idMusik
+            JOIN subgenre ON subgenre.idSubGenre = musik.idSubGenre
+            JOIN genre ON subgenre.idGenre = genre.idGenre
+            WHERE MONTH(daftarputarmusik.tglPutar) = ${currentMonth}
+            GROUP BY genre.idGenre) AS t1
+            JOIN
+            (SELECT genre.idGenre, COUNT(musik.idMusik) AS jumlahLagu
+            FROM genre
+            JOIN subgenre ON genre.idGenre = subgenre.idGenre
+            JOIN musik ON subgenre.idSubGenre = musik.idSubGenre
+            GROUP BY genre.idGenre) AS t2
+            ON t1.idGenre = t2.idGenre;
+        `;
+
+        conn.query(query1, [req.session.username], (err, results1) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            conn.query(query2, (err, results2) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                let image = null;
+                if (results1.length > 0 && results1[0].profilepic) {
+                    image = Buffer.from(results1[0].profilepic).toString('base64');
+                }
+
+                res.render('genrePimpinan', {
+                    name: req.session.name,
+                    image: image,
+                    results: results2,
+                });
+            });
+        });
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
+});
+
 
 
 app.get('/userPimpinan', authPimpinan, async (req, res) => {
