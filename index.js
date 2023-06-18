@@ -1021,7 +1021,8 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
             console.error(err);
             res.sendStatus(500);
         } else {
-            const querySongs = `SELECT musik.judul, musik.artis, musik.cover, COUNT(daftarputarmusik.idMusik) AS jumlah_diputar
+            const querySongs = `
+            SELECT musik.judul, musik.artis, musik.cover, COUNT(daftarputarmusik.idMusik) AS jumlah_diputar
             FROM daftarputarmusik
             LEFT OUTER JOIN musik ON daftarputarmusik.idMusik = musik.idMusik
             GROUP BY daftarputarmusik.idMusik
@@ -1034,7 +1035,15 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
             RIGHT OUTER JOIN daftarputarmusik ON musik.idMusik = daftarputarmusik.idMusik
             GROUP BY genre.nama
             ORDER BY jumlahPutaran DESC
-            LIMIT 10;`;
+            LIMIT 10;
+            SELECT pengguna.profilepic, daftarputarmusik.username, pengguna.nama, COUNT(daftarputarmusik.username) AS jumlahPutar
+FROM daftarputarmusik
+JOIN pengguna ON pengguna.username = daftarputarmusik.username
+WHERE MONTH(daftarputarmusik.tglPutar) = MONTH(CURRENT_DATE())
+GROUP BY daftarputarmusik.username
+ORDER BY jumlahPutar DESC
+LIMIT 10`;
+
             conn.query(querySongs, (err, results2) => {
                 if (err) {
                     console.error(err);
@@ -1048,13 +1057,15 @@ app.get('/mainPimpinan', authPimpinan, async (req, res) => {
                         name: req.session.name,
                         image: image,
                         topSongs: results2[0],
-                        topGenre: results2[1]
+                        topGenre: results2[1],
+                        userAnalytics: results2[2]
                     });
                 }
             });
         }
     });
 });
+
 
 app.get('/dataPembayaran', (req, res) => {
     // Eksekusi query SQL untuk mengambil data pembayaran dari database
