@@ -17,15 +17,17 @@
         
         <div class="sidebar-text" id="Pimpinan-sidebar-overview" >Overview</div>
         <div class="sidebar-text" id="Pimpinan-sidebar-sales"
-        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
         >Sales</div>
-        <div class="sidebar-text" id="Pimpinan-sidebar-subgenre">Statistics</div>
+        <div class="sidebar-text" id="Pimpinan-sidebar"
+        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
+        >Statistics</div>
 
-        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs">Songs</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs"
+        >Songs</div>
         <div class="sidebar-subtext"id="Pimpinan-sidebar-genre">Genre</div>
-        <div class="sidebar-subtext"id="Pimpinan-sidebar-subgenre">Sub Genre</div>
+        
+        <div style="color: #000000; font-weight: bold;transform: scale(1.1)" class="sidebar-subtext" id="Pimpinan-sidebar-subgenre">Sub Genre</div>
         <div class="sidebar-subtext" id="Pimpinan-sidebar-user">User</div>
-
 
       </div>
     </div>
@@ -39,7 +41,7 @@
     <div class="pimpinan-notmain-content">  
     <div class="pimpinan-notmain-content-atas">
         <div class="pimpinan-notmain-content-atas-atas">
-            <h1 class="admintable-header-headline" >Monthly Sub Genre Statistics</h1>
+            <h1 class="admintable-header-headline" >Monthly Subgenre Statistics</h1>
             <h1  id="currentDate"></h1>
         </div>
         <div class="pimpinan-notmain-content-atas-bawah">
@@ -58,33 +60,35 @@
             </div>
         </div>
     </div>
-    <div class="pimpinan-notmain-content-left">
-        <div class="adminBox"id="new-user">
-            <h1 class="headline">Statistics</h1>
-            <h2 class="hasilQuery">Top Sub Genre</h2>
-            <!-- hasil query -->
-        </div>
-    </div>
     <div class="pimpinan-notmain-content-right">
-            <table>
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Sub Genre</th>
-                      <th>Total Songs</th>
-                      <th>Total Streamed</th>
-                  </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Sub Genre</td>
-                  <td>n songs</td>
-                  <td>n times</td>
-                </tr>  
-              </tbody>
-          </table>
-    </div>
+      <table class="pimpinantable-result-table">
+          <thead>
+              <tr>
+                  <th id ="pimpinantable-result-id">ID</th>
+                  <th  id ="pimpinantable-result-title">Sub genre</th>
+                  <th  id ="pimpinantable-result-artist">Total songs</th>
+                  <th  id ="pimpinantable-result-total">Total Stream This Month</th>
+              </tr>
+          </thead>
+          <tbody id="pimpinansong-table-body">
+              <% if (results.length === 0) { %>
+              <tr>
+                  <td colspan="4">No results found</td>
+              </tr>
+              <% } else { %>
+              <% results.forEach((song) => { %>
+              <tr id="<%= song.idMusik %>">
+                  <td  id ="pimpinantable-result-id"><%= song.idSubGenre %></td>
+                  <td id ="pimpinantable-result-title"><%= song.nama %></td>
+                  <td  id ="pimpinantable-result-artist"><%= song.totalSongs %></td>
+                  <td  id ="pimpinantable-result-total"><%= song.totalLaguThisMonth %> Times</td>
+              </tr>
+              <% }); %>
+              <% } %>
+          </tbody>
+      </table>
+  </div>
+  
   </div>
   
   <!--buat logout-->
@@ -95,7 +99,6 @@
         <% } %>
     </div>
     <h1>Hi there, <%= name %> </h1>
-
 
         <form action="/logout" method="post">
           <input id="logOutButton" class="button" type="submit" value="Log out" />

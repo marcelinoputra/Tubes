@@ -739,6 +739,14 @@ h3 {
     grid-template-rows: 20vh 65vh;
     grid-template-areas:
         "atas atas"
+        "righty righty";
+}
+.pimpinan-sales-content {
+    display: grid;
+    grid-template-columns: 40vh auto;
+    grid-template-rows: 20vh 65vh;
+    grid-template-areas:
+        "atas atas"
         "lefty righty";
 }
 
@@ -771,6 +779,13 @@ h3 {
         "sales-this-month";
     grid-template-rows: auto auto auto;
 
+}
+.profilepic-in-table{
+    height: 50px;
+    width: 50px;
+}
+#pimpinantable-result-profile{
+    width: 5%;
 }
 
 #new-user {
@@ -1201,6 +1216,12 @@ table {
     width: 50%;
 }
 #pimpinantable-result-id{
+    width: 5%;
+}
+#pimpinantable-result-username{
+    width: 15%;
+}
+#pimpinantable-result-status{
     width: 5%;
 }
 table th {

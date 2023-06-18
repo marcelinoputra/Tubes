@@ -17,15 +17,20 @@
         
         <div class="sidebar-text" id="Pimpinan-sidebar-overview" >Overview</div>
         <div class="sidebar-text" id="Pimpinan-sidebar-sales"
-        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
         >Sales</div>
-        <div class="sidebar-text" id="Pimpinan-sidebar-subgenre">Statistics</div>
+        <div class="sidebar-text" id="Pimpinan-sidebar"
+        style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
+        >Statistics</div>
 
-        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs">Songs</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-songs"
+        >Songs</div>
         <div class="sidebar-subtext"id="Pimpinan-sidebar-genre">Genre</div>
-        <div class="sidebar-subtext"id="Pimpinan-sidebar-subgenre">Sub Genre</div>
-        <div class="sidebar-subtext" id="Pimpinan-sidebar-user">User</div>
-
+        
+        <div 
+        class="sidebar-subtext" id="Pimpinan-sidebar-subgenre">Sub Genre</div>
+        <div class="sidebar-subtext" id="Pimpinan-sidebar-user" 
+        style="color: #000000; font-weight: bold;transform: scale(1.1)" 
+        >User</div>
 
       </div>
     </div>
@@ -39,7 +44,7 @@
     <div class="pimpinan-notmain-content">  
     <div class="pimpinan-notmain-content-atas">
         <div class="pimpinan-notmain-content-atas-atas">
-            <h1 class="admintable-header-headline" >Monthly User Statistics</h1>
+            <h1 class="admintable-header-headline" >Monthly Member Statistics</h1>
             <h1  id="currentDate"></h1>
         </div>
         <div class="pimpinan-notmain-content-atas-bawah">
@@ -59,34 +64,52 @@
         </div>
     </div>
     <div class="pimpinan-notmain-content-left">
-        <div class="adminBox"id="new-user">
-            <h1 class="headline">Statistics</h1>
-            <h2 class="hasilQuery">Top Users</h2>
-            <!-- hasil query -->
-        </div>
+        
     </div>
-    <div class="pimpinan-notmain-content-right">
-            <table>
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Username</th>
-                      <th>Name</th>
-                      <th>Package</th>
-                      <th>Total Stream</th>
-                  </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Username</td>
-                  <td>User's name</td>
-                  <td>1 Month</td>
-                  <td>n times</td>
-                </tr>  
-              </tbody>
-          </table>
-    </div>
+    <div class="pimpinan-notmain-content-right" >
+      <table class="pimpinantable-result-table">
+          <thead>
+              <tr>
+                <th id ="pimpinantable-result-profile"></th>
+                  <th id ="pimpinantable-result-username">Username</th>
+                  <th  id ="pimpinantable-result-title">Name</th>
+                  <th  id ="pimpinantable-result-status">Status</th>
+                  <th  id ="pimpinantable-result-total">Total Stream This Month</th>
+              </tr>
+          </thead>
+          <tbody id="pimpinansong-table-body">
+              <% if (results.length === 0) { %>
+              <tr>
+                  <td colspan="4">No results found</td>
+              </tr>
+              <% } else { %>
+              <% results.forEach((song) => { %>
+              <tr id="<%= song.idMusik %>">
+                <td id ="pimpinantable-result-profile">
+                  <% if (song.profilepic) { %>
+                    <img class="profilepic-in-table" src="data:image/png;base64,<%= song.profilepic %>" alt="Profile Picture" />
+                  <% } else { %>
+                    <img class="profilepic-in-table" src="../Assets/images/defaultProfilePicture.png" alt="Profile Picture" />
+
+                  <% } %>
+                </td>
+                  <td  id ="pimpinantable-result-username"><%= song.username %></td>
+                  <td id ="pimpinantable-result-title"><%= song.nama %></td>
+                  <td id="pimpinantable-result-status">
+                    <% if (song.isActive === 1) { %>
+                        Active
+                    <% } else { %>
+                        Inactive
+                    <% } %>
+                </td>
+                  <td  id ="pimpinantable-result-total"><%= song.totalPlays %> Times</td>
+              </tr>
+              <% }); %>
+              <% } %>
+          </tbody>
+      </table>
+  </div>
+  
   </div>
   
   <!--buat logout-->
@@ -97,7 +120,6 @@
         <% } %>
     </div>
     <h1>Hi there, <%= name %> </h1>
-
 
         <form action="/logout" method="post">
           <input id="logOutButton" class="button" type="submit" value="Log out" />

@@ -18,7 +18,7 @@
         <div class="sidebar-text" id="Pimpinan-sidebar-overview" >Overview</div>
         <div class="sidebar-text" id="Pimpinan-sidebar-sales"
         >Sales</div>
-        <div class="sidebar-text" id="Pimpinan-sidebar-subgenre"
+        <div class="sidebar-text" id="Pimpinan-sidebar"
         style="color: #F5833F; font-weight: bold;transform: scale(1.1)"
         >Statistics</div>
 
@@ -60,40 +60,44 @@
             </div>
         </div>
     </div>
-    <div class="pimpinan-notmain-content-left">
-        <div class="adminBox"id="new-user">
-            <h1 class="headline">Statistics</h1>
-            <h2 class="hasilQuery">Top Songs</h2>
-            <!-- hasil query -->
-        </div>
-    </div>
+
     <div class="pimpinan-notmain-content-right">
       <table class="pimpinantable-result-table">
-          <thead>
-              <tr>
-                  <th id ="pimpinantable-result-id">ID</th>
-                  <th  id ="pimpinantable-result-title">Title</th>
-                  <th  id ="pimpinantable-result-artist">Artist</th>
-                  <th  id ="pimpinantable-result-total">Total Stream This Month</th>
-              </tr>
-          </thead>
-          <tbody id="pimpinansong-table-body">
-              <% if (results.length === 0) { %>
-              <tr>
-                  <td colspan="4">No results found</td>
-              </tr>
+        <thead>
+          <tr>
+            <th id="pimpinantable-result-profile">Cover
+            </th>
+            <th id="pimpinantable-result-id">ID</th>
+            <th id="pimpinantable-result-title">Title</th>
+            <th id="pimpinantable-result-artist">Artist</th>
+            <th id="pimpinantable-result-total">Total Stream This Month</th>
+          </tr>
+        </thead>
+        <tbody id="pimpinansong-table-body">
+          <% if (results.length === 0) { %>
+          <tr>
+            <td colspan="5">No results found</td>
+          </tr>
+          <% } else { %>
+          <% results.forEach((song) => { %>
+          <tr id="<%= song.idMusik %>">
+            <td id="pimpinantable-result-profile">
+              <% if (song.cover) { %>
+              <img class="profilepic-in-table" src="data:image/png;base64,<%= song.cover %>" alt="Cover" />
               <% } else { %>
-              <% results.forEach((song) => { %>
-              <tr id="<%= song.idMusik %>">
-                  <td  id ="pimpinantable-result-id"><%= song.idMusik %></td>
-                  <td id ="pimpinantable-result-title"><%= song.judul %></td>
-                  <td  id ="pimpinantable-result-artist"><%= song.artis %></td>
-                  <td  id ="pimpinantable-result-total"><%= song.totalLaguThisMonth %> Times</td>
-              </tr>
-              <% }); %>
+              <img class="profilepic-in-table" src="../Assets/images/defaultCover.png" alt="Default Cover" />
               <% } %>
-          </tbody>
+            </td>
+            <td id="pimpinantable-result-id"><%= song.idMusik %></td>
+            <td id="pimpinantable-result-title"><%= song.judul %></td>
+            <td id="pimpinantable-result-artist"><%= song.artis %></td>
+            <td id="pimpinantable-result-total"><%= song.totalLaguThisMonth %> Times</td>
+          </tr>
+          <% }); %>
+          <% } %>
+        </tbody>
       </table>
+      
   </div>
   
   </div>
