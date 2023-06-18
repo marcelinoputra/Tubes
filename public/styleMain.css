@@ -842,13 +842,13 @@ overflow-y:SCROLL ;
 }
 .pimpinan-main-content-sales-chart {
     height: 70%;
-    width: 100em;
+    width: 150%;
     padding-left: 5%;
     padding-right: 5%;
     overflow-y: scroll;
 }
 .chart{
-    width: 100vh;
+    width: 150vh;
 }
 #salesBarChart{
     height: 30%;
@@ -1248,6 +1248,26 @@ table th {
   text-overflow: ellipsis;
   width: 25%;
 }
+#download-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+    margin-left: 2%;
+    height: 40px;
+    background-color: #F5833F;
+    border-radius: 8px;
+    border-style: none;
+}
+
+#download-svg{
+    height: 2em;
+    width: 2em;
+}
+#download-button:hover {
+    background-color: #FFA361;
+    cursor: pointer;
+  }
 
 table td {
     padding: 8px;
